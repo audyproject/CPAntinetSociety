@@ -7,10 +7,18 @@ use Illuminate\Http\Request;
 class TestingController extends Controller
 {
     public function testing(request $r){
-        $data =[
+        if($r){
+            $data =[
+                'status'=>0,
+                'message'=>'SUDAH MANTAP TINGGAL LANJUT'
+            ];
+        }
+        else{
+            $data =[
             'status'=>1,
-            'message'=>'SUDAH MANTAP TINGGAL LANJUT'
-        ];
+            'message'=>'APAAN NIH'
+             ];
+        }
         return response()->json($data);
     }
 }
