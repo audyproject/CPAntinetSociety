@@ -14,7 +14,7 @@ use App\Http\Controllers\TestingController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('react');
 });
 
 route::post('/testing',[TestingController::class,'testing']);
