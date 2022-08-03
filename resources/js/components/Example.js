@@ -13,18 +13,19 @@ async function doRequest(data){
 
 function Example() {
     let data = {
-        username: "halo",
+        username: "audy",
         password: "halo"
     }
     const [datas, setDatas] = useState()
 
     useEffect(async () => {
         const temp = await doRequest(data)
-        if(temp.status == 0){
-            setDatas(temp.message)
-        } else {
-            setDatas("Error Bro!")
-        }
+        setDatas(temp.message)
+        // if(temp.status == 1){
+        //     setDatas(temp.message)
+        // } else {
+        //     setDatas("Error Bro!")
+        // }
     })
 
     return (

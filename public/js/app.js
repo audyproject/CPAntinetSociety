@@ -5396,7 +5396,7 @@ function _doRequest() {
 
 function Example() {
   var data = {
-    username: "halo",
+    username: "audy",
     password: "halo"
   };
 
@@ -5416,12 +5416,11 @@ function Example() {
 
           case 2:
             temp = _context.sent;
-
-            if (temp.status == 0) {
-              setDatas(temp.message);
-            } else {
-              setDatas("Error Bro!");
-            }
+            setDatas(temp.message); // if(temp.status == 1){
+            //     setDatas(temp.message)
+            // } else {
+            //     setDatas("Error Bro!")
+            // }
 
           case 4:
           case "end":
