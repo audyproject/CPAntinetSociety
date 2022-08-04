@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestingController;
+use App\Http\Controllers\APIController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,3 +19,6 @@ Route::get('/', function () {
 });
 
 route::post('/testing',[TestingController::class,'testing']);
+
+route::post('api/login',[APIController::class,'login']);
+route::get('api/test',[APIController::class,'test']);
