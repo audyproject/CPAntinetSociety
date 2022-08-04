@@ -17,8 +17,8 @@ use App\Http\Controllers\APIController;
 // Route::get('/', function () {
 //     return view('react');
 // });
-Route::get('/{path?',[
-    'uses' => 'TestingController@testing',
+Route::get('/{path?}',[
+    'uses' => 'TestingController@index',
     'as'    => 'react',
     'where' => ['path' => '^(?!data/).*$']
 ]);
