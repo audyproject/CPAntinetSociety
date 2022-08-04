@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 class TestingController extends Controller
 {
     public function testing(request $r){
+        
+
         if($r->username=='audy'){
             $data =[
                 'status'=>0,
