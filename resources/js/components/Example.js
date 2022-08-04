@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 async function doRequest(data){
     try {
-        const response = await axios.post(process.env.MIX_APP_URL + "/testing", data)
+        const response = await axios.post("/testing", data)
         return await response.data
     } catch (error) {
         console.log(error)

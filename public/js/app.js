@@ -5369,7 +5369,7 @@ function _doRequest() {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://localhost:8000" + "/testing", data);
+            return axios__WEBPACK_IMPORTED_MODULE_0___default().post("/testing", data);
 
           case 3:
             response = _context2.sent;
