@@ -14,10 +14,14 @@ use App\Http\Controllers\APIController;
 |
 */
 
-Route::get('/', function () {
-    return view('react');
-});
-// Route::get('/{path?}', )
+// Route::get('/', function () {
+//     return view('react');
+// });
+Route::get('/{path?',[
+    'uses' => 'TestingController@testing',
+    'as'    => 'react',
+    'where' => ['path' => '^(?!data/).*$']
+]);
 
 route::post('/testing',"TestingController@testing");
 
