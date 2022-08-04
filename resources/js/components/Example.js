@@ -16,17 +16,17 @@ function Example() {
         username: "audy",
         password: "halo"
     }
-    const [datas, setDatas] = useState(async() => {return await doRequest(data)})
+    const [datas, setDatas] = useState(false)
 
-    // useEffect(async () => {
-    //     const temp = await doRequest(data)
-    //     setDatas(temp.message)
-    //     // if(temp.status == 1){
-    //     //     setDatas(temp.message)
-    //     // } else {
-    //     //     setDatas("Error Bro!")
-    //     // }
-    // })
+    useEffect(async () => {
+        const temp = await doRequest(data)
+        setDatas(temp.message)
+        // if(temp.status == 1){
+        //     setDatas(temp.message)
+        // } else {
+        //     setDatas("Error Bro!")
+        // }
+    })
 
     return (
         <div className="container">
