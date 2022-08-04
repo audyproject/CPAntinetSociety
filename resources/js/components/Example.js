@@ -16,7 +16,7 @@ function Example() {
         username: "audy",
         password: "halo"
     }
-    const [datas, setDatas] = useState(await doRequest(data))
+    const [datas, setDatas] = useState(async() => {return await doRequest(data)})
 
     // useEffect(async () => {
     //     const temp = await doRequest(data)
