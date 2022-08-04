@@ -12,15 +12,20 @@ use App\Models\Token;
 class APIController extends Controller
 {
     public function test(){
-        // $token = str::random(23);
-        // $ins = new Token();
-        // $ins->token = $token;
-        // $ins->users_id = 1;
-        // $ins->save();
-        dd('success');
+        $user = User::where('email',$r->email)
+                    ->where('password',$r->password)
+                    ->first();
+        dd($user);
     }
 
-    function res($status,$message,$token){
+    public function res($status,$message,$token = null){
+
+        // return response()->json([
+        //     'status'=>$status,
+        //     'message'=>$message,
+        //     'token'=>$token,
+        // ]);
+
         if($token){
             $data =[
                 'status'=>$status,
@@ -34,7 +39,8 @@ class APIController extends Controller
                  ];
         }
 
-        return $data->json();
+        // return $data->json();
+        return response()->json($data);
     }
 
     public function login(request $r){
@@ -45,11 +51,13 @@ class APIController extends Controller
         }
 
         $user = User::where('email',$r->email)
-                    ->where('password',bcrypt($r->password))
+                    // ->where('password',bcrypt($r->password))
+                    ->where('password',$r->password)
                     ->first();
 
         if(!$user){
-            $this->res(1,'Wrong Email or Password!');
+            return $this->res(1,'Wrong Email or Password!');
+            
         }
 
         //token generate
