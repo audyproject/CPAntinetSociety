@@ -17,11 +17,15 @@ use App\Http\Controllers\APIController;
 // Route::get('/', function () {
 //     return view('react');
 // });
-Route::get('/{path?}',[
-    'uses' => 'TestingController@index',
-    'as'    => 'react',
-    'where' => ['path' => '^(?!data/).*$']
-]);
+// Route::get('/{path?}',[
+//     'uses' => 'TestingController@index',
+//     'as'    => 'react',
+//     'where' => ['path' => '^(?!data/).*$']
+// ]);
+
+
+Route::view('/{path?}', 'react')
+    ->where('path', '.*');
 
 route::post('/testing',"TestingController@testing");
 
