@@ -17,8 +17,9 @@ use App\Http\Controllers\APIController;
 Route::get('/', function () {
     return view('react');
 });
+// Route::get('/{path?}', )
 
-route::post('testing',[TestingController::class,'testing']);
+route::post('/testing',"TestingController@testing");
 
 route::post('api/login',[APIController::class,'login']);
 route::get('api/test',[APIController::class,'test']);
