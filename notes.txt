@@ -24,4 +24,4 @@ server :
 troubleshoot:
 1. keluarin dari folder
 2. di etc/apache2/sites-available/000-default.conf -> ubah document root nya jadi public
-3. migration error -> php.ini (extension mysql, mysqli, pdo-mysql)
+3. migration error -> php.ini (extension mysql, mysqli, pdo_mysql)

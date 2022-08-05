@@ -22,7 +22,7 @@ function Index() {
 
     return (
         <>
-        {token ? "dashboard" : <Login token={setToken}/>}
+        {token ? "dashboard" : <Login setToken={setToken}/>}
         </>
     )
 }

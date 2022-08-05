@@ -5408,7 +5408,7 @@ function Index() {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
     children: token ? "dashboard" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Pages_Login__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      token: setToken
+      setToken: setToken
     })
   });
 }
@@ -5510,36 +5510,39 @@ function Login(props) {
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
       pass = _useState4[0],
-      setPass = _useState4[1];
+      setPass = _useState4[1]; // const [res, setRes] = useState("")
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
-      _useState6 = _slicedToArray(_useState5, 2),
-      res = _useState6[0],
-      setRes = _useState6[1];
 
   function handleSubmit(_x2) {
     return _handleSubmit.apply(this, arguments);
-  }
+  } // console.log(res)
+
 
   function _handleSubmit() {
     _handleSubmit = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
-      var data;
+      var data, resp;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               e.preventDefault();
+              console.log(e);
               data = {
                 "email": email,
                 "password": pass
-              };
-              _context.t0 = setRes;
+              }; // setRes(await requestLogin(data))
+
               _context.next = 5;
               return requestLogin(data);
 
             case 5:
-              _context.t1 = _context.sent;
-              (0, _context.t0)(_context.t1);
+              resp = _context.sent;
+
+              if (resp.status == 0) {
+                props.setToken(resp.token);
+              } else {
+                console.warn(resp);
+              }
 
             case 7:
             case "end":
@@ -5551,7 +5554,6 @@ function Login(props) {
     return _handleSubmit.apply(this, arguments);
   }
 
-  console.log(res);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "bg-light min-vh-100 d-flex flex-row align-items-center",
