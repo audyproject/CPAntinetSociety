@@ -16,18 +16,25 @@ function Login(props){
 
     const [email, setEmail] = useState("")
     const [pass, setPass] = useState("")
-    const [res, setRes] = useState("")
+    // const [res, setRes] = useState("")
 
     async function handleSubmit(e) {
         e.preventDefault();
+        console.log(e)
         let data = {
             "email": email,
             "password": pass
         }
-        setRes(await requestLogin(data))
+        // setRes(await requestLogin(data))
+        const resp = await requestLogin(data)
+        if(resp.status == 0){
+            props.setToken(resp.token)
+        } else {
+            console.warn(resp)
+        }
     }
 
-    console.log(res)
+    // console.log(res)
 
     return(
         <>
