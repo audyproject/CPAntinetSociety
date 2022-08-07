@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState, useSyncExternalStore } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from 'react-dom';
-import Login from "./Pages/Login";
+import { Login } from "./Pages/Login";
+import { Main } from "./Pages/Main"
 
 async function getToken(){
     try {
@@ -22,7 +23,7 @@ function Index() {
 
     return (
         <>
-        {token ? "dashboard" : <Login setToken={setToken}/>}
+        {token ? <Main/> : <Login setToken={setToken}/>}
         </>
     )
 }

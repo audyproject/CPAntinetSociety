@@ -1,31 +1,22 @@
 import axios from "axios";
 import { useState } from "react";
+import { requestLogin } from "../API";
+import Form from "../components/Form";
+import Input from "../components/Input"
 
-async function requestLogin(data){
-    try {
-        const response = await axios.post("api/login", data)
-        // console.warn(await response)
-        const resp = await response.data
-        return resp
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-function Login(props){
+export function Login(props){
 
     const [email, setEmail] = useState("")
     const [pass, setPass] = useState("")
-    // const [res, setRes] = useState("")
+    const [loading, setLoading] = useState(false)
 
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log(e)
+        setLoading(true)
         let data = {
             "email": email,
             "password": pass
         }
-        // setRes(await requestLogin(data))
         const resp = await requestLogin(data)
         if(resp.status == 0){
             props.setToken(resp.token)
@@ -65,7 +56,7 @@ function Login(props){
                             <button className="btn btn-link px-0" type="button">Forgot password?</button>
                             </div>
                             <div className="col-6 text-end">
-                            <button className="btn btn-primary px-4" type="submit">Login</button>
+                                {loading ? <div class="spinner-border text-info" role="status"><span class="visually-hidden">Loading...</span></div> : <button className="btn btn-primary px-4" type="submit">Login</button>}
                             </div>
                         </div>
                         </form>
@@ -79,5 +70,3 @@ function Login(props){
         </>
     )
 }
-
-export default Login;
