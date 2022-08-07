@@ -37,11 +37,11 @@
         <!-- Main styles for this application-->
         <link href="css/style.css" rel="stylesheet">
         <!-- We use those styles to show code examples, you should remove them in your application.-->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css"> -->
         <link href="css/examples.css" rel="stylesheet">
         <!-- Global site tag (gtag.js) - Google Analytics-->
-        <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
-        <script>
+        <!-- <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script> -->
+        <!-- <script>
             window.dataLayer = window.dataLayer || [];
 
             function gtag() {
@@ -52,7 +52,7 @@
             gtag('config', 'UA-118965717-3');
             // Bootstrap ID
             gtag('config', 'UA-118965717-5');
-        </script>
+        </script> -->
         <link href="vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet">
 
         <link rel="stylesheet" href="../css/app.css">
@@ -60,5 +60,13 @@
     <body>
         <div id="app"></div>
         <script src="../js/app.js"></script>
+        <!-- CoreUI and necessary plugins-->
+        <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+        <script src="vendors/simplebar/js/simplebar.min.js"></script>
+        <!-- Plugins and scripts required by this view-->
+        <script src="vendors/chart.js/js/chart.min.js"></script>
+        <script src="vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>
+        <script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>
