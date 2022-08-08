@@ -18,7 +18,13 @@ Route::get('/', function () {
     return view('react');
 });
 
-route::post('/testing',[TestingController::class,'testing']);
+
 
 route::post('api/login',[APIController::class,'login']);
+route::get('api/checksession',[APIController::class,'checkSession']);
+route::group(['middleware'=>['checkSession']],function(){
+    //yangmau di middleware
+});
+
 route::get('api/test',[APIController::class,'test']);
+
