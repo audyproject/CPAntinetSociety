@@ -41,7 +41,7 @@ class APIController extends Controller
         }
     }
 
-    public function res($status,$message,$token = null){
+    public function res($status='',$message='',$token = '',$data=''){
         return response()->json([
             'status'  => $status,
             'message' => $message,
