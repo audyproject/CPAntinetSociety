@@ -1,4 +1,4 @@
-export function Sidebar({menu, setLogin, logout}) {
+export function Sidebar({menu, setMenu, setLogin, logout}) {
     return (
         <>
         <div className="sidebar sidebar-dark sidebar-fixed" id="sidebar">
@@ -19,6 +19,11 @@ export function Sidebar({menu, setLogin, logout}) {
                     <svg className="nav-icon">
                     <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
                     </svg> Logout<span className="badge badge-sm bg-info ms-auto">NEW</span></a></li>
+                <li className="nav-title">User Management</li>
+                <li className="nav-item"><a className="nav-link" href="#" onClick={setMenu("changePassword")}>
+                    <svg className="nav-icon">
+                    <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
+                    </svg> Change Password<span className="badge badge-sm bg-info ms-auto">NEW</span></a></li>
                 <li className="nav-title">Theme</li>
                 <li className="nav-item"><a className="nav-link" href="colors.html">
                     <svg className="nav-icon">

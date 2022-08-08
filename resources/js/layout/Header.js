@@ -79,17 +79,17 @@ export function Header() {
                 </li>
             </ul>
             </div>
-            <div className="header-divider"></div>
-            <div className="container-fluid">
+            {/* <div className="header-divider"></div> */}
+            {/* <div className="container-fluid">
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb my-0 ms-2">
                 <li className="breadcrumb-item">
-                    {/* <!-- if breadcrumb is single--> */}<span>Home</span>
+                    <!-- if breadcrumb is single--><span>Home</span>
                 </li>
                 <li className="breadcrumb-item active"><span>Dashboard</span></li>
                 </ol>
             </nav>
-            </div>
+            </div> */}
         </header>
         </>
     )
