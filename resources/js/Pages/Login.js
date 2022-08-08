@@ -1,14 +1,30 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { requestAPI } from "../API";
 import Form from "../components/Form";
 import Input from "../components/Input"
+import { Toast } from "../components/Toast";
+
+function toast(id){
+    const toastLiveExample = document.getElementById(id)
+    const toast = new coreui.Toast(toastLiveExample);
+    toast.show();
+}
 
 export function Login(props){
 
     const [email, setEmail] = useState("")
     const [pass, setPass] = useState("")
     const [loading, setLoading] = useState(false)
+    const [toastMessage, setToastMessage] = useState("")
+
+    useEffect(() => {
+        if(props.login == 2){
+            props.setLogin(1)
+            setToastMessage("Logout Success!")
+            toast("success")
+        }
+    })
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -20,6 +36,10 @@ export function Login(props){
         const resp = await requestAPI("post", "api/login", data)
         setLoading(false)
         props.setLogin(resp.status)
+        if(resp.status == 1){
+            setToastMessage(resp.message)
+            toast('error')
+        }
     }
 
     // console.log(res)
@@ -64,6 +84,8 @@ export function Login(props){
                 </div>
             </div>
             </div>
+            <Toast message={toastMessage} background={"bg-danger"} id={"error"}></Toast>
+            <Toast message={toastMessage} background={"bg-success"} id={"success"}></Toast>
         </>
     )
 }

@@ -10,7 +10,7 @@ function Index() {
     const logout = async() => {
         const response = await requestAPI("get", "api/logout")
         if(response.status == 0){
-            setLogin(1)
+            setLogin(2)
         } else {
             console.log(response.message)
         }
@@ -24,7 +24,7 @@ function Index() {
 
     return (
         <>
-        {login == 0 ? <Main setLogin={setLogin} logout={logout}/> : <Login setLogin={setLogin}/>}
+        {login == 0 ? <Main setLogin={setLogin} logout={logout}/> : <Login setLogin={setLogin} login={login}/>}
         </>
     )
 }

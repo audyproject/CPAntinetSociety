@@ -61,7 +61,6 @@ class APIController extends Controller
         }
 
         $user = User::where('email',$r->email)
-                    ->where('password',Hash::make($r->password))
                     ->first();
 
         if(!$user){
