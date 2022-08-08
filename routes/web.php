@@ -15,9 +15,9 @@ use App\Http\Controllers\LoginController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('react');
-// });
+Route::get('/', function () {
+    return view('react');
+});
 // Route::get('/{path?}',[
 //     'uses' => 'TestingController@index',
 //     'as'    => 'react',
@@ -26,12 +26,13 @@ use App\Http\Controllers\LoginController;
 
 
 
-Route::view('/{path?}', 'react')
-    ->where('path', '.*');
+// Route::view('/{path?}', 'react')
+//     ->where('path', '.*');
 
 route::post('/testing',"TestingController@testing");
 
 route::post('api/login',[APIController::class,'login']);
+route::get('api/logout',[APIController::class,'logout']);
 route::get('api/checksession',[APIController::class,'checkSession']);
 route::group(['middleware'=>['checkSession']],function(){
     //yangmau di middleware

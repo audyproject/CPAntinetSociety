@@ -1,8 +1,6 @@
-// api/login
-export async function requestLogin(data){
+export async function requestAPI(method = "get", url, data = null){
     try {
-        const response = await axios.post("api/login", data)
-        // console.warn(await response)
+        const response = await axios[method](url, data)
         const resp = await response.data
         return resp
     } catch (error) {
@@ -13,7 +11,3 @@ export async function requestLogin(data){
 export function tes(){
     return "tes"
 }
-
-// export default {
-//     requestLogin
-// }

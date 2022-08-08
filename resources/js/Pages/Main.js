@@ -5,13 +5,13 @@ import { Sidebar } from "../layout/Sidebar"
 import { Header } from "../layout/Header"
 import { Content } from "./Content"
 
-export function Main(){
+export function Main(props){
 
     const [menu, setMenu] = useState("dashboard")
 
     return (
         <>
-        <Sidebar menu={menu}/>
+        <Sidebar menu={menu} setLogin={props.setLogin} logout={props.logout}/>
         <div className="wrapper d-flex flex-column min-vh-100 bg-light">
             <Header/>
             <div className="body flex-grow-1 px-3">
