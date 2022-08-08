@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,11 +15,21 @@ use App\Http\Controllers\APIController;
 |
 */
 
-Route::get('/', function () {
-    return view('react');
-});
+// Route::get('/', function () {
+//     return view('react');
+// });
+// Route::get('/{path?}',[
+//     'uses' => 'TestingController@index',
+//     'as'    => 'react',
+//     'where' => ['path' => '^(?!data/).*$']
+// ]);
 
 
+
+Route::view('/{path?}', 'react')
+    ->where('path', '.*');
+
+route::post('/testing',"TestingController@testing");
 
 route::post('api/login',[APIController::class,'login']);
 route::get('api/checksession',[APIController::class,'checkSession']);

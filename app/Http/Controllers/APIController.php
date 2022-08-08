@@ -16,6 +16,7 @@ use App\Models\Sess;
 class APIController extends Controller
 {
     public function test(){
+
         // session::put('logged','handi');
         // dd(session::get('logged'));
         // session::has('logged');
@@ -39,7 +40,8 @@ class APIController extends Controller
         }
     }
 
-    public function res($status,$message,$token){
+    public function res($status,$message,$token = null){
+
         if($token){
             $data =[
                 'status'=>$status,
@@ -53,7 +55,8 @@ class APIController extends Controller
                  ];
         }
 
-        return $data->json();
+        
+        return response()->json($data);
     }
 
     public function login(request $r){
@@ -68,7 +71,8 @@ class APIController extends Controller
                     ->first();
 
         if(!$user){
-            $this->res(1,'Wrong Email or Password!');
+            return $this->res(1,'Wrong Email or Password!');
+            
         }
 
         

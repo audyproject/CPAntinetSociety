@@ -21,7 +21,7 @@ class checkSession
                 'status'=>1,
                 'message'=>'You must be logged in',
                  ];
-                return $data->json();
+                return response()->json($data);
         }else {
             return $next($request);
 
