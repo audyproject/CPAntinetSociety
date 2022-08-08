@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 use Cookie;
 
 use App\Models\User;
@@ -41,22 +42,12 @@ class APIController extends Controller
     }
 
     public function res($status,$message,$token = null){
-
-        if($token){
-            $data =[
-                'status'=>$status,
-                'message'=>$message,
-                'token'=>$token,
-                 ];
-        } else{
-            $data =[
-                'status'=>$status,
-                'message'=>$message,
-                 ];
-        }
-
-        
-        return response()->json($data);
+        return response()->json([
+            'status'  => $status,
+            'message' => $message,
+            'token'   => $token,
+            'data'    => $data,
+        ]);
     }
 
     public function login(request $r){
@@ -67,12 +58,15 @@ class APIController extends Controller
         }
 
         $user = User::where('email',$r->email)
-                    ->where('password',$r->password)
+                    ->where('password',Hash::make($r->password))
                     ->first();
 
         if(!$user){
             return $this->res(1,'Wrong Email or Password!');
-            
+        } 
+        else if(! Hash::check($r->password, $user->password))
+        {
+            return $this->res(1,'Wrong Email or Password!');
         }
 
         
