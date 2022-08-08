@@ -14,9 +14,3 @@ use App\Http\Controllers\api\TestapiController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::get('/audy', [TestapiController::class, 'index']);
