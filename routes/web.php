@@ -36,6 +36,8 @@ route::get('api/checksession',[APIController::class,'checkSession']);
 //authenticated api admin
 route::group(['middleware'=>['checkSession']],function(){
     //yangmau di middleware
+    Route::post('api/createuser',[APIController::class,'createUser']);
+    Route::post('api/changepassword',[APIController::class,'changePass']);
 });
 
 //testing admin
