@@ -18,4 +18,8 @@ class Authenticate extends Middleware
             return route('login');
         }
     }
+
+    protected function tes($request){
+        return false;
+    }
 }

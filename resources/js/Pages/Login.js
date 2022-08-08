@@ -12,14 +12,17 @@ export function Login(props){
 
     async function handleSubmit(e) {
         e.preventDefault();
-        setLoading(true)
         let data = {
             "email": email,
             "password": pass
         }
+        setLoading(true)
         const resp = await requestLogin(data)
+        setLoading(false)
+        // console.log(resp)
         if(resp.status == 0){
-            props.setToken(resp.token)
+            props.setLogin(true)
+            console.log(resp)
         } else {
             console.warn(resp)
         }
@@ -56,7 +59,7 @@ export function Login(props){
                             <button className="btn btn-link px-0" type="button">Forgot password?</button>
                             </div>
                             <div className="col-6 text-end">
-                                {loading ? <div class="spinner-border text-info" role="status"><span class="visually-hidden">Loading...</span></div> : <button className="btn btn-primary px-4" type="submit">Login</button>}
+                                {loading ? <div className="spinner-border text-info" role="status"><span className="visually-hidden">Loading...</span></div> : <button className="btn btn-primary px-4" type="submit">Login</button>}
                             </div>
                         </div>
                         </form>

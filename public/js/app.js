@@ -5411,15 +5411,15 @@ function Index() {
   // const [token, setToken] = useState(async() => await getToken())
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      token = _useState2[0],
-      setToken = _useState2[1]; // useEffect(async () => {
+      login = _useState2[0],
+      setLogin = _useState2[1]; // useEffect(async () => {
   //     setToken(getToken())
   // })
 
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-    children: token ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Pages_Main__WEBPACK_IMPORTED_MODULE_4__.Main, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Pages_Login__WEBPACK_IMPORTED_MODULE_3__.Login, {
-      setToken: setToken
+    children: login ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Pages_Main__WEBPACK_IMPORTED_MODULE_4__.Main, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Pages_Login__WEBPACK_IMPORTED_MODULE_3__.Login, {
+      setLogin: setLogin
     })
   });
 }
@@ -5534,24 +5534,26 @@ function Login(props) {
           switch (_context.prev = _context.next) {
             case 0:
               e.preventDefault();
-              setLoading(true);
               data = {
                 "email": email,
                 "password": pass
               };
+              setLoading(true);
               _context.next = 5;
               return (0,_API__WEBPACK_IMPORTED_MODULE_2__.requestLogin)(data);
 
             case 5:
               resp = _context.sent;
+              setLoading(false); // console.log(resp)
 
               if (resp.status == 0) {
-                props.setToken(resp.token);
+                props.setLogin(true);
+                console.log(resp);
               } else {
                 console.warn(resp);
               }
 
-            case 7:
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -5631,10 +5633,10 @@ function Login(props) {
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                         className: "col-6 text-end",
                         children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-                          "class": "spinner-border text-info",
+                          className: "spinner-border text-info",
                           role: "status",
                           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                            "class": "visually-hidden",
+                            className: "visually-hidden",
                             children: "Loading..."
                           })
                         }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
