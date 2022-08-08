@@ -15,7 +15,7 @@ async function getToken(){
 
 function Index() {
     // const [token, setToken] = useState(async() => await getToken())
-    const [token, setToken] = useState(false)
+    const [login, setLogin] = useState(false)
 
     // useEffect(async () => {
     //     setToken(getToken())
@@ -23,7 +23,7 @@ function Index() {
 
     return (
         <>
-        {token ? <Main/> : <Login setToken={setToken}/>}
+        {login ? <Main/> : <Login setLogin={setLogin}/>}
         </>
     )
 }

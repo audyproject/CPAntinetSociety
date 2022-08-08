@@ -59,7 +59,6 @@
     </head>
     <body>
         <div id="app"></div>
-        <script src="../js/app.js"></script>
         <!-- CoreUI and necessary plugins-->
         <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
         <script src="vendors/simplebar/js/simplebar.min.js"></script>
@@ -68,5 +67,6 @@
         <script src="vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>
         <script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
         <script src="js/main.js"></script>
+        <script src="../js/app.js"></script>
     </body>
 </html>
