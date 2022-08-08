@@ -1,29 +1,30 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactDOM from 'react-dom';
+import { requestAPI } from "./API";
 import { Login } from "./Pages/Login";
 import { Main } from "./Pages/Main"
 
-async function getToken(){
-    try {
-        const response = await axios("api/users")
-        return await response.data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 function Index() {
-    // const [token, setToken] = useState(async() => await getToken())
-    const [login, setLogin] = useState(false)
 
-    // useEffect(async () => {
-    //     setToken(getToken())
-    // })
+    const logout = async() => {
+        const response = await requestAPI("get", "api/logout")
+        if(response.status == 0){
+            setLogin(1)
+        } else {
+            console.log(response.message)
+        }
+    }
+
+    const [login, setLogin] = useState(async () => {
+        const response = await requestAPI("get", "api/checksession")
+        setLogin(response.status)
+        console.log(response.status)
+    })
 
     return (
         <>
-        {login ? <Main/> : <Login setLogin={setLogin}/>}
+        {login == 0 ? <Main setLogin={setLogin} logout={logout}/> : <Login setLogin={setLogin}/>}
         </>
     )
 }

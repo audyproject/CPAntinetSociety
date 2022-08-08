@@ -33,10 +33,13 @@ class APIController extends Controller
     }
 
     public function checkSession(){
+        // return "asd";
         if(Session::has('logged')){
-            $this->res(0,'Success');
+            // return response()->json(["status" => 0]);
+            return $this->res(0,'Success');
         } else{
-            $this->res(1,'No Session');
+            // return response()->json(["status" => 1]);
+            return $this->res(1,'No Session');
         }
     }
 

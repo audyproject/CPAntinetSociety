@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { requestLogin } from "../API";
+import { requestAPI } from "../API";
 import Form from "../components/Form";
 import Input from "../components/Input"
 
@@ -12,20 +12,14 @@ export function Login(props){
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setLoading(true)
         let data = {
             "email": email,
             "password": pass
         }
-        setLoading(true)
-        const resp = await requestLogin(data)
+        const resp = await requestAPI("post", "api/login", data)
         setLoading(false)
-        // console.log(resp)
-        if(resp.status == 0){
-            props.setLogin(true)
-            console.log(resp)
-        } else {
-            console.warn(resp)
-        }
+        props.setLogin(resp.status)
     }
 
     // console.log(res)
