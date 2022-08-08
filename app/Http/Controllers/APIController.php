@@ -22,11 +22,11 @@ class APIController extends Controller
         // dd(session::get('logged'));
         // session::has('logged');
         
-            if(Session::has('logged')){
-                echo('ada');
-            } else{
-                echo('gada');
-            }
+            // if(Session::has('logged')){
+            //     echo('ada');
+            // } else{
+            //     echo('gada');
+            // }
         
         // session::flush(); // delete
         // session::forget('logged'); // ilangin 1
@@ -34,12 +34,10 @@ class APIController extends Controller
     }
 
     public function checkSession(){
-        // return "asd";
         if(Session::has('logged')){
-            // return response()->json(["status" => 0]);
+            Session::regenerate();
             return $this->res(0,'Success');
         } else{
-            // return response()->json(["status" => 1]);
             return $this->res(1,'No Session');
         }
     }
@@ -71,15 +69,8 @@ class APIController extends Controller
             return $this->res(1,'Wrong Email or Password!');
         }
 
-        
-
-        //visitor log
-        $visitor = new Visitor();
-        $visitor->ip = $r->ip();
-        $visitor->save();
-
         //res
-        Session::put('logged',$user->username);
+        Session::put('logged',$user->id);
         return $this->res(0,'Login Success');
     
     }
@@ -87,11 +78,67 @@ class APIController extends Controller
     public function logout(request $r){
         if(Session::has('logged')){
             Session::forget('logged');
+            Session::flush();
             return $this->res(0,'Logout Success');
         } else{
             return $this->res(1,'Has not logged yet');
         }
     }
+
+    public function createUser(request $r){
+        if(!$r->username || !$r->email || !$r->password || !$r->role){
+            return $this->res(1,'Data cannot be blank!');
+        }
+
+        if (!filter_var($r->email, FILTER_VALIDATE_EMAIL)) {
+            return $this->res(1,'Invalid email format!');
+        }
+
+        $cekEmail = User::where('email',$r->email)->first();
+        if($cekEmail){
+            return $this->res(1,'Email already exist!');
+        }
+
+        $cekRole = Role::where('id',$r->role)->first();
+        if(!$cekRole){
+            return $this->res(1,'Role does not exist!');
+        }
+
+        $insUser            = new User();
+        $insUser->username  = $r->username;
+        $insUser->email     = $r->email;
+        $insUser->password  = Hash::make($r->password);
+        $insUser->roles_id  = $r->role;
+        $insUser->save();
+
+        return $this->res(0,'New account created!');
+
+    }
     
+    public function changePass(request $r){
+        
+        if(!$r->oldPassword || !$r->newPassword){
+            return $this->res(1,'Data cannot be blank!');
+        }
+        
+        $id = Session::get('logged');
+
+        $user = User::where('id',$id)
+                    ->first();
+
+        if(!$user){
+            return $this->res(1,'Wrong Email or Password!');
+        } 
+        else if(! Hash::check($r->oldPassword, $user->password))
+        {
+            return $this->res(1,'Wrong Email or Password!');
+        }
+
+        $user->password = Hash::make($r->newPassword);
+        $user->save();
+
+        return $this->res(0,'Password has been changed!');
+
+    }
 
 }
