@@ -22,11 +22,11 @@ class APIController extends Controller
         // dd(session::get('logged'));
         // session::has('logged');
         
-            if(Session::has('logged')){
-                echo('ada');
-            } else{
-                echo('gada');
-            }
+            // if(Session::has('logged')){
+            //     echo('ada');
+            // } else{
+            //     echo('gada');
+            // }
         
         // session::flush(); // delete
         // session::forget('logged'); // ilangin 1
@@ -34,12 +34,10 @@ class APIController extends Controller
     }
 
     public function checkSession(){
-        // return "asd";
         if(Session::has('logged')){
-            // return response()->json(["status" => 0]);
+            Session::regenerate();
             return $this->res(0,'Success');
         } else{
-            // return response()->json(["status" => 1]);
             return $this->res(1,'No Session');
         }
     }
@@ -71,13 +69,6 @@ class APIController extends Controller
             return $this->res(1,'Wrong Email or Password!');
         }
 
-        
-
-        //visitor log
-        $visitor = new Visitor();
-        $visitor->ip = $r->ip();
-        $visitor->save();
-
         //res
         Session::put('logged',$user->username);
         return $this->res(0,'Login Success');
@@ -87,6 +78,7 @@ class APIController extends Controller
     public function logout(request $r){
         if(Session::has('logged')){
             Session::forget('logged');
+            Session::flush();
             return $this->res(0,'Logout Success');
         } else{
             return $this->res(1,'Has not logged yet');

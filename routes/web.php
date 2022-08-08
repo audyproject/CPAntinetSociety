@@ -25,18 +25,19 @@ Route::get('/', function () {
 // ]);
 
 
-
 // Route::view('/{path?}', 'react')
 //     ->where('path', '.*');
 
-route::post('/testing',"TestingController@testing");
-
+//global api admin
 route::post('api/login',[APIController::class,'login']);
 route::get('api/logout',[APIController::class,'logout']);
 route::get('api/checksession',[APIController::class,'checkSession']);
+
+//authenticated api admin
 route::group(['middleware'=>['checkSession']],function(){
     //yangmau di middleware
 });
 
+//testing admin
 route::get('api/test',[APIController::class,'test']);
 
