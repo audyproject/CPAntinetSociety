@@ -4,7 +4,7 @@ export function Toast({message, background, id}){
 
     return (
         <>
-        <div className="toast-container position-fixed top-0 end-0 p-3" style={{'zIndex': 5}}>
+        <div className="toast-container position-absolute top-0 end-0 p-3 mt-5" style={{'zIndex': 5}}>
                 <div id={id} className={className} role="alert" aria-live="assertive" aria-atomic="true">
                     <div className="d-flex">
                         <div className="toast-body">

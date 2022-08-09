@@ -14,7 +14,11 @@ function toast(){
 
 export function Main(props){
 
-    const toastData = (message, background) => {
+    const [toastData, setToastData] = useState([])
+
+    const toastFunction = (message, background) => {
+        // console.log(message + " " + background)
+        setToastData([message, background])
         toast()
         return [
             message, background
@@ -29,10 +33,10 @@ export function Main(props){
         <div className="wrapper d-flex flex-column min-vh-100 bg-light">
             <Header/>
             <div className="body flex-grow-1 px-3 container-lg">
-                <Content menu={menu} toast={toastData}/>
+                <Content menu={menu} toast={toastFunction}/>
+                <Toast message={toastData[0]} background={toastData[1]} id={"toast"}></Toast>
             </div>
         </div>
-        <Toast message={toastData[0]} background={toastData[1]} id="toast"></Toast>
         {/* <Toast message={toastMessage} background={"bg-success"} id={"success"}></Toast> */}
         {/* Header, Sidebar, Content */}
         </>

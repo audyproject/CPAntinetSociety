@@ -78,7 +78,7 @@ class APIController extends Controller
     public function logout(request $r){
         if(Session::has('logged')){
             Session::forget('logged');
-            Session::flush();
+            //Session::flush();
             return $this->res(0,'Logout Success');
         } else{
             return $this->res(1,'Has not logged yet');

@@ -11,23 +11,23 @@ export function ChangePassword({toast}) {
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading(true)
-        if(newPass != confPass){
-            toast("New Password and Confirm Password are not same!", "bg-danger")
-        } else {
-            const data = {
-                'oldPassword': oldPass,
-                'newPassword': newPass
-            }
-            const response = await requestAPI('post', "api/changepassword", data)
-            if(response.status == 0){
-                toast("Change Password Success", "bg-success")
-                setOldPass("")
-                setNewPass("")
-                setConfPass("")
-            } else {
-                toast(response.message, "bg-danger")
-            }
+        // if(newPass != confPass){
+        //     toast("New Password and Confirm Password are not same!", "bg-danger")            
+        // } else {
+        const data = {
+            'oldPassword': oldPass,
+            'newPassword': newPass
         }
+        const response = await requestAPI('post', "api/changepassword", data)
+        if(response.status == 0){
+            toast("Change Password Success", "bg-success")
+            setOldPass("")
+            setNewPass("")
+            setConfPass("")
+        } else {
+            toast(response.message, "bg-danger")
+        }
+        // }
         setLoading(false)
     }
 
@@ -48,10 +48,11 @@ export function ChangePassword({toast}) {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="formGroupExampleInput2" className="form-label">Confirm New Password</label>
-                        <input onChange={e => setConfPass(e.target.value)} type="password" className="form-control" id="formGroupExampleInput3" placeholder="Confirm New Password"/>
+                        <input onChange={e => setConfPass(e.target.value)} type="password" className={newPass != confPass ? "form-control is-invalid" : "form-control"} id="formGroupExampleInput3" placeholder="Confirm New Password"/>
+                        {newPass != confPass ? <div class="invalid-feedback" id="validationFeedback">Not same with New Password</div> : <></>}
                     </div>
                     <div className="col-6">
-                        {loading ? <div className="spinner-border text-info" role="status"><span className="visually-hidden">Loading...</span></div> : <button className="btn btn-primary px-4" type="submit">Login</button>}
+                        {loading ? <div className="spinner-border text-info" role="status"><span className="visually-hidden">Loading...</span></div> : <button className="btn btn-primary px-4" type="submit">Submit</button>}
                     </div>
                 </div>
                 </form>

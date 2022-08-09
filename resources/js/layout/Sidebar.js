@@ -3,27 +3,66 @@ export function Sidebar({menu, setMenu, setLogin, logout}) {
         <>
         <div className="sidebar sidebar-dark sidebar-fixed" id="sidebar">
             <div className="sidebar-brand d-none d-md-flex">
+                {/* <image src="antinet/logo/horizontal3-white.png" style={{'width':'118px','height':'46px'}}/> */}
                 <svg className="sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
-                <use xlinkHref="assets/brand/coreui.svg#full"></use>
+                    <use xlinkHref="assets/brand/coreui.svg#full"></use>
+                    <use xlinkHref="antinet/logo/horizontal3-white.svg"></use>
                 </svg>
                 <svg className="sidebar-brand-narrow" width="46" height="46" alt="CoreUI Logo">
-                <use xlinkHref="assets/brand/coreui.svg#signet"></use>
+                    <use xlinkHref="assets/brand/coreui.svg#signet"></use>
+                    <use xlinkHref="antinet/logo/horizontal3-white.svg"></use>
                 </svg>
             </div>
             <ul className="sidebar-nav" data-coreui="navigation" data-simplebar="">
-                <li className="nav-item"><a className="nav-link" href="index.html">
+                <li className="nav-item"><a className={menu == "dashboard" ? "nav-link active" : "nav-link"} onClick={() => setMenu("dashboard")} style={{'cursor': 'pointer'}}>
                     <svg className="nav-icon">
                     <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
                     </svg> Dashboard<span className="badge badge-sm bg-info ms-auto">NEW</span></a></li>
-                <li className="nav-item"><a className="nav-link" href="#" onClick={logout}>
+                <li className="nav-group"><a className="nav-link nav-group-toggle">
+                    <svg className="nav-icon">
+                        <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-running"></use>
+                    </svg> Project</a>
+                    <ul className="nav-group-items">
+                        <li className="nav-item"><a className={menu == "setProject" ? "nav-link active" : "nav-link"} onClick={() => {setMenu("setProject")}}><span className="nav-icon"></span> Set Project</a></li>
+                        <li className="nav-item"><a className={menu == "addProject" ? "nav-link active" : "nav-link"} onClick={() => {setMenu("addProject")}}><span className="nav-icon"></span> Add Project</a></li>
+                    </ul>
+                </li>
+                {/* <li className="nav-group"><a className="nav-link nav-group-toggle">
+                    <svg className="nav-icon">
+                        <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
+                    </svg> Subscription</a>
+                    <ul className="nav-group-items">
+                        <li className="nav-item"><a className={menu == "" ? "nav-link active" : "nav-link"} onClick={() => {setMenu("setProject")}}><span className="nav-icon"></span> Set Project</a></li>
+                        <li className="nav-item"><a className={menu == "addProject" ? "nav-link active" : "nav-link"} onClick={() => {setMenu("addProject")}}><span className="nav-icon"></span> Add Project</a></li>
+                    </ul>
+                </li> */}
+                <li className="nav-item"><a className={menu == "subscription" ? "nav-link active" : "nav-link"} onClick={() => setMenu("dashboard")} style={{'cursor': 'pointer'}}>
+                    <svg className="nav-icon">
+                    <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-contact"></use>
+                    </svg> Subscription<span className="badge badge-sm bg-info ms-auto">NEW</span></a></li>
+                <li className="nav-title">Admin</li>
+                {/* <li className="nav-item"><a className={menu == "createUser" ? "nav-link active" : "nav-link"} onClick={() => setMenu("createUser")} style={{'cursor': 'pointer'}}>
                     <svg className="nav-icon">
                     <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
-                    </svg> Logout<span className="badge badge-sm bg-info ms-auto">NEW</span></a></li>
-                <li className="nav-title">User Management</li>
-                <li className="nav-item"><a className="nav-link" href="#" onClick={setMenu("changePassword")}>
+                    </svg> User Management<span className="badge badge-sm bg-info ms-auto">NEW</span></a></li> */}
+                <li className="nav-group"><a className="nav-link nav-group-toggle">
+                    <svg className="nav-icon">
+                        <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-people"></use>
+                    </svg> UserManagement</a>
+                    <ul className="nav-group-items">
+                        <li className="nav-item"><a className={menu == "addUser" ? "nav-link active" : "nav-link"} onClick={() => {setMenu("addUser")}}><span className="nav-icon"></span> Add User</a></li>
+                        <li className="nav-item"><a className={menu == "setUser" ? "nav-link active" : "nav-link"} onClick={() => {setMenu("setUser")}}><span className="nav-icon"></span> Set User</a></li>
+                    </ul>
+                </li>
+                <li className="nav-title">Settings</li>
+                <li className="nav-item"><a className={menu == "changePassword" ? "nav-link active" : "nav-link"} onClick={() => setMenu("changePassword")} style={{'cursor': 'pointer'}}>
                     <svg className="nav-icon">
                     <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
                     </svg> Change Password<span className="badge badge-sm bg-info ms-auto">NEW</span></a></li>
+                <li className="nav-item"><a className="nav-link" onClick={() => {return logout}}>
+                    <svg className="nav-icon">
+                    <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                    </svg> Logout<span className="badge badge-sm bg-info ms-auto">NEW</span></a></li>
                 <li className="nav-title">Theme</li>
                 <li className="nav-item"><a className="nav-link" href="colors.html">
                     <svg className="nav-icon">

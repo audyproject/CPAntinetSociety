@@ -54,6 +54,8 @@
             gtag('config', 'UA-118965717-5');
         </script> -->
         <link href="vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
+        <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
 
         <link rel="stylesheet" href="../css/app.css">
     </head>
@@ -68,6 +70,9 @@
         <script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
         <script src="js/main.js"></script>
         <script src="js/toasts.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <scirpt src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <scirpt src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
         <script src="../js/app.js"></script>
     </body>
 </html>
