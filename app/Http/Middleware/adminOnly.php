@@ -40,7 +40,7 @@ class adminOnly
                     'message'=>'Role not found!',
                      ];
                     return response()->json($data);
-            } else if($cek != 1){
+            } else if($cek->id != 1){
                 $data =[
                     'status'=>9,
                     'message'=>'You are not admin!',

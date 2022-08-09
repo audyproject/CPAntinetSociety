@@ -21,6 +21,7 @@ server :
 7. APP_ENV=production / php artisan key:generate
 8. php artisan config:cache
 9. sudo nano /etc/apache2/conf-enabled/security.conf -> ServerSignature Off, ServerTokens Prod
+10. sudo nano /etc/apache2/apache2.conf -> Directory /var/www AllowOverride None
 
 troubleshoot:
 1. keluarin dari folder

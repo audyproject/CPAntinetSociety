@@ -23,7 +23,7 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="c-chart-wrapper mt-3 mx-3" style={{height: "70px"}}>
-                  <canvas className="chart" id="card-chart1" height="70"></canvas>
+                  {/* <canvas className="chart" id="card-chart1" height="70"></canvas> */}
                 </div>
               </div>
             </div>
@@ -48,7 +48,7 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="c-chart-wrapper mt-3 mx-3" style={{height: "70px"}}>
-                  <canvas className="chart" id="card-chart2" height="70"></canvas>
+                  {/* <canvas className="chart" id="card-chart2" height="70"></canvas> */}
                 </div>
               </div>
             </div>
@@ -73,7 +73,7 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="c-chart-wrapper mt-3" style={{height: "70px"}}>
-                  <canvas className="chart" id="card-chart3" height="70"></canvas>
+                  {/* <canvas className="chart" id="card-chart3" height="70"></canvas> */}
                 </div>
               </div>
             </div>
@@ -98,7 +98,7 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="c-chart-wrapper mt-3 mx-3" style={{height: "70px"}}>
-                  <canvas className="chart" id="card-chart4" height="70"></canvas>
+                  {/* <canvas className="chart" id="card-chart4" height="70"></canvas> */}
                 </div>
               </div>
             </div>
