@@ -40,7 +40,7 @@ route::group(['middleware'=>['checkSession']],function(){
     Route::post('api/changepassword',[APIController::class,'changePass']);
     Route::get('api/getuser',[APIController::class,'getUser']);
     Route::post('api/edituser',[APIController::class,'editUser']);
-    Route::get('api/getrole',[APIController::class,'getROle']);
+    Route::get('api/getrole',[APIController::class,'getRole']);
     
 });
 

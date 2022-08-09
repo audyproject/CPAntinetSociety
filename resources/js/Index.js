@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom';
 import { requestAPI } from "./API";
 import { Login } from "./Pages/Login";
 import { Main } from "./Pages/Main"
-// import "/css/examples.css"
-// import "/css/style.css"
-// import "/css/vendors/simplebar.css"
-// import "/vendors/simplebar/css/simplebar.css"
-// import "/vendors/@coreui/chartjs/css/coreui-chartjs.css"
+import "/css/examples.css"
+import "/css/style.css"
+import "/css/vendors/simplebar.css"
+import "/vendors/simplebar/css/simplebar.css"
+import "/vendors/@coreui/chartjs/css/coreui-chartjs.css"
 // import "/vendors/@coreui/coreui/js/coreui.bundle.min.js"
 // import "/vendors/simplebar/js/simplebar.min.js"
 // import "/vendors/chart.js/js/chart.min.js"

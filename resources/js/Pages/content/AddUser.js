@@ -1,9 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { requestAPI } from "../../API"
 
 export function AddUser({toast}){
 
+    const [dataRoles, setDataRoles] = useState(false)
     const [loading, setLoading] = useState(false)
+
     const [email, setEmail] = useState("")
     const [pass, setPass] = useState("")
     const [roles, setRoles] = useState(0)
@@ -28,6 +30,15 @@ export function AddUser({toast}){
         setLoading(false)
     }
 
+    useEffect(async () => {
+        if(!dataRoles){
+            const response = await requestAPI('get','api/getrole')
+            if(response.status == 0){
+                setDataRoles(response.data)
+            }
+        }
+    })
+
     return (
         <>
         <div className="col-12">
@@ -47,8 +58,11 @@ export function AddUser({toast}){
                         <label className="form-label" htmlFor="formGroupExampleInput2">Roles</label>
                         <select onChange={e => setRoles(e.target.value)} className="form-select" aria-label="Default select example">
                             <option>Choose Roles</option>
-                            <option value="1">Admin</option>
-                            <option value="2">Users</option>
+                            {!dataRoles ? <></> : 
+                            dataRoles.map((datas, i) => {
+                                return <option value={datas.id}>{datas.role}</option>
+                            })
+                            }
                         </select>
                     </div>
                     <div className="mb-3">
