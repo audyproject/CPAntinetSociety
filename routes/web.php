@@ -38,6 +38,7 @@ route::group(['middleware'=>['checkSession']],function(){
     //yangmau di middleware
     Route::post('api/createuser',[APIController::class,'createUser']);
     Route::post('api/changepassword',[APIController::class,'changePass']);
+    Route::get('api/getuser',[APIController::class,'getUser']);
 });
 
 //testing admin
