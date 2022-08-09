@@ -11702,12 +11702,19 @@ function SetUser(_ref) {
                           setId(data.id);
                           setEmail(data.email);
                           setUsername(data.username);
-                          setRoles(data.role);
+                          setRoles(data.roles_id);
                         },
                         children: "Edit"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-                        className: "btn btn-danger",
-                        children: "Delete"
+                      }), data.active == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+                        className: "btn btn-success text-white",
+                        "data-coreui-toggle": "modal",
+                        "data-coreui-target": "#modalActive",
+                        children: "Deactivate"
+                      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+                        className: "btn btn-danger text-white",
+                        "data-coreui-toggle": "modal",
+                        "data-coreui-target": "#modalActive",
+                        children: "Activate"
                       })]
                     })]
                   });
@@ -11778,6 +11785,7 @@ function SetUser(_ref) {
                     onChange: function onChange(e) {
                       return setRoles(e.target.value);
                     },
+                    value: roles,
                     className: "form-select",
                     "aria-label": "Default select example",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
