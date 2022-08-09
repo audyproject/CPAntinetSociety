@@ -123,7 +123,7 @@ export function SetUser({toast}) {
                         </div>
                         <div className="mb-3">
                             <label className="form-label" htmlFor="formGroupExampleInput2">Roles</label>
-                            <select onChange={e => setRoles(e.target.value)} className="form-select" aria-label="Default select example" value={() => {}}>
+                            <select onChange={e => setRoles(e.target.value)} className="form-select" aria-label="Default select example">
                                 <option>Choose Roles</option>
                                 {!dataRoles ? <></> : 
                                 dataRoles.map((datas, i) => {

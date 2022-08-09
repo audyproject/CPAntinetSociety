@@ -11780,7 +11780,6 @@ function SetUser(_ref) {
                     },
                     className: "form-select",
                     "aria-label": "Default select example",
-                    value: function value() {},
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
                       children: "Choose Roles"
                     }), !dataRoles ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {}) : dataRoles.map(function (datas, i) {

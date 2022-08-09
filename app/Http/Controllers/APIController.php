@@ -147,11 +147,7 @@ class APIController extends Controller
     }
 
     public function getUser(){
-<<<<<<< HEAD
-        $data = User::whereNull('deleted_at')->get();
-=======
         $data = User::all();
->>>>>>> db68a734f1a21e4efafc5c34327220a3863c08f0
         if($data->isEmpty()){
             return $this->res(1,'Data empty');
         }else{
