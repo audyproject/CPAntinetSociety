@@ -162,6 +162,7 @@ class APIController extends Controller
                     'username'      => $d->username,
                     'email'         => $d->email,
                     'role'          => $d->roles->role,
+                    'roles_id'      => $d->roles_id,
                     'active'        => $active,
                 ];
             }
