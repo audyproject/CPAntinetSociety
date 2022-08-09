@@ -61,18 +61,18 @@
     </head>
     <body>
         <div id="app"></div>
-        <!-- CoreUI and necessary plugins-->
+        <!-- CoreUI and necessary plugins -->
         <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
         <script src="vendors/simplebar/js/simplebar.min.js"></script>
-        <!-- Plugins and scripts required by this view-->
+        <!-- Plugins and scripts required by this view -->
         <script src="vendors/chart.js/js/chart.min.js"></script>
         <script src="vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>
         <script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
         <script src="js/main.js"></script>
         <script src="js/toasts.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <scirpt src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-        <scirpt src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+        <scirpt src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script> -->
         <script src="../js/app.js"></script>
     </body>
 </html>
