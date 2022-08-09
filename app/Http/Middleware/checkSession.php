@@ -18,7 +18,7 @@ class checkSession
     {
         if(!session()->has('logged')){
             $data =[
-                'status'=>1,
+                'status'=>9,
                 'message'=>'You must be logged in',
                  ];
                 return response()->json($data);
