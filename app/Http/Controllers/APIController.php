@@ -173,7 +173,7 @@ class APIController extends Controller
 
 
         if(!$r->id){
-            return $this->res(1,'User ID cannot be blank!');
+            return $this->res(1,'User ID needed!');
         }
 
         if(!$r->username || !$r->role){
@@ -199,4 +199,16 @@ class APIController extends Controller
         return $this->res(0,'Data retrieved','',$data);
     }
 
+    public function cekAdmin(){
+        $data = Session::get('logged');
+        if(!$data){
+            $data =[
+                'status'=>9,
+                'message'=>'You must be logged in',
+                 ];
+                return response()->json($data);
+        } else{
+            return $data;
+        }
+    }
 }
