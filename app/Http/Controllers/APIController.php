@@ -144,12 +144,13 @@ class APIController extends Controller
     }
 
     public function getUser(){
-        $data = User::all();
+        $data = User::whereNull('deleted_at');
         if($data->isEmpty()){
             return $this->res(1,'Data empty');
         }else{
             foreach($data as $d){
                 $item[]= [
+                    'id'            => $d->id,
                     'username'      => $d->username,
                     'email'         => $d->email,
                     'role'          => $d->roles->role,
@@ -159,4 +160,40 @@ class APIController extends Controller
         }
     }
 
+    public function editUser(request $r){
+
+
+        if(!$r->id){
+            return $this->res(1,'ID cannot be blank!');
+        }
+
+        if($r->delete == 1){
+            $del = User::where('id',$r->id)->first();
+            $del->deleted_at = Carbon::now();
+            $del->save();
+            return $this->res(0,'Data has been deleted!');
+        }
+
+        if(!$r->username || !$r->role){
+            return $this->res(1,'Data cannot be blank!');
+        }
+
+        $cekRole = Role::where('id',$r->role)->first();
+        if(!$cekRole){
+            return $this->res(1,'Role does not exist!');
+        }
+
+        
+        $editUser = User::where('id',$r->id)->first();
+        $editUser->username  = $r->username;
+        $editUser->roles_id  = $r->role;
+        $editUser->save();
+
+        return $this->res(0,'New account created!');
+    }
+
+    public function getRole(){
+        $data = Role::all();
+        return $this->res(0,'Data retrieved','',$data);
+    }
 }
