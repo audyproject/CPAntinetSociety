@@ -18,6 +18,8 @@ class APIController extends Controller
 {
     public function test(){
 
+        // $data = User::first();
+        // dd($data->roles->role);
         // session::put('logged','handi');
         // dd(session::get('logged'));
         // session::has('logged');
@@ -131,7 +133,7 @@ class APIController extends Controller
         } 
         else if(! Hash::check($r->oldPassword, $user->password))
         {
-            return $this->res(1,'Wrong Email or Password!');
+            return $this->res(1,'Wrong Password!');
         }
 
         $user->password = Hash::make($r->newPassword);
@@ -139,6 +141,22 @@ class APIController extends Controller
 
         return $this->res(0,'Password has been changed!');
 
+    }
+
+    public function getUser(){
+        $data = User::all();
+        if($data->isEmpty()){
+            return $this->res(1,'Data empty');
+        }else{
+            foreach($data as $d){
+                $item[]= [
+                    'username'      => $d->username,
+                    'email'         => $d->email,
+                    'role'          => $d->roles->role,
+                ];
+            }
+            return $this->res(0,'Data retrieved','',$item);
+        }
     }
 
 }
