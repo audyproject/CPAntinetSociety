@@ -199,5 +199,4 @@ class APIController extends Controller
         return $this->res(0,'Data retrieved','',$data);
     }
 
-
 }
