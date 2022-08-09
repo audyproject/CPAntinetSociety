@@ -70,6 +70,9 @@ class APIController extends Controller
         {
             return $this->res(1,'Wrong Email or Password!');
         }
+        else if($user->deleted_at){
+            return $this->res(1,'Account not active!');
+        }
 
         //res
         Session::put('logged',$user->id);
@@ -144,16 +147,22 @@ class APIController extends Controller
     }
 
     public function getUser(){
-        $data = User::whereNull('deleted_at');
+        $data = User::all();
         if($data->isEmpty()){
             return $this->res(1,'Data empty');
         }else{
             foreach($data as $d){
+                if(!$d->deleted_at){
+                    $active = 1;
+                } else{
+                    $active = 0;
+                }
                 $item[]= [
                     'id'            => $d->id,
                     'username'      => $d->username,
                     'email'         => $d->email,
                     'role'          => $d->roles->role,
+                    'active'        => $active,
                 ];
             }
             return $this->res(0,'Data retrieved','',$item);
@@ -164,14 +173,7 @@ class APIController extends Controller
 
 
         if(!$r->id){
-            return $this->res(1,'ID cannot be blank!');
-        }
-
-        if($r->delete == 1){
-            $del = User::where('id',$r->id)->first();
-            $del->deleted_at = Carbon::now();
-            $del->save();
-            return $this->res(0,'Data has been deleted!');
+            return $this->res(1,'User ID cannot be blank!');
         }
 
         if(!$r->username || !$r->role){
@@ -179,21 +181,22 @@ class APIController extends Controller
         }
 
         $cekRole = Role::where('id',$r->role)->first();
+
         if(!$cekRole){
             return $this->res(1,'Role does not exist!');
         }
-
         
         $editUser = User::where('id',$r->id)->first();
         $editUser->username  = $r->username;
         $editUser->roles_id  = $r->role;
         $editUser->save();
 
-        return $this->res(0,'New account created!');
+        return $this->res(0,'Account has been updated!');
     }
 
     public function getRole(){
         $data = Role::all();
         return $this->res(0,'Data retrieved','',$data);
     }
+
 }
