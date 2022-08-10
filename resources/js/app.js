@@ -5,6 +5,13 @@
  */
 
 require('./bootstrap');
+// import "/css/app.css"
+// import "/vendors/@coreui/coreui/js/coreui.bundle.min.js"
+// import "/vendors/simplebar/js/simplebar.min.js"
+// import "/vendors/chart.js/js/chart.min.js"
+// import "/vendors/@coreui/chartjs/js/coreui-chartjs.js"
+// import "/vendors/@coreui/utils/js/coreui-utils.js"
+// import "/js/main.js"
 
 /**
  * Next, we will create a fresh React component instance and attach it to

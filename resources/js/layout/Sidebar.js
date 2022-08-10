@@ -59,7 +59,7 @@ export function Sidebar({menu, setMenu, setLogin, logout}) {
                     <svg className="nav-icon">
                     <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
                     </svg> Change Password<span className="badge badge-sm bg-info ms-auto">NEW</span></a></li>
-                <li className="nav-item"><a className="nav-link" onClick={() => {return logout}}>
+                <li className="nav-item"><a className="nav-link" onClick={logout}>
                     <svg className="nav-icon">
                     <use xlinkHref="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
                     </svg> Logout<span className="badge badge-sm bg-info ms-auto">NEW</span></a></li>
