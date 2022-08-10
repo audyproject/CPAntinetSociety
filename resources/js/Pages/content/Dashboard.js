@@ -1,3 +1,5 @@
+import "../../import.js"
+
 export function Dashboard() {
     return(
         <>
@@ -22,9 +24,9 @@ export function Dashboard() {
                     <div className="dropdown-menu dropdown-menu-end"><a className="dropdown-item" href="#">Action</a><a className="dropdown-item" href="#">Another action</a><a className="dropdown-item" href="#">Something else here</a></div>
                   </div>
                 </div>
-                <div className="c-chart-wrapper mt-3 mx-3" style={{height: "70px"}}>
+                {/* <div className="c-chart-wrapper mt-3 mx-3" style={{height: "70px"}}> */}
                   {/* <canvas className="chart" id="card-chart1" height="70"></canvas> */}
-                </div>
+                {/* </div> */}
               </div>
             </div>
             {/* <!-- /.col--> */}
@@ -47,9 +49,9 @@ export function Dashboard() {
                     <div className="dropdown-menu dropdown-menu-end"><a className="dropdown-item" href="#">Action</a><a className="dropdown-item" href="#">Another action</a><a className="dropdown-item" href="#">Something else here</a></div>
                   </div>
                 </div>
-                <div className="c-chart-wrapper mt-3 mx-3" style={{height: "70px"}}>
+                {/* <div className="c-chart-wrapper mt-3 mx-3" style={{height: "70px"}}> */}
                   {/* <canvas className="chart" id="card-chart2" height="70"></canvas> */}
-                </div>
+                {/* </div> */}
               </div>
             </div>
             {/* <!-- /.col--> */}
@@ -72,9 +74,9 @@ export function Dashboard() {
                     <div className="dropdown-menu dropdown-menu-end"><a className="dropdown-item" href="#">Action</a><a className="dropdown-item" href="#">Another action</a><a className="dropdown-item" href="#">Something else here</a></div>
                   </div>
                 </div>
-                <div className="c-chart-wrapper mt-3" style={{height: "70px"}}>
+                {/* <div className="c-chart-wrapper mt-3" style={{height: "70px"}}> */}
                   {/* <canvas className="chart" id="card-chart3" height="70"></canvas> */}
-                </div>
+                {/* </div> */}
               </div>
             </div>
             {/* <!-- /.col--> */}
@@ -97,9 +99,9 @@ export function Dashboard() {
                     <div className="dropdown-menu dropdown-menu-end"><a className="dropdown-item" href="#">Action</a><a className="dropdown-item" href="#">Another action</a><a className="dropdown-item" href="#">Something else here</a></div>
                   </div>
                 </div>
-                <div className="c-chart-wrapper mt-3 mx-3" style={{height: "70px"}}>
+                {/* <div className="c-chart-wrapper mt-3 mx-3" style={{height: "70px"}}> */}
                   {/* <canvas className="chart" id="card-chart4" height="70"></canvas> */}
-                </div>
+                {/* </div> */}
               </div>
             </div>
             {/* <!-- /.col--> */}
