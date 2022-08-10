@@ -50,12 +50,12 @@ export default Index;
 
 if (document.getElementById('app')) {
     ReactDOM.render(<>
+    <Index />
     {js.map((datas, i) => {
         script = document.createElement('script');
         script.src = datas;
         script.async = true;
         document.body.appendChild(script);
     })}
-    <Index />
     </>, document.getElementById('app'));
 }
