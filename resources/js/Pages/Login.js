@@ -4,6 +4,7 @@ import { requestAPI } from "../API";
 import Form from "../components/Form";
 import Input from "../components/Input"
 import { Toast } from "../components/Toast";
+import "../import.js"
 
 function toast(id){
     const toastLiveExample = document.getElementById(id)

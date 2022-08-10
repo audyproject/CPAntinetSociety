@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import $ from "jquery"
-import "/css/dataTables.bootstrap5.min.css";
+import "../../import.js"
+import { requestAPI } from "../../API";
+import "/js/jquery-3.5.1.js"
 import "/js/jquery.dataTables.min.js";
 import "/js/dataTables.bootstrap4.min.js";
-import { requestAPI } from "../../API";
 
 export function SetUser({toast}) {
 
@@ -89,9 +90,12 @@ export function SetUser({toast}) {
                                             setId(data.id)
                                             setEmail(data.email)
                                             setUsername(data.username)
-                                            setRoles(data.role)
+                                            setRoles(data.roles_id)
                                         }}>Edit</button>
-                                        <button className="btn btn-danger">Delete</button>
+                                        {data.active == 1 ? 
+                                        <button className="btn btn-success text-white" data-coreui-toggle="modal" data-coreui-target="#modalActive">Deactivate</button> : 
+                                        <button className="btn btn-danger text-white" data-coreui-toggle="modal" data-coreui-target="#modalActive">Activate</button>
+                                        }
                                     </td>
                                 </tr>)
                             })}
@@ -123,7 +127,7 @@ export function SetUser({toast}) {
                         </div>
                         <div className="mb-3">
                             <label className="form-label" htmlFor="formGroupExampleInput2">Roles</label>
-                            <select onChange={e => setRoles(e.target.value)} className="form-select" aria-label="Default select example">
+                            <select onChange={e => setRoles(e.target.value)} value={roles} className="form-select" aria-label="Default select example">
                                 <option>Choose Roles</option>
                                 {!dataRoles ? <></> : 
                                 dataRoles.map((datas, i) => {
