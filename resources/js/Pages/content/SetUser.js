@@ -2,6 +2,9 @@ import { useEffect, useState } from "react"
 import $ from "jquery"
 import "../../import.js"
 import { requestAPI } from "../../API";
+import "/js/jquery-3.5.1.js"
+import "/js/jquery.dataTables.min.js";
+import "/js/dataTables.bootstrap4.min.js";
 
 export function SetUser({toast}) {
 
