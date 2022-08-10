@@ -13,6 +13,7 @@ use App\Models\Role;
 use App\Models\Token;
 use App\Models\Visitor;
 use App\Models\Sess;
+use App\Models\Project;
 
 class APIController extends Controller
 {
@@ -211,5 +212,119 @@ class APIController extends Controller
         } else{
             return $data;
         }
+    }
+
+    public function activate(request $r){
+        if(!$r->active || $r->id){
+            return $this(1,'Data cannot be empty!');
+        }
+
+        $cekUser = User::where('id',$r->id)->first();
+
+        if(!$cekUser){ 
+            return $this(1,'User not found!');
+        }
+        
+        if($r->active == 1){ //kalo 1 minta diactivate
+            if(!$cekUser->deleted_at){
+                return $this(1,'User is active!');
+            } else{
+                $cekUser->deleted_at = null;
+                $cekUser->save();
+                return $this(0,'User has been activated!');
+            }
+        } else if($r->active == 0){ //kalo 0 minta dinonaktif
+            if($cekUser->deleted_at){
+                return $this(1,'User is inactive!');
+            } else{
+                $cekUser->deleted_at = Carbon::now();
+                $cekUser->save();
+                return $this(0,'User has been deactivated!');
+            }
+        } else{
+            return $this(1,'Invalid request!');
+        }
+
+
+    }
+    
+    public function getProject(){
+        $data = Project::all();
+        if($data->isNotEmpty){
+            return $this->res(0,"Data retrieved",'',$data);
+        } else{
+            return $this->res(1,"Data empty",'',$data);
+        }
+    }
+    
+    public function createProject(request $r){
+        if(!$r->name || !$r->description){
+            return $this->res(1,'Data cannot be empty!');
+        }
+        if ($r->hasFile('picture')) {
+            $ext = $r->file('picture')->extension();
+            $ext = strtolower($ext);
+            $supported_image = array(
+                'jpg',
+                'jpeg',
+                'png'
+            );
+            if (!in_array($ext, $supported_image)) {
+                return $this->res(1,'File is not supported!');
+            }
+            $name = $r->file('picture')->getClientOriginalName();
+            $path = $r->file('picture')->store('public/antinet/projects/'.$name.'.'.$ext);
+        } else{
+            $path = null;
+        }
+
+        $ins = new Project();
+        $ins->name = $r->name;
+        $ins->description = $r->description;
+        $ins->picture = $path;
+        $ins->link = $r->link;
+        $ins->save();
+
+        return $this(0,'New project added successfully!');
+
+    }
+
+    public function editProject(request $r){
+        if(!$r->name || !$r->description){
+            return $this->res(1,'Data cannot be empty!');
+        }
+        
+        if ($r->hasFile('picture')) {
+            $ext = $r->file('picture')->extension();
+            $ext = strtolower($ext);
+            $supported_image = array(
+                'jpg',
+                'jpeg',
+                'png'
+            );
+            if (!in_array($ext, $supported_image)) {
+                return $this->res(1,'File is not supported!');
+            }
+            $name = $r->file('picture')->getClientOriginalName();
+            $path = $r->file('picture')->store('public/antinet/projects/'.$name.'.'.$ext);
+        } else{
+            $path = null;
+        }
+
+        if($r->spotlight){
+
+        }
+
+        $edit = Project::where('id',$r->id)->first();
+        if(!$edit){
+            return $this->res(1,'Data not exist');
+        }
+
+
+        $edit->name = $r->name;
+        $edit->description = $r->description;
+        $edit->picture = $path;
+        $edit->link = $r->link;
+        $edit->spotlight = $r->spotlight;
     }
 }
