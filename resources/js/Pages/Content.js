@@ -5,6 +5,7 @@ import { Error404 } from "./content/Error404"
 import { SetProject } from "./content/SetProject"
 import { AddProject } from "./content/AddProject"
 import { SetUser } from "./content/SetUser"
+import "../import.js"
 
 export function Content({menu, toast}) {
     return (

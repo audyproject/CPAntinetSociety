@@ -5,6 +5,7 @@ import { Sidebar } from "../layout/Sidebar"
 import { Header } from "../layout/Header"
 import { Content } from "./Content"
 import { Toast } from "../components/Toast";
+import "../import.js"
 
 function toast(){
     const toastLiveExample = document.getElementById('toast')

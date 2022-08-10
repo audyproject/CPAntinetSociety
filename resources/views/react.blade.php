@@ -32,13 +32,13 @@
         <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
         <!-- Vendors styles-->
-        <link rel="stylesheet" href="vendors/simplebar/css/simplebar.css">
-        <link rel="stylesheet" href="css/vendors/simplebar.css">
+        <!-- <link rel="stylesheet" href="vendors/simplebar/css/simplebar.css"> -->
+        <!-- <link rel="stylesheet" href="css/vendors/simplebar.css"> -->
         <!-- Main styles for this application-->
-        <link href="css/style.css" rel="stylesheet">
+        <!-- <link href="css/style.css" rel="stylesheet"> -->
         <!-- We use those styles to show code examples, you should remove them in your application.-->
         <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css"> -->
-        <link href="css/examples.css" rel="stylesheet">
+        <!-- <link href="css/examples.css" rel="stylesheet"> -->
         <!-- Global site tag (gtag.js) - Google Analytics-->
         <!-- <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script> -->
         <!-- <script>
@@ -53,14 +53,15 @@
             // Bootstrap ID
             gtag('config', 'UA-118965717-5');
         </script> -->
-        <link href="vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
-        <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+        <!-- <link href="vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet"> -->
+        <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"> -->
+        <!-- <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"> -->
 
         <link rel="stylesheet" href="../css/app.css">
     </head>
     <body>
         <div id="app"></div>
+        <script src="../js/app.js"></script>
         <!-- CoreUI and necessary plugins -->
         <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
         <script src="vendors/simplebar/js/simplebar.min.js"></script>
@@ -70,9 +71,8 @@
         <script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
         <script src="js/main.js"></script>
         <script src="js/toasts.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-        <scirpt src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-        <scirpt src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-        <script src="../js/app.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+        <!-- <scirpt src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
+        <!-- <scirpt src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script> -->
     </body>
 </html>
