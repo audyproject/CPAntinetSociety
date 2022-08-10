@@ -37,13 +37,21 @@ route::get('api/checksession',[APIController::class,'checkSession']);
 route::group(['middleware'=>['checkSession']],function(){
     //yangmau di middleware
     route::group(['middleware'=>['adminOnly']],function(){
+        //adminOnly
         Route::post('api/createuser',[APIController::class,'createUser']);
         Route::post('api/changepassword',[APIController::class,'changePass']);
         Route::get('api/getuser',[APIController::class,'getUser']);
         Route::post('api/edituser',[APIController::class,'editUser']);
         Route::get('api/getrole',[APIController::class,'getRole']);
+        Route::get('api/activate',[APIController::class,'activate']);
     });
     Route::get('api/cekadmin',[APIController::class,'cekAdmin']);
+    Route::post('api/createproject',[APIController::class,'createProject']);
+    Route::get('api/getproject',[APIController::class,'getProject']);
+    //yang editproject gw masih nunggu bug dari API createproject wkwk gw yakin masih salah disitu
+    //kalo uploadnya eror coba disesuaiin sama php.ini nya kalo gasalah default 1 mb
+    //kalo bukan itu ya codenya eror, berkabar aj
+    
 });
 
 //testing admin
