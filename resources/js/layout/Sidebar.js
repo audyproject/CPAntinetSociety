@@ -1,4 +1,7 @@
+import { useState } from "react"
+
 export function Sidebar({menu, setMenu, setLogin, logout}) {
+
     return (
         <>
         <div className="sidebar sidebar-dark sidebar-fixed" id="sidebar">
