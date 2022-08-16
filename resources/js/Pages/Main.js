@@ -28,6 +28,10 @@ export function Main(props){
 
     const [menu, setMenu] = useState("dashboard")
 
+    useEffect(() => {
+        console.log("main")
+    },[])
+
     return (
         <>
         <Sidebar menu={menu} setMenu={setMenu} setLogin={props.setLogin} logout={props.logout}/>
