@@ -35,15 +35,19 @@ export const Login = ({setLogin, login, sendToast}) => {
         "email": email,
         "password": password
     }
-    const resp = await requestAPI("post", "api/login", data)
-    if(resp.status == 0){
-      setToast(Toaster(toaster, Toast('success', "Login Success!")))
-    } else {
-      setToast(Toaster(toaster, Toast('danger',resp.message)))
+    try {
+      const resp = await requestAPI("post", "api/login", data)
+      if(resp.status == 0){
+        setToast(Toaster(toaster, Toast('success', "Login Success!")))
+      } else {
+        setToast(Toaster(toaster, Toast('danger',resp.message)))
+      }
+      setLogin(resp.status)
+      console.log(resp.message)
+      setLoading(false)
+    } catch (error) {
+      window.location.reload
     }
-    setLogin(resp.status)
-    console.log(resp.message)
-    setLoading(false)
   }
 
   useEffect(() => {

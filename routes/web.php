@@ -43,7 +43,7 @@ route::group(['middleware'=>['checkSession']],function(){
         Route::get('api/getuser',[APIController::class,'getUser']);
         Route::post('api/edituser',[APIController::class,'editUser']);
         Route::get('api/getrole',[APIController::class,'getRole']);
-        Route::get('api/activate',[APIController::class,'activate']);
+        Route::post('api/activate',[APIController::class,'activate']);
     });
     Route::get('api/cekadmin',[APIController::class,'cekAdmin']);
     Route::post('api/createproject',[APIController::class,'createProject']);
