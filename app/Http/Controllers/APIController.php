@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Cookie;
 
 use App\Models\User;
@@ -14,26 +15,15 @@ use App\Models\Token;
 use App\Models\Visitor;
 use App\Models\Sess;
 use App\Models\Project;
+use App\Mail\TestMail;
 
 class APIController extends Controller
 {
+    
+    
     public function test(){
 
-        // $data = User::first();
-        // dd($data->roles->role);
-        // session::put('logged','handi');
-        // dd(session::get('logged'));
-        // session::has('logged');
         
-            // if(Session::has('logged')){
-            //     echo('ada');
-            // } else{
-            //     echo('gada');
-            // }
-        
-        // session::flush(); // delete
-        // session::forget('logged'); // ilangin 1
-        // session::regenerate(); //regenerate token
     }
 
     public function checkSession(){
@@ -261,6 +251,11 @@ class APIController extends Controller
         if(!$r->name || !$r->description){
             return $this->res(1,'Data cannot be empty!');
         }
+        if(!$r->link){
+            $link = null;
+        } else{
+            $link = $r->link;
+        }
         if ($r->hasFile('picture')) {
             $ext = $r->file('picture')->extension();
             $ext = strtolower($ext);
@@ -282,7 +277,7 @@ class APIController extends Controller
         $ins->name = $r->name;
         $ins->description = $r->description;
         $ins->picture = $path;
-        $ins->link = $r->link;
+        $ins->link = $link;
         $ins->save();
 
         return $this(0,'New project added successfully!');
