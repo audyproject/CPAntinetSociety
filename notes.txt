@@ -6,10 +6,19 @@ bikin laravel mix lokal:
 
 langkah :
 1. composer update
-2. php artisan key:generate
-3. php artisan config:cache
-4. npm install
-5. npm run
+2. copy .env.example .env --> windows
+   cp .env.example .env --> linux
+3. php artisan key:generate
+4. php artisan config:cache
+5. npm install
+6. npm run watch
+7. php artisan serve
+
+error unknown database:
+1. jalankan phpmyadmin, create database baru
+2. php artisan migrate
+2. php artisan db:seed
+3. php artisan optimize:clear
 
 server :
 1. sudo service apache2 start

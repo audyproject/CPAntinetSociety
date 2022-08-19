@@ -1,16 +1,16 @@
-import { 
-    CBadge, 
-    CNav, 
-    CNavGroup, 
-    CNavItem, 
-    CNavLink, 
-    CNavTitle, 
-    CSidebar, 
-    CSidebarBrand, 
-    CSidebarNav, 
-    CSidebarToggler 
+import {
+    CBadge,
+    CNav,
+    CNavGroup,
+    CNavItem,
+    CNavLink,
+    CNavTitle,
+    CSidebar,
+    CSidebarBrand,
+    CSidebarNav,
+    CSidebarToggler,
 } from "@coreui/react";
-import CIcon from '@coreui/icons-react'
+import CIcon from "@coreui/icons-react";
 import {
     cilSpeedometer,
     cilPuzzle,
@@ -18,77 +18,157 @@ import {
     cilAccountLogout,
     cilRunning,
     cilPeople,
-} from '@coreui/icons'
-import { useDispatch, useSelector } from 'react-redux'
+} from "@coreui/icons";
+import { useDispatch, useSelector } from "react-redux";
 
-export function AppSidebar({menu, setMenu, logout}) {
-    const dispatch = useDispatch()
-    const unfoldable = useSelector((state) => state.sidebarUnfoldable)
-    const sidebarShow = useSelector((state) => state.sidebarShow)
+// menu sidebar, listed by object
+const sidebarMenu = [
+    {
+        name: "Dashboard",
+        url: "dashboard",
+        icon: cilSpeedometer,
+    },
+    {
+        name: "Project",
+        url: "project",
+        icon: cilRunning,
+        categories: [
+            {
+                name: "Add Project",
+                url: "add-project",
+                icon: cilPuzzle,
+            },
+            {
+                name: "Set Project",
+                url: "set-project",
+                icon: cilPuzzle,
+            },
+        ],
+    },
+
+    {
+        name: "Subscription",
+        url: "subscription",
+        icon: cilContact,
+    },
+    {
+        title: "Admin",
+        name: "User Management",
+        url: "user-management",
+        icon: cilPeople,
+        categories: [
+            {
+                name: "Add User",
+                url: "add-user",
+                icon: cilPuzzle,
+            },
+            {
+                name: "Set User",
+                url: "set-user",
+                icon: cilPuzzle,
+            },
+        ],
+    },
+    {
+        title: "Settings",
+        name: "Change Password",
+        url: "change-password",
+        icon: cilContact,
+    },
+    {
+        name: "Logout",
+        url: "logout",
+        icon: cilAccountLogout,
+    },
+];
+
+export function AppSidebar({ menu, setMenu, logout }) {
+    const dispatch = useDispatch();
+    const unfoldable = useSelector((state) => state.sidebarUnfoldable);
+    const sidebarShow = useSelector((state) => state.sidebarShow);
+
+    let menuArray = [];
+    // iterate every sidebar menu item
+    for (let i = 0; i < sidebarMenu.length; i++) {
+        {
+            sidebarMenu[i].title &&
+                menuArray.push(
+                    <CNavTitle key={i}>{sidebarMenu[i].title}</CNavTitle>
+                );
+        }
+        {
+            !sidebarMenu[i].categories &&
+                menuArray.push(
+                    <CNavItem
+                        href="#"
+                        onClick={() => setMenu(sidebarMenu[i].url)}
+                    >
+                        <CIcon
+                            customClassName="nav-icon"
+                            icon={sidebarMenu[i].icon}
+                        />
+                        {sidebarMenu[i].name}
+                    </CNavItem>
+                );
+        }
+        {
+            sidebarMenu[i].categories &&
+                menuArray.push(
+                    <CNavGroup
+                        toggler={
+                            <>
+                                <CIcon
+                                    customClassName="nav-icon"
+                                    icon={sidebarMenu[i].icon}
+                                />
+                                {sidebarMenu[i].name}
+                            </>
+                        }
+                    >
+                        <CNavItem
+                            href="#"
+                            onClick={() =>
+                                setMenu(sidebarMenu[i].categories[0].url)
+                            }
+                        >
+                            <CIcon
+                                customClassName="nav-icon"
+                                icon={sidebarMenu[i].categories[0].icon}
+                            />
+                            {sidebarMenu[i].categories[0].name}
+                        </CNavItem>
+                        <CNavItem
+                            href="#"
+                            onClick={() =>
+                                setMenu(sidebarMenu[i].categories[1].url)
+                            }
+                        >
+                            <CIcon
+                                customClassName="nav-icon"
+                                icon={sidebarMenu[i].categories[1].icon}
+                            />{" "}
+                            {sidebarMenu[i].categories[1].name}
+                        </CNavItem>
+                        {console.log("test")}
+                    </CNavGroup>
+                );
+        }
+    }
 
     return (
         <>
-        <CSidebar position="fixed" unfoldable={unfoldable} visible={sidebarShow}
-            onVisibleChange={(visible) => {
-                dispatch({ type: 'set', sidebarShow: visible })
-            }}>
-            <CSidebarBrand>Antinet Society</CSidebarBrand>
-            <CSidebarNav>
-                <CNavItem href="#" onClick={() => setMenu("dashboard")}>
-                    <CIcon customClassName="nav-icon" icon={cilSpeedometer} />
-                    Dashboard
-                </CNavItem>
-                <CNavGroup toggler={<><CIcon customClassName="nav-icon" icon={cilRunning} /> {"Project"}</>}>
-                    <CNavItem href="#" onClick={() => setMenu("add-project")}>
-                        <CIcon customClassName="nav-icon" icon={cilPuzzle} /> Add Project
-                    </CNavItem>
-                    <CNavItem href="#" onClick={() => setMenu("set-project")}>
-                        <CIcon customClassName="nav-icon" icon={cilPuzzle} /> Set Project
-                    </CNavItem>
-                </CNavGroup>
-                <CNavItem href="#" onClick={() => setMenu("subscription")}>
-                    <CIcon customClassName="nav-icon" icon={cilContact} />
-                    Subscription
-                </CNavItem>
-                <CNavTitle>Admin</CNavTitle>
-                <CNavGroup toggler={<><CIcon customClassName="nav-icon" icon={cilPeople} /> {"User Management"}</>}>
-                    <CNavItem href="#" onClick={() => setMenu("add-user")}>
-                        <CIcon customClassName="nav-icon" icon={cilPuzzle} /> Add User
-                    </CNavItem>
-                    <CNavItem href="#" onClick={() => setMenu("set-user")}>
-                        <CIcon customClassName="nav-icon" icon={cilPuzzle} /> Set User
-                    </CNavItem>
-                </CNavGroup>
-                <CNavTitle>Settings</CNavTitle>
-                <CNavItem href="#" onClick={() => setMenu("change-password")}>
-                    <CIcon customClassName="nav-icon" icon={cilContact} />
-                    Change Password
-                </CNavItem>
-                <CNavItem href="#" onClick={logout}>
-                    <CIcon customClassName="nav-icon" icon={cilAccountLogout} />
-                    Logout
-                </CNavItem>
-                {/* <CNavTitle>Nav Title</CNavTitle>
-                <CNavItem href="#">
-                    <CIcon customClassName="nav-icon" icon={cilSpeedometer} />
-                    Nav item
-                </CNavItem>
-                <CNavItem href="#">
-                    <CIcon customClassName="nav-icon" icon={cilSpeedometer} />
-                    With badge
-                    <CBadge color="primary ms-auto">NEW</CBadge>
-                </CNavItem>
-                <CNavGroup toggler="Nav dropdown">
-                <CNavItem href="#">
-                    <CIcon customClassName="nav-icon" icon={cilPuzzle} /> Nav dropdown item
-                </CNavItem>
-                <CNavItem href="#">
-                    <CIcon customClassName="nav-icon" icon={cilPuzzle} /> Nav dropdown item
-                </CNavItem>
-                </CNavGroup> */}
-            </CSidebarNav>
-            {/* <CSidebarToggler /> */}
-        </CSidebar>
+            <CSidebar
+                position="fixed"
+                unfoldable={unfoldable}
+                visible={sidebarShow}
+                onVisibleChange={(visible) => {
+                    dispatch({ type: "set", sidebarShow: visible });
+                }}
+            >
+                <CSidebarBrand>Antinet Society</CSidebarBrand>
+                <CSidebarNav>{menuArray}</CSidebarNav>
+                {/* <CSidebarToggler /> */}
+            </CSidebar>
         </>
-    )
+    );
 }
