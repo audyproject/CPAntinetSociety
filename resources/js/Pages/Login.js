@@ -41,6 +41,7 @@ export function Login(props){
             setToastMessage(resp.message)
             toast('error')
         }
+        window.location.reload()
     }
 
     // console.log(res)

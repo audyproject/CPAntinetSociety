@@ -1,6 +1,13 @@
-import "../../import.js"
+import { useEffect } from "react"
+
+require("../../import.js")
 
 export function Dashboard() {
+
+    useEffect(() => {
+      console.log("dashboard")
+    },[])
+
     return(
         <>
         <div className="container-lg">

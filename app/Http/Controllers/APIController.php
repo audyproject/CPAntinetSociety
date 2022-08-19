@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Cookie;
+use Carbon\Carbon;
 
 use App\Models\User;
 use App\Models\Role;
@@ -205,34 +206,35 @@ class APIController extends Controller
     }
 
     public function activate(request $r){
-        if(!$r->active || $r->id){
-            return $this(1,'Data cannot be empty!');
+        // return $this->res(0, $r->active);
+        if(!isset($r->active) || !isset($r->id)){
+            return $this->res(1,'Data cannot be empty!');
         }
 
         $cekUser = User::where('id',$r->id)->first();
 
         if(!$cekUser){ 
-            return $this(1,'User not found!');
+            return $this->res(1,'User not found!');
         }
         
         if($r->active == 1){ //kalo 1 minta diactivate
             if(!$cekUser->deleted_at){
-                return $this(1,'User is active!');
+                return $this->res(1,'User is active!');
             } else{
                 $cekUser->deleted_at = null;
                 $cekUser->save();
-                return $this(0,'User has been activated!');
+                return $this->res(0,'User has been activated!');
             }
         } else if($r->active == 0){ //kalo 0 minta dinonaktif
             if($cekUser->deleted_at){
-                return $this(1,'User is inactive!');
+                return $this->res(1,'User is inactive!');
             } else{
                 $cekUser->deleted_at = Carbon::now();
                 $cekUser->save();
-                return $this(0,'User has been deactivated!');
+                return $this->res(0,'User has been deactivated!');
             }
         } else{
-            return $this(1,'Invalid request!');
+            return $this->res(1,'Invalid request!');
         }
 
 
