@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Cookie;
 use Carbon\Carbon;
 
@@ -15,26 +16,15 @@ use App\Models\Token;
 use App\Models\Visitor;
 use App\Models\Sess;
 use App\Models\Project;
+use App\Mail\TestMail;
 
 class APIController extends Controller
 {
+    
+    
     public function test(){
 
-        // $data = User::first();
-        // dd($data->roles->role);
-        // session::put('logged','handi');
-        // dd(session::get('logged'));
-        // session::has('logged');
         
-            // if(Session::has('logged')){
-            //     echo('ada');
-            // } else{
-            //     echo('gada');
-            // }
-        
-        // session::flush(); // delete
-        // session::forget('logged'); // ilangin 1
-        // session::regenerate(); //regenerate token
     }
 
     public function checkSession(){
@@ -260,11 +250,16 @@ class APIController extends Controller
     }
     
     public function createProject(request $r){
-        if(!$r->name || !$r->description){
+        if(!$r->name || !$r->description || !$r->judulparagraf1 || !$r->isi_paragraf1 || !$r->judul_paragraf2 || !$r->isi_paragraf2){
             return $this->res(1,'Data cannot be empty!');
         }
-        if ($r->hasFile('picture')) {
-            $ext = $r->file('picture')->extension();
+        if(!$r->link){
+            $link = null;
+        } else{
+            $link = $r->link;
+        }
+        if ($r->hasFile('gambar_utama')) {
+            $ext = $r->file('gambar_utama')->extension();
             $ext = strtolower($ext);
             $supported_image = array(
                 'jpg',
@@ -274,17 +269,81 @@ class APIController extends Controller
             if (!in_array($ext, $supported_image)) {
                 return $this->res(1,'File is not supported!');
             }
-            $name = $r->file('picture')->getClientOriginalName();
-            $path = $r->file('picture')->store('public/antinet/projects/'.$name.'.'.$ext);
+            $name = $r->file('gambar_utama')->getClientOriginalName();
+            $path_gambarutama = $r->file('gambar_utama')->store('public/antinet/projects/'.$r->name.'_gambarutama.'.$ext);
         } else{
-            $path = null;
+            return $this->res(1,'Gambar Utama cannot be empty!');
+        }
+
+        if ($r->hasFile('gambar_kiri')) {
+            $ext = $r->file('gambar_kiri')->extension();
+            $ext = strtolower($ext);
+            $supported_image = array(
+                'jpg',
+                'jpeg',
+                'png'
+            );
+            if (!in_array($ext, $supported_image)) {
+                return $this->res(1,'File is not supported!');
+            }
+            $name = $r->file('gambar_kiri')->getClientOriginalName();
+            $path_gambarkiri = $r->file('gambar_kiri')->store('public/antinet/projects/'.$r->name.'_gambarkiri.'.$ext);
+        } else{
+            return $this->res(1,'Gambar Kiri cannot be empty!');
+        }
+
+        if ($r->hasFile('gambar_kanan')) {
+            $ext = $r->file('gambar_kanan')->extension();
+            $ext = strtolower($ext);
+            $supported_image = array(
+                'jpg',
+                'jpeg',
+                'png'
+            );
+            if (!in_array($ext, $supported_image)) {
+                return $this->res(1,'File is not supported!');
+            }
+            $name = $r->file('gambar_kanan')->getClientOriginalName();
+            $path_gambarkanan = $r->file('gambar_kanan')->store('public/antinet/projects/'.$r->name.'_gambarkanan.'.$ext);
+        } else{
+            return $this->res(1,'Gambar Kanan cannot be empty!');
+        }
+
+        if($r->hasFile('gambar_lain')){
+            $flag=1;
+            foreach($request->file('gambar_lain') as $image)
+            {
+                $ext = $image->extension();
+                $ext = strtolower($ext);
+                $supported_image = array(
+                    'jpg',
+                    'jpeg',
+                    'png'
+                );
+                if (!in_array($ext, $supported_image)) {
+                    return $this->res(1,'File is not supported!');
+                }
+                $name=$image->getClientOriginalName();
+                $gambar_lain[] = $image->store('public/antinet/projects/'.$r->name.'_gambarlain'.$flag.'.'.$ext); 
+                $flag++;
+            }
+        } else{
+            $gambar_lain = [];
         }
 
         $ins = new Project();
         $ins->name = $r->name;
         $ins->description = $r->description;
-        $ins->picture = $path;
-        $ins->link = $r->link;
+        $ins->judul_paragraf1 = $r->judul_paragraf1;
+        $ins->isi_paragraf1 = $r->isi_paragraf1;
+        $ins->judul_paragraf2 = $r->judul_paragraf2;
+        $ins->isi_paragraf2 = $r->isi_paragraf2;
+        $ins->gambar_utama = $path_gambarutama;
+        $ins->gambar_kiri = $path_gambarkiri;
+        $ins->gambar_kanan = $path_gambarkanan;
+        $ins->gambar_lain = $gambar_lain;
+        $ins->hashtag=$r->hashtag;
+        $ins->link = $link;
         $ins->save();
 
         return $this(0,'New project added successfully!');

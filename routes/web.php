@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TestingController;
 use App\Http\Controllers\APIController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MailController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,9 +47,8 @@ route::group(['middleware'=>['checkSession']],function(){
     Route::get('api/cekadmin',[APIController::class,'cekAdmin']);
     Route::post('api/createproject',[APIController::class,'createProject']);
     Route::get('api/getproject',[APIController::class,'getProject']);
-    //yang editproject gw masih nunggu bug dari API createproject wkwk gw yakin masih salah disitu
-    //kalo uploadnya eror coba disesuaiin sama php.ini nya kalo gasalah default 1 mb
-    //kalo bukan itu ya codenya eror, berkabar aj
+
+    route::post('api/blast',[MailController::class,'blastMail']);
     
 });
 

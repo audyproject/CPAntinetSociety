@@ -14,6 +14,8 @@ export function AddProject() {
     const [hashtag, setHashtag]  = useState()
     const [paragraf1, setParagraf1] = useState()
     const [paragraf2, setParagraf2] = useState()
+    const [titleParagraf1, setTitleParagraf1] = useState()
+    const [titleParagraf2, setTitleParagraf2] = useState()
 
     const [mainImage, setMainImage] = useState()
     const [image1, setImage1] = useState()
@@ -24,15 +26,17 @@ export function AddProject() {
         e.preventDefault();
         setLoading(true)
         const data = new FormData()
-        data.append('title', title)
+        data.append('name', title)
         data.append('description', description)
         data.append('hashtag', hashtag)
-        data.append('paragraf1', paragraf1)
-        data.append('paragraf2', paragraf2)
-        data.append('mainImage', mainImage)
-        data.append('image1', image1)
-        data.append('image2', image2)
-        data.append('anotherImage', anotherImage)
+        data.append('judul_paragraf1', titleParagraf1)
+        data.append('judul_paragraf2', titleParagraf2)
+        data.append('isi_paragraf1', paragraf1)
+        data.append('isi_paragraf2', paragraf2)
+        data.append('gambar_utama', mainImage)
+        data.append('gambar_kanan', image1)
+        data.append('gambar_kiri', image2)
+        data.append('gambar_lain', anotherImage)
         const resp = await requestAPI('post', '/api/createproject', data)   
         console.log(resp)
         if(resp.status == 0){
@@ -94,6 +98,16 @@ export function AddProject() {
                         onChange={e => setHashtag(e.target.value)}
                     />
                     <div className="mb-3"></div>
+                    <CFormInput
+                        className='mb-3'
+                        type="text"
+                        id="judul1"
+                        label="Title Paragraf 1"
+                        placeholder="Input here..."
+                        // text="Must be 8-20 characters long."
+                        aria-describedby="exampleFormControlInputHelpInline"
+                        onChange={e => setTitleParagraf1(e.target.value)}
+                    />
                     <CFormTextarea
                         className='mb-3'
                         id="paragraf1"
@@ -106,10 +120,20 @@ export function AddProject() {
                         // feedback={"more than 100 words"}
                     />
                     <CFormInput className='mb-3' type="file" id="formFile" label="Image 1" onChange={e => setImage1(e.target.files[0])} />
+                    <CFormInput
+                        className='mb-3'
+                        type="text"
+                        id="judul2"
+                        label="Title Paragraf 2"
+                        placeholder="Input here..."
+                        // text="Must be 8-20 characters long."
+                        aria-describedby="exampleFormControlInputHelpInline"
+                        onChange={e => setTitleParagraf2(e.target.value)}
+                    />
                     <CFormTextarea
                         className='mb-3'
-                        id="paragraf1"
-                        label="Paragraf 1"
+                        id="paragraf2"
+                        label="Paragraf 2"
                         rows="4"
                         // text={description.length + "/100 words"}
                         placeholder="Describe the project"
