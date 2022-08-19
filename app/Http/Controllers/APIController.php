@@ -269,8 +269,8 @@ class APIController extends Controller
             if (!in_array($ext, $supported_image)) {
                 return $this->res(1,'File is not supported!');
             }
-            $name = $r->file('gambar_utama')->getClientOriginalName();
-            $path_gambarutama = $r->file('gambar_utama')->store('public/antinet/projects/'.$r->name.'_gambarutama.'.$ext);
+            $r->file('gambar_utama')->move(public_path('antinet/projects'),$r->name.'_gambarutama.'.$ext);
+            $path_gambarutama = 'antinet/projects/'.$r->name.'_gambarutama.'.$ext;
         } else{
             return $this->res(1,'Gambar Utama cannot be empty!');
         }
@@ -286,8 +286,8 @@ class APIController extends Controller
             if (!in_array($ext, $supported_image)) {
                 return $this->res(1,'File is not supported!');
             }
-            $name = $r->file('gambar_kiri')->getClientOriginalName();
-            $path_gambarkiri = $r->file('gambar_kiri')->store('public/antinet/projects/'.$r->name.'_gambarkiri.'.$ext);
+            $r->file('gambar_kiri')->move(public_path('antinet/projects'),$r->name.'_gambarkiri.'.$ext);
+            $path_gambarkiri = 'antinet/projects/'.$r->name.'_gambarkiri.'.$ext;
         } else{
             return $this->res(1,'Gambar Kiri cannot be empty!');
         }
@@ -303,15 +303,14 @@ class APIController extends Controller
             if (!in_array($ext, $supported_image)) {
                 return $this->res(1,'File is not supported!');
             }
-            $name = $r->file('gambar_kanan')->getClientOriginalName();
-            $path_gambarkanan = $r->file('gambar_kanan')->store('public/antinet/projects/'.$r->name.'_gambarkanan.'.$ext);
+            $r->file('gambar_kanan')->move(public_path('antinet/projects'),$r->name.'_gambarkanan.'.$ext);
+            $path_gambarkanan = 'antinet/projects/'.$r->name.'_gambarkanan.'.$ext;
         } else{
             return $this->res(1,'Gambar Kanan cannot be empty!');
         }
-
         if($r->hasFile('gambar_lain')){
             $flag=1;
-            foreach($request->file('gambar_lain') as $image)
+            foreach($r->file('gambar_lain') as $image)
             {
                 $ext = $image->extension();
                 $ext = strtolower($ext);
@@ -323,8 +322,8 @@ class APIController extends Controller
                 if (!in_array($ext, $supported_image)) {
                     return $this->res(1,'File is not supported!');
                 }
-                $name=$image->getClientOriginalName();
-                $gambar_lain[] = $image->store('public/antinet/projects/'.$r->name.'_gambarlain'.$flag.'.'.$ext); 
+                $image->move(public_path('antinet/projects'),$r->name.'_gambarlain'.$flag.".".$ext);
+                $gambar_lain[] = 'antinet/projects/'.$r->name.'_gambarlain'.$flag.'.'.$ext;
                 $flag++;
             }
         } else{
@@ -341,7 +340,7 @@ class APIController extends Controller
         $ins->gambar_utama = $path_gambarutama;
         $ins->gambar_kiri = $path_gambarkiri;
         $ins->gambar_kanan = $path_gambarkanan;
-        $ins->gambar_lain = $gambar_lain;
+        $ins->gambar_lain = json_encode($gambar_lain);
         $ins->hashtag=$r->hashtag;
         $ins->link = $link;
         $ins->save();
