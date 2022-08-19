@@ -365,7 +365,7 @@ class APIController extends Controller
             $r->file('gambar_utama')->move(public_path('antinet/projects'),$r->name.'_gambarutama.'.$ext);
             $path_gambarutama = 'antinet/projects/'.$r->name.'_gambarutama.'.$ext;
         } else{
-            return $this->res(1,'Gambar Utama cannot be empty!');
+            // return $this->res(1,'Gambar Utama cannot be empty!');
         }
 
         if ($r->hasFile('gambar_kiri')) {
@@ -377,7 +377,7 @@ class APIController extends Controller
             $r->file('gambar_kiri')->move(public_path('antinet/projects'),$r->name.'_gambarkiri.'.$ext);
             $path_gambarkiri = 'antinet/projects/'.$r->name.'_gambarkiri.'.$ext;
         } else{
-            return $this->res(1,'Gambar Kiri cannot be empty!');
+            // return $this->res(1,'Gambar Kiri cannot be empty!');
         }
 
         if ($r->hasFile('gambar_kanan')) {
@@ -389,7 +389,7 @@ class APIController extends Controller
             $r->file('gambar_kanan')->move(public_path('antinet/projects'),$r->name.'_gambarkanan.'.$ext);
             $path_gambarkanan = 'antinet/projects/'.$r->name.'_gambarkanan.'.$ext;
         } else{
-            return $this->res(1,'Gambar Kanan cannot be empty!');
+            // return $this->res(1,'Gambar Kanan cannot be empty!');
         }
         if($r->hasFile('gambar_lain')){
             $flag=1;
