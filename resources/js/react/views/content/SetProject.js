@@ -6,15 +6,16 @@ import "/js/dataTables.bootstrap4.min.js";
 import { CButton } from "@coreui/react";
 import { useEffect, useState } from "react";
 import { requestAPI } from "../../API";
+import { Toast, Toaster } from "../../components";
 
 export function SetProject() {
 
-    const [userData, setUserData] = useState(false)
+    const [projectData, setProjectData] = useState(false)
     const [ready, setReady] = useState(false)
     const [loading, setLoading] = useState(false)
     const [toast, setToast] = useState()
 
-    const [projectData, setProjectData] = useState()
+    // const [projectData, setProjectData] = useState()
 
     const request = async() => {
         const resp = await requestAPI('get', '/api/getproject')
@@ -24,61 +25,79 @@ export function SetProject() {
         setReady(true)
     }
 
+    $("#projectTable").DataTable();
     useEffect(() => {
-        if(!ready && !userData){
+        if(!ready && !projectData){
             request()
         }
     },[])
 
+    const doSpotlight = async (id, name) => {
+        let data = {
+            "id": id
+        }
+        const resp = await requestAPI('post', '/api/spotlight', data)
+        if(resp.status == 0){
+            setToast(Toaster(toaster, Toast('success', `Spotlight ${name} success!`)))
+        } else {
+            setToast(Toaster(toaster, Toast('danger', resp.message)))
+        }
+    }
+
     return(
         <>
         {/* {"SetProject"} */}
-        {!userData ? "wait" : 
+        {!projectData ? "wait" : 
         <>
         <div className="col-12">
             <div className="card mb-4">
                 <div className="card-header"><strong>Set Project</strong></div>
                 <div className="card-body">
-                    <table id="userTable" className="table table-striped" style={{'width':'100%'}}>
+                    <table id="projectTable" className="table table-striped" style={{'width':'100%'}}>
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Email</th>
-                                <th>Role</th>
+                                <th>Name</th>
+                                <th>Spotlight</th>
+                                <th>Link</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {userData.map((data, i) => {
+                            {projectData.map((data, i) => {
                                 return (<tr>
-                                    <td>{data.username}</td>
-                                    <td>{data.email}</td>
-                                    <td>{data.role}</td>
+                                    <td>{i+1}</td>
+                                    <td>{data.name}</td>
+                                    <td>{data.spotlight ? "yes" : "no"}</td>
+                                    {/* <td>{data.link}</td> */}
+                                    <td><a href={data.link} target="_blank">{data.link}</a></td>
                                     <td>
                                         {/* <button className="btn btn-primary m-1" data-coreui-toggle="modal" data-coreui-target="#modalEdit" */}
                                         <button className="btn btn-primary m-1"
                                         onClick={() => {
-                                            setId(data.id)
-                                            setEmail(data.email)
-                                            setUsername(data.username)
-                                            setRoles(data.roles_id)
-                                            setModal(true)
+                                            // setId(data.id)
+                                            // setEmail(data.email)
+                                            // setUsername(data.username)
+                                            // setRoles(data.roles_id)
+                                            // setModal(true)
                                         }}>Edit</button>
-                                        {data.active == 1 ? 
+                                        {!data.spotlight && <CButton color="success" className="text-white" onClick={() => doSpotlight(data.id, data.name)}/>}
+                                        {/* {data.active == 1 ? 
                                         <CButton color="danger" className="text-white" onClick={() => active(data.id, 0)}>Deactivate</CButton> :
                                         <CButton color="success" className="text-white"  onClick={() => active(data.id, 1)}>Activate</CButton>
                                         // <button className="btn btn-success text-white" data-coreui-toggle="modal" data-coreui-target="#modalActive">Deactivate</button> : 
                                         // <button className="btn btn-danger text-white" data-coreui-toggle="modal" data-coreui-target="#modalActive">Activate</button>
-                                        }
+                                        } */}
                                     </td>
                                 </tr>)
                             })}
                         </tbody>
                         <tfoot>
-                        <tr>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Role</th>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Spotlight</th>
+                                <th>Link</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>

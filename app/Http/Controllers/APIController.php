@@ -242,7 +242,7 @@ class APIController extends Controller
     
     public function getProject(){
         $data = Project::all();
-        if($data->isNotEmpty){
+        if($data->isNotEmpty()){
             return $this->res(0,"Data retrieved",'',$data);
         } else{
             return $this->res(1,"Data empty",'',$data);
@@ -341,7 +341,7 @@ class APIController extends Controller
         $ins->gambar_kiri = $path_gambarkiri;
         $ins->gambar_kanan = $path_gambarkanan;
         $ins->gambar_lain = json_encode($gambar_lain);
-        $ins->hashtag=$r->hashtag;
+        $ins->hashtag=json_encode($r->hashtag);
         $ins->link = $link;
         $ins->save();
 
