@@ -322,7 +322,7 @@ class APIController extends Controller
                 if (!in_array($ext, $supported_image)) {
                     return $this->res(1,'File is not supported!');
                 }
-                $image->move(public_path('antinet/projects'),$r->name.'_gambarlain.'.$ext);
+                $image->move(public_path('antinet/projects'),$r->name.'_gambarlain'.$flag.".".$ext);
                 $gambar_lain[] = 'antinet/projects/'.$r->name.'_gambarlain'.$flag.'.'.$ext;
                 $flag++;
             }

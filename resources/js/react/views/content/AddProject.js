@@ -24,7 +24,7 @@ export function AddProject() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // setLoading(true)
+        setLoading(true)
         const data = new FormData()
         data.append('name', title)
         data.append('description', description)
@@ -36,7 +36,9 @@ export function AddProject() {
         data.append('gambar_utama', mainImage)
         data.append('gambar_kanan', image1)
         data.append('gambar_kiri', image2)
-        data.append('gambar_lain', anotherImage)
+        for(let i=0; i<anotherImage.length;i++){
+            data.append('gambar_lain[]', anotherImage[i])
+        }
         const resp = await requestAPI('post', '/api/createproject', data)   
         console.log(resp)
         if(resp.status == 0){
@@ -45,15 +47,6 @@ export function AddProject() {
             setToast(Toaster(toaster, Toast('danger', resp.message)))
         }
         setLoading(false)
-    }
-
-    const otherImage = (files) => {
-        for(let i=0;i<files.length;i++){
-            console.log(files[i])
-        }
-        // files.map((datas, i) => {
-        //     console.log(datas)
-        // })
     }
 
     return(
