@@ -4,12 +4,31 @@ import "/js/jquery.dataTables.min.js";
 import "/js/dataTables.bootstrap4.min.js";
 
 import { CButton } from "@coreui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { requestAPI } from "../../API";
 
 export function SetProject() {
 
-    const [userData, setUserData] = useState()
-    
+    const [userData, setUserData] = useState(false)
+    const [ready, setReady] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [toast, setToast] = useState()
+
+    const [projectData, setProjectData] = useState()
+
+    const request = async() => {
+        const resp = await requestAPI('get', '/api/getproject')
+        if(resp.status == 0){
+            setProjectData(resp.data)
+        }
+        setReady(true)
+    }
+
+    useEffect(() => {
+        if(!ready && !userData){
+            request()
+        }
+    },[])
 
     return(
         <>
@@ -18,12 +37,12 @@ export function SetProject() {
         <>
         <div className="col-12">
             <div className="card mb-4">
-                <div className="card-header"><strong>Set User</strong></div>
+                <div className="card-header"><strong>Set Project</strong></div>
                 <div className="card-body">
                     <table id="userTable" className="table table-striped" style={{'width':'100%'}}>
                         <thead>
                             <tr>
-                                <th>Username</th>
+                                <th>No</th>
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Action</th>
@@ -67,6 +86,7 @@ export function SetProject() {
                 </div>
             </div>
         </div>
+        {toast}
         </>
         }
         </>
