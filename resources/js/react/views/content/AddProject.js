@@ -1,5 +1,5 @@
-import { CButton, CCard, CCardBody, CCardHeader, CForm, CFormInput, CFormTextarea, CSpinner } from "@coreui/react";
-import { useRef, useState } from "react";
+import { CButton, CCard, CCardBody, CCardHeader, CForm, CFormInput, CFormTextarea, CImage, CSpinner } from "@coreui/react";
+import { useEffect, useRef, useState } from "react";
 import { requestAPI } from "../../API";
 import { Toast, Toaster } from '../../components/index'
 
@@ -18,6 +18,7 @@ export function AddProject() {
     const [mainImage, setMainImage] = useState()
     const [image1, setImage1] = useState()
     const [image2, setImage2] = useState()
+    const [anotherImage, setAnotherImage] = useState()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,6 +32,7 @@ export function AddProject() {
         data.append('mainImage', mainImage)
         data.append('image1', image1)
         data.append('image2', image2)
+        data.append('anotherImage', anotherImage)
         const resp = await requestAPI('post', '/api/createproject', data)   
         console.log(resp)
         if(resp.status == 0){
@@ -39,6 +41,15 @@ export function AddProject() {
             setToast(Toaster(toaster, Toast('danger', resp.message)))
         }
         setLoading(false)
+    }
+
+    const otherImage = (files) => {
+        for(let i=0;i<files.length;i++){
+            console.log(files[i])
+        }
+        // files.map((datas, i) => {
+        //     console.log(datas)
+        // })
     }
 
     return(
@@ -69,7 +80,9 @@ export function AddProject() {
                         feedback={"more than 100 words"}
                     />
                     <div className="mb-3"></div>
+                    
                     <CFormInput className='mb-3' type="file" id="formFile" label="Main Image" onChange={e => setMainImage(e.target.files[0])}/>
+                    {mainImage ? <CImage src={mainImage}/> : <></>}
                     <CFormInput
                         className=''
                         type="text"
@@ -104,7 +117,8 @@ export function AddProject() {
                         // invalid={description.length > 100}
                         // feedback={"more than 100 words"}
                     />
-                    <CFormInput className='mb-3' type="file" id="formFile" label="Image 2" onChange={e => setImage2(e.target.files[0])} />
+                    <CFormInput className='mb-3' type="file" id="formFile" label="Image 2" onChange={e => {console.log(e.target.files);setImage2(e.target.files[0])}} />
+                    <CFormInput className='mb-3' multiple="multiple" type="file" id="formFile" label="Another Image" onChange={e => setAnotherImage(e.target.files)} />
                     {loading ? <CSpinner color="primary"/> : <CButton color="primary" type="submit">Submit</CButton>}
                 </CForm>
             </CCardBody>

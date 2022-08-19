@@ -29,7 +29,7 @@ import {
 } from '@coreui/icons'
 import avatar8 from '/images/5.jpg'
 
-export function AppHeader() {
+export function AppHeader({setMenu, logout}) {
     const dispatch = useDispatch()
     const sidebarShow = useSelector((state) => state.sidebarShow)
 
@@ -84,11 +84,11 @@ export function AppHeader() {
                         </CBadge>
                         </CDropdownItem> */}
                         <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
-                            <CDropdownItem href="#">
+                            <CDropdownItem href="#" onClick={() => setMenu('change-password')}>
                                 <CIcon icon={cilUser} className="me-2" />
                                 Change Password
                             </CDropdownItem>
-                            <CDropdownItem href="#">
+                            <CDropdownItem href="#" onClick={logout}>
                                 <CIcon icon={cilSettings} className="me-2" />
                                 Logout
                             </CDropdownItem>

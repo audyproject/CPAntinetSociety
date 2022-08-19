@@ -3,10 +3,17 @@ import "/css/dataTables.bootstrap5.min.css";
 import "/js/jquery.dataTables.min.js";
 import "/js/dataTables.bootstrap4.min.js";
 
+import { CButton } from "@coreui/react";
+import { useState } from "react";
+
 export function SetProject() {
+
+    const [userData, setUserData] = useState()
+    
+
     return(
         <>
-        {"SetProject"}
+        {/* {"SetProject"} */}
         {!userData ? "wait" : 
         <>
         <div className="col-12">
