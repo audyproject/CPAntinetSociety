@@ -4,7 +4,7 @@ import "/js/jquery.dataTables.min.js";
 import "/js/dataTables.bootstrap4.min.js";
 import { WithContext as ReactTags } from 'react-tag-input';
 
-import { CButton, CForm, CFormInput, CFormTextarea, CModal, CModalBody, CModalFooter, CModalHeader } from "@coreui/react";
+import { CButton, CForm, CFormInput, CFormTextarea, CImage, CModal, CModalBody, CModalFooter, CModalHeader } from "@coreui/react";
 import { useEffect, useRef, useState } from "react";
 import { requestAPI } from "../../API";
 import { Toast, Toaster } from "../../components";
@@ -17,7 +17,9 @@ export function SetProject() {
     const [toast, setToast] = useState()
     const toaster = useRef()
     const [modal, setModal] = useState(false)
+    const [modal2, setModal2] = useState(false)
 
+    const [id, setId] = useState(false)
     const [title, setTitle] = useState()
     const [description, setDescription] = useState("")
     const [hashtag, setHashtag]  = useState([])
@@ -32,6 +34,8 @@ export function SetProject() {
     const [image2, setImage2] = useState()
     const [anotherImage, setAnotherImage] = useState()
 
+    const [viewAnotherImage, setViewAnotherImage] = useState()
+
     const request = async() => {
         const resp = await requestAPI('get', '/api/getproject')
         if(resp.status == 0){
@@ -45,7 +49,13 @@ export function SetProject() {
         if(!ready || !projectData){
             request()
         }
-    })
+        if(id && projectData){
+            console.log(id)
+            projectData.map((datas, i) => {
+                if(datas.id == id) setViewAnotherImage(JSON.parse(datas.gambar_lain))
+            })
+        }
+    },[projectData])
 
     const handleDelete = i => {
         setHashtag(hashtag.filter((hashtag, index) => index !== i));
@@ -68,12 +78,34 @@ export function SetProject() {
         setProjectData()
     }
 
+    const deleteImage = async(id, link) => {
+        let data = {
+            'id': id,
+            'delete': link
+        }
+        console.log(id)
+        const resp = await requestAPI('post', '/api/deletegambarlain', data)
+        if(resp.status == 0){
+            setToast(Toaster(toaster, Toast('success', `Delete image success!`)))
+            setViewAnotherImage()
+            setProjectData(false)
+            // projectData.map((data, i) => {
+            //     if(data.id == id) setViewAnotherImage(JSON.parse(data.gambar_lain))
+            // })
+            // setViewAnotherImage(id)
+        } else {
+            setToast(Toaster(toaster, Toast('danger', resp.message)))
+        }
+        
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         // console.log(hashtag[0].id)
         // return
         // setLoading(true)
         const data = new FormData()
+        data.append('id', id)
         data.append('name', title)
         data.append('description', description)
         for(let i=0;i<hashtag.length;i++){
@@ -81,7 +113,6 @@ export function SetProject() {
             console.log(a)
             data.append(`hashtag[]`, a)
         }
-        // data.append('hashtag', hashtag)
         data.append('judul_paragraf1', titleParagraf1)
         data.append('judul_paragraf2', titleParagraf2)
         data.append('isi_paragraf1', paragraf1)
@@ -100,12 +131,19 @@ export function SetProject() {
         } else {
             setToast(Toaster(toaster, Toast('danger', resp.message)))
         }
+        setModal(false)
         setLoading(false)
+        setProjectData()
+    }
+
+    const handleSubmit2 = async() => {
+        let data = {
+            
+        }
     }
 
     return(
         <>
-        
         {/* {"SetProject"} */}
         {!projectData ? "wait" : 
         <>
@@ -136,6 +174,7 @@ export function SetProject() {
                                         {/* <button className="btn btn-primary m-1" data-coreui-toggle="modal" data-coreui-target="#modalEdit" */}
                                         <CButton color="primary"
                                             onClick={() => {
+                                                setId(data.id)
                                                 setTitle(data.name)
                                                 setDescription(data.description)
                                                 setTitleParagraf1(data.judul_paragraf1)
@@ -153,6 +192,12 @@ export function SetProject() {
                                                 setLink(data.link)
                                                 setModal(true)
                                             }}>Edit</CButton>
+                                        <CButton id="editPicture" color="primary"
+                                            onClick={() => {
+                                                setId(data.id)
+                                                setViewAnotherImage(JSON.parse(projectData[i].gambar_lain))
+                                                setModal2(true)
+                                            }}>Edit Picture</CButton>
                                         {/* {!data.spotlight && <CButton color="warning" className="text-white" onClick={() => doSpotlight(data.id, data.name)}>Spotlight</CButton>} */}
                                         {/* {data.active == 1 ? 
                                         <CButton color="danger" className="text-white" onClick={() => active(data.id, 0)}>Deactivate</CButton> :
@@ -177,7 +222,7 @@ export function SetProject() {
                 </div>
             </div>
         </div>
-        <CModal size="xl" visible={modal} onClose={() => setModal(false)}>
+        <CModal size="xl" backdrop={false} visible={modal} onClose={() => setModal(false)}>
             <CModalHeader>Edit Project</CModalHeader>            
             <CForm onSubmit={handleSubmit}>
                 <CModalBody>
@@ -289,6 +334,38 @@ export function SetProject() {
                         onChange={e => setLink(e.target.value)}
                         value={link}
                     />
+                </CModalBody>
+                <CModalFooter>
+                    <CButton color="secondary" onClick={() => setModal(false)}>
+                        Close
+                    </CButton>
+                    {loading ? <CSpinner color="primary"/> : <CButton color="primary" type="submit">Save changes</CButton>}
+                </CModalFooter>
+            </CForm>
+        </CModal>
+        <CModal size="xl" visible={modal2} onClose={() => setModal2(false)}>
+            <CModalHeader>Edit Another Image</CModalHeader>
+            <CForm onSubmit={handleSubmit2}>
+                <CModalBody>
+                    <div className="row">
+                    {viewAnotherImage &&
+                        viewAnotherImage.map((datas, i) => {
+                            return (
+                                <div className="col-sm-3">
+                                    <CImage src={datas} width={200} height={200} className="m-3"/><br/>
+                                    <CButton className="d-flex justify-content-center" onClick={() => deleteImage(id, datas)} color="danger">Delete</CButton>
+                                </div>
+                            )
+                        })
+                    }
+                    {/* <br></br>
+                    {anotherImage &&
+                        JSON.parse(anotherImage).map((datas, i) => {
+                            return <CButton onClick={() => deleteImage(id, anotherImage)} color="danger">Delete</CButton>
+                        })
+                    } */}
+                    </div>
+                    <CFormInput className='mb-3' multiple="multiple" type="file" id="formFile" label="Another Image" onChange={e => setAnotherImage(e.target.files)} />
                 </CModalBody>
                 <CModalFooter>
                     <CButton color="secondary" onClick={() => setModal(false)}>

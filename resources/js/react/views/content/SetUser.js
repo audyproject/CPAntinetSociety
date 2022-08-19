@@ -138,7 +138,7 @@ export function SetUser(){
                 </div>
             </div>
         </div>
-        <CModal visible={modal} onClose={() => setModal(false)}>
+        <CModal visible={modal} backdrop={false} onClose={() => setModal(false)}>
             <CModalHeader>
                 <CModalTitle>Edit User</CModalTitle>
             </CModalHeader>

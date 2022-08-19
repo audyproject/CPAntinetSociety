@@ -49,7 +49,7 @@ route::group(['middleware'=>['checkSession']],function(){
     Route::post('api/editproject',[APIController::class,'editProject']);
     Route::get('api/getproject',[APIController::class,'getProject']);
     Route::post('api/spotlight',[APIController::class,'spotlight']);
-    
+    route::post('api/deletegambarlain',[APIController::class,'deleteGambarLain']);
 
     route::post('api/blast',[MailController::class,'blastMail']);
     
