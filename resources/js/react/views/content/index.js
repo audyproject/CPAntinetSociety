@@ -3,6 +3,7 @@ import { ChangePassword } from "./ChangePassword"
 import { AddUser } from "./AddUser"
 import { SetUser } from "./SetUser"
 import { AddProject } from "./AddProject"
+import { SetProject } from "./SetProject"
 
 export {
     Dashboard,
@@ -10,4 +11,5 @@ export {
     AddUser,
     SetUser,
     AddProject,
+    SetProject,
 }
