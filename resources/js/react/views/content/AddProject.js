@@ -24,7 +24,7 @@ export function AddProject() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true)
+        // setLoading(true)
         const data = new FormData()
         data.append('name', title)
         data.append('description', description)
