@@ -21,7 +21,6 @@ use App\Mail\TestMail;
 class APIController extends Controller
 {
     
-    
     public function test(){
 
         
