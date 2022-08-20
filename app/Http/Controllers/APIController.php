@@ -241,7 +241,7 @@ class APIController extends Controller
     
     public function getProject(){
         $data = Project::all();
-        if($data->isNotEmpty){
+        if($data->isNotEmpty()){
             return $this->res(0,"Data retrieved",'',$data);
         } else{
             return $this->res(1,"Data empty",'',$data);
@@ -262,15 +262,15 @@ class APIController extends Controller
         if($cekName){
             return $this->res(1,'This project name exists!');
         }
-
+        
+        $supported_image = array(
+            'jpg',
+            'jpeg',
+            'png'
+        );
         if ($r->hasFile('gambar_utama')) {
             $ext = $r->file('gambar_utama')->extension();
             $ext = strtolower($ext);
-            $supported_image = array(
-                'jpg',
-                'jpeg',
-                'png'
-            );
             if (!in_array($ext, $supported_image)) {
                 return $this->res(1,'File is not supported!');
             }
@@ -354,15 +354,15 @@ class APIController extends Controller
         } else{
             $link = $r->link;
         }
-
+        
+        $supported_image = array(
+            'jpg',
+            'jpeg',
+            'png'
+        );
         if ($r->hasFile('gambar_utama')) {
             $ext = $r->file('gambar_utama')->extension();
             $ext = strtolower($ext);
-            $supported_image = array(
-                'jpg',
-                'jpeg',
-                'png'
-            );
             if (!in_array($ext, $supported_image)) {
                 return $this->res(1,'File is not supported!');
             }
@@ -391,13 +391,9 @@ class APIController extends Controller
             }
             $r->file('gambar_kanan')->move(public_path('antinet/projects'),$r->name.'_gambarkanan.'.$ext);
             $path_gambarkanan = 'antinet/projects/'.$r->name.'_gambarkanan.'.$ext;
-            $edit->$gambar_kanan = $path_gambarkanan;
+            $edit->gambar_kanan = $path_gambarkanan;
         } 
 
-        
-
-
-        
         $edit->name = $r->name;
         $edit->description = $r->description;
         $edit->judul_paragraf1 = $r->judul_paragraf1;
@@ -446,7 +442,7 @@ class APIController extends Controller
         }
         
         //$arr = array_merge(array_diff($a1, array("b.jpg")));
-        $del->gambar_lain = array_merge(array_diff($del->gambar_lain, array($r->delete)));
+        $del->gambar_lain = json_encode(array_merge(array_diff(json_decode($del->gambar_lain), array($r->delete))));
         $del->save();
         return $this->res(0,'Delete success!');
 
