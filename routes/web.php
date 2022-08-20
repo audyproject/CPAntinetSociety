@@ -50,6 +50,7 @@ route::group(['middleware'=>['checkSession']],function(){
     Route::get('api/getproject',[APIController::class,'getProject']);
     Route::post('api/spotlight',[APIController::class,'spotlight']);
     route::post('api/deletegambarlain',[APIController::class,'deleteGambarLain']);
+    route::post('api/editgambarlain',[APIController::class,'editGambarLain']);
 
     route::post('api/blast',[MailController::class,'blastMail']);
     

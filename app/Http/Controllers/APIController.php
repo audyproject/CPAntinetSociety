@@ -346,7 +346,7 @@ class APIController extends Controller
 
         $edit = Project::where('id',$r->id)->first();
         if(!$edit){
-            return $this->res(1,'Data cannot be empty!');
+            return $this->res(1,'Data not found!');
         }
 
         if(!$r->link){
@@ -446,5 +446,40 @@ class APIController extends Controller
         $del->save();
         return $this->res(0,'Delete success!');
 
+    }
+
+    public function editGambarLain(request $r){
+        
+        if(!isset($r->id)){
+            return $this->res(1,'Data cannot be empty!');
+        }
+
+        $edit = Project::where('id',$r->id)->first();
+        if(!$edit){
+            return $this->res(1,'Data not found!');
+        }
+
+        if($r->hasFile('gambar_lain')){
+            $flag=1;
+            $supported_image = array(
+                'jpg',
+                'jpeg',
+                'png'
+            );
+            foreach($r->file('gambar_lain') as $image)
+            {
+                $ext = $image->extension();
+                $ext = strtolower($ext);
+                if (!in_array($ext, $supported_image)) {
+                    return $this->res(1,'File is not supported!');
+                }
+                $image->move(public_path('antinet/projects'),$edit->name.'_gambarlain'.$flag.".".$ext);
+                $gambar_lain[] = 'antinet/projects/'.$edit->name.'_gambarlain'.$flag.'.'.$ext;
+                $flag++;
+            }
+            $edit->gambar_lain = json_encode($gambar_lain);
+            $edit->save();
+            return $this->res(0,'Data saved successfully!');
+        } 
     }
 }
