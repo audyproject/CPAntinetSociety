@@ -19,30 +19,28 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import { requestAPI } from '../API'
 import { Toast, Toaster } from '../components/index'
 
-export const Login = ({setLogin, login, sendToast}) => {
+export const ForgotPassword = ({setLogin, login, sendToast}) => {
 
   const [loading, setLoading] = useState(false)
   const [toast, setToast] = useState()
   const toaster = useRef()
 
   const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true)
     let data = {
-        "email": email,
-        "password": password
+        "email": email
     }
     try {
-      const resp = await requestAPI("post", "api/login", data)
+      const resp = await requestAPI("post", "api/forgotpassword", data)
       if(resp.status == 0){
-        setToast(Toaster(toaster, Toast('success', "Login Success!")))
+        setToast(Toaster(toaster, Toast('success', "Forgot Password Success!")))
       } else {
         setToast(Toaster(toaster, Toast('danger',resp.message)))
       }
-      setLogin(resp.status)
+      setLogin(1)
       console.log(resp.message)
       setLoading(false)
     } catch (error) {
@@ -50,11 +48,11 @@ export const Login = ({setLogin, login, sendToast}) => {
     }
   }
 
-  useEffect(() => {
-    if(sendToast == "logout"){
-      setToast(Toaster(toaster, Toast('success', "Logout Success!")))
-    }
-  },[])
+//   useEffect(() => {
+//     if(sendToast == "logout"){
+//       setToast(Toaster(toaster, Toast('success', "Logout Success!")))
+//     }
+//   },[])
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -65,31 +63,31 @@ export const Login = ({setLogin, login, sendToast}) => {
               <CCard className="p-4">
                 <CCardBody>
                   <CForm onSubmit={handleSubmit}>
-                    <h1>Login</h1>
-                    <p className="text-medium-emphasis">Sign In to your account</p>
+                    <h1>Forgot Password</h1>
+                    <p className="text-medium-emphasis">We will send to your email</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
                       <CFormInput onChange={e => setEmail(e.target.value)} type="email" placeholder="Email" autoComplete="email" required />
                     </CInputGroup>
-                    <CInputGroup className="mb-4">
+                    {/* <CInputGroup className="mb-4">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
                       </CInputGroupText>
                       <CFormInput onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" autoComplete="current-password" required/>
-                    </CInputGroup>
+                    </CInputGroup> */}
                     <CRow>
                       <CCol xs={8}>
-                        <CButton color="link" onClick={() => setLogin(2)} className="px-0">
-                          Forgot password?
+                        <CButton color="link" onClick={() => setLogin(1)} className="px-0">
+                          Login
                         </CButton>
                       </CCol>
                       <CCol xs={4}>
                         {loading ?
                         <CSpinner color='primary' className='float-end'/> : 
                         <CButton type='submit' color="primary" className="float-end px-4">
-                          Login
+                          Submit
                         </CButton>
                         }
                       </CCol>
@@ -123,4 +121,4 @@ export const Login = ({setLogin, login, sendToast}) => {
   )
 }
 
-export default Login
+export default ForgotPassword
