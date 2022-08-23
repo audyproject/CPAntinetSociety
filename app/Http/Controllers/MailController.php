@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Mail\ForgotMail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Bus\Queueable;
 
 class MailController extends Controller
 {
@@ -45,12 +50,12 @@ class MailController extends Controller
         }
         $cekEmail = User::where('email',$r->email)->first();
         if(!$cekEmail){
-            return $this->res(1,'Email not found!');
+            return $this->res(0,'Email sent!');
         }
-        $pass = str_random(8);
+        $pass       = Str::random(8);
         $title      = 'Forgot Password';
         $body       = 'Your new password is : '.$pass;
-        $subject    = 'DO NOT TELL YOUR PASSWORD TO ANYONE ELSE';
+        $subject    = 'Forgot Password';
         
         $details = [
             'title'     => $title,
@@ -60,7 +65,7 @@ class MailController extends Controller
         
         $cekEmail->password = Hash::make($pass);
         $cekEmail->save();
-        Mail::to("hwijaya91@gmail.com")->send(new BlastMail($details));
+        Mail::to($cekEmail->email)->send(new ForgotMail($details));
         return $this->res(0,'Email sent!');
 
     }
