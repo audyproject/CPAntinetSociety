@@ -32,7 +32,7 @@ export function SetProject() {
     const [mainImage, setMainImage] = useState()
     const [image1, setImage1] = useState()
     const [image2, setImage2] = useState()
-    const [anotherImage, setAnotherImage] = useState()
+    const [anotherImage, setAnotherImage] = useState([])
 
     const [viewAnotherImage, setViewAnotherImage] = useState()
 
@@ -120,9 +120,6 @@ export function SetProject() {
         data.append('gambar_utama', mainImage)
         data.append('gambar_kanan', image1)
         data.append('gambar_kiri', image2)
-        // for(let i=0; i<anotherImage.length;i++){
-        //     data.append('gambar_lain[]', anotherImage[i])
-        // }
         data.append('link', link)
         const resp = await requestAPI('post', '/api/editproject', data)   
         console.log(resp)
@@ -137,8 +134,15 @@ export function SetProject() {
     }
 
     const handleSubmit2 = async() => {
-        let data = {
-            
+        const data = new FormData()
+        for(let i=0; i<anotherImage.length;i++){
+            data.append('gambar_lain[]', anotherImage[i])
+        }
+        const resp = await requestAPI('post', '/api/editgambarlain', data)
+        if(resp.status == 0){
+            setToast(Toaster(toaster, Toast('success', "Edit Image Success!")))
+        } else {
+            setToast(Toaster(toaster, Toast('danger', resp.message)))
         }
     }
 
