@@ -23,7 +23,6 @@ class APIController extends Controller
     
     public function test(){
 
-        
     }
 
     public function checkSession(){
