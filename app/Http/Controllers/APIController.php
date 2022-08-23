@@ -440,8 +440,8 @@ class APIController extends Controller
             return $this->res(1,'Data not found!');
         }
         
-        //$arr = array_merge(array_diff($a1, array("b.jpg")));
         $del->gambar_lain = json_encode(array_merge(array_diff(json_decode($del->gambar_lain), array($r->delete))));
+        unlink($r->delete);
         $del->save();
 
 
@@ -465,6 +465,7 @@ class APIController extends Controller
             $a = (explode("_",$judultrakhir));
             $b =  (explode(".",$a[2])); 
             $newflag = (int)$b[0] + 1 ;
+
         } else {
             $newflag = 1;
         }
@@ -491,6 +492,8 @@ class APIController extends Controller
             $edit->gambar_lain = json_encode($aray);
             $edit->save();
             return $this->res(0,'Data saved successfully!');
-        } 
+        } else {
+            return $this->res(1,'Data not found!');
+        }
     }
 }
