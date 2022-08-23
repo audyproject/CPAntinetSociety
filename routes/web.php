@@ -51,10 +51,10 @@ route::group(['middleware'=>['checkSession']],function(){
     Route::post('api/spotlight',[APIController::class,'spotlight']);
     route::post('api/deletegambarlain',[APIController::class,'deleteGambarLain']);
     route::post('api/editgambarlain',[APIController::class,'editGambarLain']);
-
     route::post('api/blast',[MailController::class,'blastMail']);
     
 });
+route::post('api/forgotpassword',[APIController::class,'editGambarLain']);
 
 //testing admin
 route::get('api/test',[APIController::class,'test']);
