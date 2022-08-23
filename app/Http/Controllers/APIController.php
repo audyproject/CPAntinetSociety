@@ -311,8 +311,8 @@ class APIController extends Controller
                 if (!in_array($ext, $supported_image)) {
                     return $this->res(1,'File is not supported!');
                 }
-                $image->move(public_path('antinet/projects'),$r->name.'_gambarlain'.$flag.".".$ext);
-                $gambar_lain[] = 'antinet/projects/'.$r->name.'_gambarlain'.$flag.'.'.$ext;
+                $image->move(public_path('antinet/projects'),$r->name.'_gambarlain_'.$flag.".".$ext);
+                $gambar_lain[] = 'antinet/projects/'.$r->name.'_gambarlain_'.$flag.'.'.$ext;
                 $flag++;
             }
         } else{
@@ -443,6 +443,8 @@ class APIController extends Controller
         //$arr = array_merge(array_diff($a1, array("b.jpg")));
         $del->gambar_lain = json_encode(array_merge(array_diff(json_decode($del->gambar_lain), array($r->delete))));
         $del->save();
+
+
         return $this->res(0,'Delete success!');
 
     }
@@ -457,9 +459,14 @@ class APIController extends Controller
         if(!$edit){
             return $this->res(1,'Data not found!');
         }
+        $aray = json_decode($edit->gambar_lain);
+        $judultrakhir = end($aray);
+        $a = (explode("_",$judultrakhir));
+        $b =  (explode(".",$a[2])); 
+        $newflag = (int)$b[0] + 1 ;
 
         if($r->hasFile('gambar_lain')){
-            $flag=1;
+            $flag=$newflag;
             $supported_image = array(
                 'jpg',
                 'jpeg',
@@ -472,11 +479,12 @@ class APIController extends Controller
                 if (!in_array($ext, $supported_image)) {
                     return $this->res(1,'File is not supported!');
                 }
-                $image->move(public_path('antinet/projects'),$edit->name.'_gambarlain'.$flag.".".$ext);
-                $gambar_lain[] = 'antinet/projects/'.$edit->name.'_gambarlain'.$flag.'.'.$ext;
+                $image->move(public_path('antinet/projects'),$edit->name.'_gambarlain_'.$flag.".".$ext);
+                // $gambar_lain = json_decode($edit->gambar_lain);
+                array_push($aray,'antinet/projects/'.$edit->name.'_gambarlain_'.$flag.'.'.$ext);
                 $flag++;
             }
-            $edit->gambar_lain = json_encode($gambar_lain);
+            $edit->gambar_lain = json_encode($aray);
             $edit->save();
             return $this->res(0,'Data saved successfully!');
         } 
