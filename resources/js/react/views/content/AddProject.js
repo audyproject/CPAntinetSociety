@@ -22,7 +22,7 @@ export function AddProject() {
     const [mainImage, setMainImage] = useState()
     const [image1, setImage1] = useState()
     const [image2, setImage2] = useState()
-    const [anotherImage, setAnotherImage] = useState()
+    const [anotherImage, setAnotherImage] = useState([])
 
     const handleSubmit = async (e) => {
         e.preventDefault();

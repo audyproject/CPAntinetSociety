@@ -460,10 +460,14 @@ class APIController extends Controller
             return $this->res(1,'Data not found!');
         }
         $aray = json_decode($edit->gambar_lain);
-        $judultrakhir = end($aray);
-        $a = (explode("_",$judultrakhir));
-        $b =  (explode(".",$a[2])); 
-        $newflag = (int)$b[0] + 1 ;
+        if(!empty($aray)){
+            $judultrakhir = end($aray);
+            $a = (explode("_",$judultrakhir));
+            $b =  (explode(".",$a[2])); 
+            $newflag = (int)$b[0] + 1 ;
+        } else {
+            $newflag = 1;
+        }
 
         if($r->hasFile('gambar_lain')){
             $flag=$newflag;
