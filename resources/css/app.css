@@ -1,0 +1,29 @@
+/* ReactTags styling used at AddProject.js */
+.ReactTags__tag {
+    margin-right: 10px;
+    background-color: #d4d7dc;
+    color: black;
+    padding-inline: 10px;
+    padding-block: 5px;
+    border-radius: 10px;
+    font-size: 1em;
+    margin-bottom: 1000px;
+}
+
+.ReactTags__tagInputField {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 0.2em 0.5em;
+    margin-block-end: 10px;
+    border-radius: 0.5em;
+    font-size: 1em;
+    color: black;
+}
+
+.ReactTags__remove {
+    background-color: transparent;
+    color: red;
+    cursor: pointer;
+    font-size: 1em;
+    margin-block-end: 15px;
+}
