@@ -8,13 +8,14 @@ import { Main } from "./views/Main"
 import "./import.js"
 import "/react/scss/style.scss"
 import store from "./store"
+import ForgotPassword from "./views/ForgotPassword";
 
 function Index() {
 
     const logout = async() => {
         const response = await requestAPI("get", "api/logout")
         if(response.status == 0){
-            setLogin(2)
+            setLogin(9)
         } else {
             console.log(response.message)
         }
@@ -35,7 +36,8 @@ function Index() {
         <>
         {login === 0 ? <Main setLogin={setLogin} logout={logout}/> : 
         login === 1 ? <Login setLogin={setLogin} login={login}/> :
-        login === 2 ? <Login setLogin={setLogin} login={login} sendToast={"logout"}/> :
+        login === 2 ? <ForgotPassword setLogin={setLogin} login={login}/> :
+        login === 9 ? <Login setLogin={setLogin} login={login} sendToast={"logout"}/> :
         "Loading..."
         } 
         </>

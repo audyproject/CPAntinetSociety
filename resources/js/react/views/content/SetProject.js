@@ -4,7 +4,7 @@ import "/js/jquery.dataTables.min.js";
 import "/js/dataTables.bootstrap4.min.js";
 import { WithContext as ReactTags } from 'react-tag-input';
 
-import { CButton, CForm, CFormInput, CFormTextarea, CImage, CModal, CModalBody, CModalFooter, CModalHeader } from "@coreui/react";
+import { CButton, CForm, CFormInput, CFormTextarea, CImage, CModal, CModalBody, CModalFooter, CModalHeader, CSpinner } from "@coreui/react";
 import { useEffect, useRef, useState } from "react";
 import { requestAPI } from "../../API";
 import { Toast, Toaster } from "../../components";
@@ -32,7 +32,7 @@ export function SetProject() {
     const [mainImage, setMainImage] = useState()
     const [image1, setImage1] = useState()
     const [image2, setImage2] = useState()
-    const [anotherImage, setAnotherImage] = useState()
+    const [anotherImage, setAnotherImage] = useState([])
 
     const [viewAnotherImage, setViewAnotherImage] = useState()
 
@@ -120,9 +120,6 @@ export function SetProject() {
         data.append('gambar_utama', mainImage)
         data.append('gambar_kanan', image1)
         data.append('gambar_kiri', image2)
-        // for(let i=0; i<anotherImage.length;i++){
-        //     data.append('gambar_lain[]', anotherImage[i])
-        // }
         data.append('link', link)
         const resp = await requestAPI('post', '/api/editproject', data)   
         console.log(resp)
@@ -136,10 +133,23 @@ export function SetProject() {
         setProjectData()
     }
 
-    const handleSubmit2 = async() => {
-        let data = {
-            
+    const handleSubmit2 = async(e) => {
+        e.preventDefault();
+        setLoading(true)
+        const data = new FormData()
+        data.append('id', id)
+        for(let i=0; i<anotherImage.length;i++){
+            data.append('gambar_lain[]', anotherImage[i])
         }
+        const resp = await requestAPI('post', '/api/editgambarlain', data)
+        if(resp.status == 0){
+            setToast(Toaster(toaster, Toast('success', "Edit Image Success!")))
+        } else {
+            setToast(Toaster(toaster, Toast('danger', resp.message)))
+        }
+        setModal2(false)
+        setLoading(false)
+        setProjectData()
     }
 
     return(
@@ -353,7 +363,7 @@ export function SetProject() {
                             return (
                                 <div className="col-sm-3">
                                     <CImage src={datas} width={200} height={200} className="m-3"/><br/>
-                                    <CButton className="d-flex justify-content-center" onClick={() => deleteImage(id, datas)} color="danger">Delete</CButton>
+                                    <CButton className="d-flex justify-content-center w-100" onClick={() => deleteImage(id, datas)} color="danger">Delete</CButton>
                                 </div>
                             )
                         })
@@ -365,7 +375,8 @@ export function SetProject() {
                         })
                     } */}
                     </div>
-                    <CFormInput className='mb-3' multiple="multiple" type="file" id="formFile" label="Another Image" onChange={e => setAnotherImage(e.target.files)} />
+                    <br></br>
+                    <CFormInput className='mb-3' multiple="multiple" type="file" id="formFile" label="Add Image" onChange={e => setAnotherImage(e.target.files)} />
                 </CModalBody>
                 <CModalFooter>
                     <CButton color="secondary" onClick={() => setModal(false)}>

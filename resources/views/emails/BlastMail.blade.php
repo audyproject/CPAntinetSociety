@@ -1,23 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Antinet Society</title>
+    <title>Laravel 8 Send Mail using Queue Tutorial - TechvBlogs</title>
 </head>
 <body>
-    <h1>{{$details['title']}}</h1>
-    <h2>{{$details['body']}}</h2>
-
-
-
-
-
-
-
-    
-    <p>Cheers,</p>
-    <p>Antinet Society</p>
+    <p>Hi</p>
+    <p>This is test queue mail.</p>
+    <strong>Thank you</strong>
 </body>
 </html>

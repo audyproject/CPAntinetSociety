@@ -21,10 +21,8 @@ use App\Mail\TestMail;
 class APIController extends Controller
 {
     
-    
     public function test(){
 
-        
     }
 
     public function checkSession(){
@@ -313,8 +311,8 @@ class APIController extends Controller
                 if (!in_array($ext, $supported_image)) {
                     return $this->res(1,'File is not supported!');
                 }
-                $image->move(public_path('antinet/projects'),$r->name.'_gambarlain'.$flag.".".$ext);
-                $gambar_lain[] = 'antinet/projects/'.$r->name.'_gambarlain'.$flag.'.'.$ext;
+                $image->move(public_path('antinet/projects'),$r->name.'_gambarlain_'.$flag.".".$ext);
+                $gambar_lain[] = 'antinet/projects/'.$r->name.'_gambarlain_'.$flag.'.'.$ext;
                 $flag++;
             }
         } else{
@@ -347,7 +345,7 @@ class APIController extends Controller
 
         $edit = Project::where('id',$r->id)->first();
         if(!$edit){
-            return $this->res(1,'Data cannot be empty!');
+            return $this->res(1,'Data not found!');
         }
 
         if(!$r->link){
@@ -442,10 +440,60 @@ class APIController extends Controller
             return $this->res(1,'Data not found!');
         }
         
-        //$arr = array_merge(array_diff($a1, array("b.jpg")));
         $del->gambar_lain = json_encode(array_merge(array_diff(json_decode($del->gambar_lain), array($r->delete))));
+        unlink($r->delete);
         $del->save();
+
+
         return $this->res(0,'Delete success!');
 
+    }
+
+    public function editGambarLain(request $r){
+        
+        if(!isset($r->id)){
+            return $this->res(1,'Data cannot be empty!');
+        }
+
+        $edit = Project::where('id',$r->id)->first();
+        if(!$edit){
+            return $this->res(1,'Data not found!');
+        }
+        $aray = json_decode($edit->gambar_lain);
+        if(!empty($aray)){
+            $judultrakhir = end($aray);
+            $a = (explode("_",$judultrakhir));
+            $b =  (explode(".",$a[2])); 
+            $newflag = (int)$b[0] + 1 ;
+
+        } else {
+            $newflag = 1;
+        }
+
+        if($r->hasFile('gambar_lain')){
+            $flag=$newflag;
+            $supported_image = array(
+                'jpg',
+                'jpeg',
+                'png'
+            );
+            foreach($r->file('gambar_lain') as $image)
+            {
+                $ext = $image->extension();
+                $ext = strtolower($ext);
+                if (!in_array($ext, $supported_image)) {
+                    return $this->res(1,'File is not supported!');
+                }
+                $image->move(public_path('antinet/projects'),$edit->name.'_gambarlain_'.$flag.".".$ext);
+                // $gambar_lain = json_decode($edit->gambar_lain);
+                array_push($aray,'antinet/projects/'.$edit->name.'_gambarlain_'.$flag.'.'.$ext);
+                $flag++;
+            }
+            $edit->gambar_lain = json_encode($aray);
+            $edit->save();
+            return $this->res(0,'Data saved successfully!');
+        } else {
+            return $this->res(1,'Data not found!');
+        }
     }
 }
