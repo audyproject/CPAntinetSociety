@@ -45,10 +45,14 @@ const sidebarMenu = [
             },
         ],
     },
-
     {
         name: "Subscription",
         url: "subscription",
+        icon: cilContact,
+    },
+    {
+        name: "Membership",
+        url: "membership",
         icon: cilContact,
     },
     {
