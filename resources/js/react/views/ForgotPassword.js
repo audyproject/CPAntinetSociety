@@ -40,7 +40,7 @@ export const ForgotPassword = ({setLogin, login, sendToast}) => {
       } else {
         setToast(Toaster(toaster, Toast('danger',resp.message)))
       }
-      setLogin(1)
+    //   setLogin(1)
       console.log(resp.message)
       setLoading(false)
     } catch (error) {

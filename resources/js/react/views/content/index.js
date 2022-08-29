@@ -4,6 +4,8 @@ import { AddUser } from "./AddUser"
 import { SetUser } from "./SetUser"
 import { AddProject } from "./AddProject"
 import { SetProject } from "./SetProject"
+import { Membership } from "./Membership"
+import { Subscription } from "./Subscription"
 
 export {
     Dashboard,
@@ -12,4 +14,6 @@ export {
     SetUser,
     AddProject,
     SetProject,
+    Membership,
+    Subscription,
 }

@@ -5,6 +5,8 @@ import {
     SetUser,
     AddProject,
     SetProject,
+    Membership,
+    Subscription,
 } from "./content/index"
 
 export function Content({menu}){
@@ -17,6 +19,8 @@ export function Content({menu}){
         menu == "set-user" ? <SetUser/> :
         menu == "add-project" ? <AddProject/> :
         menu == "set-project" ? <SetProject/> :
+        menu == "subscription" ? <Subscription/> :
+        menu == "membership" ? <Membership/> :
         "Error 404"
         }
         </>
