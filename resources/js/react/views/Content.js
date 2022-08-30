@@ -7,6 +7,7 @@ import {
     SetProject,
     Membership,
     Subscription,
+    Email,
 } from "./content/index"
 
 export function Content({ menu, setMenu }) {

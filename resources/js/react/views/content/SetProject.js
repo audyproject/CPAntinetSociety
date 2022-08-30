@@ -155,7 +155,7 @@ export function SetProject() {
     return (
         <>
             {/* {"SetProject"} */}
-            {!projectData ? "wait" :
+            {projectData == false ? "wait" :
                 <>
                     <div className="col-12">
                         <div className="card mb-4">
@@ -201,8 +201,7 @@ export function SetProject() {
                                                             })
                                                             setLink(data.link)
                                                             setModal(true)
-                                                        }}>Edit</CButton>
-                                                    &nbsp;
+                                                        }}>Edit</CButton> &nbsp;
                                                     <CButton id="editPicture" color="primary"
                                                         onClick={() => {
                                                             setId(data.id)
@@ -211,6 +210,7 @@ export function SetProject() {
                                                         }}>Edit Picture</CButton>
                                                     {/* {!data.spotlight && <CButton color="warning" className="text-white" onClick={() => doSpotlight(data.id, data.name)}>Spotlight</CButton>} */}
                                                     {/* {data.active == 1 ? 
+>>>>>>> 5b34639a3fcf48fcacb99c8926a5561167debe69
                                         <CButton color="danger" className="text-white" onClick={() => active(data.id, 0)}>Deactivate</CButton> :
                                         <CButton color="success" className="text-white"  onClick={() => active(data.id, 1)}>Activate</CButton>
                                         // <button className="btn btn-success text-white" data-coreui-toggle="modal" data-coreui-target="#modalActive">Deactivate</button> : 
