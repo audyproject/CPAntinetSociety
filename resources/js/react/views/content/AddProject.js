@@ -15,7 +15,8 @@ import { Toast, Toaster } from "../../components/index";
 import { WithContext as ReactTags } from "react-tag-input";
 import "../../../../css/app.css";
 
-export function AddProject() {
+export function AddProject({ setMenu }) {
+
     const [loading, setLoading] = useState(false);
     const [toast, setToast] = useState();
     const toaster = useRef();
@@ -69,6 +70,7 @@ export function AddProject() {
             setToast(Toaster(toaster, Toast("danger", resp.message)));
         }
         setLoading(false);
+        setMenu("set-project")
     };
 
     const handleDelete = (i) => {
@@ -159,8 +161,8 @@ export function AddProject() {
                             // text={description.length + "/100 words"}
                             placeholder="Describe the project"
                             onChange={(e) => setParagraf1(e.target.value)}
-                            // invalid={description.length > 100}
-                            // feedback={"more than 100 words"}
+                        // invalid={description.length > 100}
+                        // feedback={"more than 100 words"}
                         />
                         <CFormInput
                             className="mb-3"
@@ -187,8 +189,8 @@ export function AddProject() {
                             // text={description.length + "/100 words"}
                             placeholder="Describe the project"
                             onChange={(e) => setParagraf2(e.target.value)}
-                            // invalid={description.length > 100}
-                            // feedback={"more than 100 words"}
+                        // invalid={description.length > 100}
+                        // feedback={"more than 100 words"}
                         />
                         <CFormInput
                             className="mb-3"
@@ -221,7 +223,9 @@ export function AddProject() {
                         {loading ? (
                             <CSpinner color="primary" />
                         ) : (
-                            <CButton color="primary" type="submit">
+                            <CButton color="primary" type="submit" onClick={() => {
+
+                            }}>
                                 Submit
                             </CButton>
                         )}
