@@ -30,7 +30,7 @@ import {
 
 export function Subscription(){
 
-    const [memberData, setMemberData] = useState(false)
+    const [subscriptionData, setSubscriptionData] = useState(false)
     const [ready, setReady] = useState(false)
     const [loading, setLoading] = useState(false)
     const [toast, setToast] = useState()
@@ -44,10 +44,10 @@ export function Subscription(){
     const [dataRoles, setDataRoles] = useState(false)
 
     const request = async () => {
-        const response = await requestAPI('get','api/getuser')
+        const response = await requestAPI('get','api/getsubscription')
         if(response.status == 0){
             // console.log(response.data)
-            setUserData(response.data)
+            setSubscriptionData(response.data)
         } else {
             // console.warn(response.message)
         }
@@ -92,9 +92,9 @@ export function Subscription(){
 
     $("#userTable").DataTable();
     useEffect(async () => {
-        if(!ready || !memberData){
-            // request()
-            setMemberData(true)
+        if(!ready || !subscriptionData){
+            request()
+            // setMemberData(true)
         }
         // if(!dataRoles){
         //     const response = await requestAPI('get','api/getrole')
@@ -106,7 +106,7 @@ export function Subscription(){
 
     return(
         <>
-        {!memberData ? <CSpinner color="primary"/> : 
+        {!subscriptionData ? <CSpinner color="primary"/> : 
         <>
         <CRow>
             <CCol sm={12} lg={4}>
@@ -340,30 +340,23 @@ export function Subscription(){
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
                                 <th>Email</th>
-                                <th>Phone</th>
-                                <th>Join Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>asd</td>
-                                <td>asd</td>
-                                <td>asd</td>
-                                <td>2022-08-29</td>
-                                <td>asd</td>
-                            </tr>
+                            {subscriptionData.map((data, i) => {
+                                return (<tr>
+                                    <td>{i+1}</td>
+                                    <td>{data.email}</td>
+                                    <td>{data.created_at.replace(/[A-Z]/g, ' ').split(".")[0]}</td>
+                                </tr>)
+                            })}
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
                                 <th>Email</th>
-                                <th>Phone</th>
-                                <th>Join Date</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>

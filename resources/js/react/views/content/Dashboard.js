@@ -1,28 +1,48 @@
-import { CCol, CWidgetStatsA } from "@coreui/react";
+import { CCol, CSpinner, CWidgetStatsA } from "@coreui/react";
 import { CChartLine } from "@coreui/react-chartjs";
 import CIcon from "@coreui/icons-react";
 import {
     cilArrowBottom,
 } from "@coreui/icons";
 import { getStyle } from '@coreui/utils'
+import { useEffect, useState } from "react";
+import { requestAPI } from "../../API";
 
 export function Dashboard(){
+
+  const [data, setData] = useState(false)
+  const [ready, setReady] = useState(false)
+
+  async function request(){
+    const resp = await requestAPI('get', 'api/getvisitor')
+    if(resp.status == 0){
+      setData(resp.data)
+    }
+    setReady(true)
+  }
+
+  useEffect(() => {
+    if(!ready || !data){
+      request()
+    }
+  },[])
+
     return(
         <>
-        {"Dashboard"}
+        {!data ? <CSpinner color="primary"/> :
         <CCol sm={6} lg={3}>
         <CWidgetStatsA
             className="mb-4"
             color="primary"
             value={
                 <>
-                26K{' '}                
+                26K{' '}
                 <span className="fs-6 fw-normal">
                     (-12.4% <CIcon icon={cilArrowBottom} />)
                 </span>
                 </>
             }
-            title="Users"
+            title="Daily Visitor"
             chart={
                 <CChartLine
                   className="mt-3 mx-3"
@@ -31,7 +51,7 @@ export function Dashboard(){
                     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                     datasets: [
                       {
-                        label: 'My First dataset',
+                        label: 'Visitor',
                         backgroundColor: 'transparent',
                         borderColor: 'rgba(255,255,255,.55)',
                         pointBackgroundColor: getStyle('--cui-primary'),
@@ -84,6 +104,7 @@ export function Dashboard(){
               }
         />
         </CCol>
+        }
         </>
     )
 }
