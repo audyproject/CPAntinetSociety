@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -531,6 +532,46 @@ class APIController extends Controller
             return $this->res(0,'Data deactivated!');
         }
 
+    }
+
+    public function getVisitor(){
+
+        $tanggal = Visitor::where('created_at', '>=', Carbon::now()->subMonth())
+                            ->groupBy('date')
+                            ->orderBy('date', 'DESC')
+                            ->get(array(
+                                DB::raw('day(created_at) as date'),
+                                DB::raw('COUNT(*) as "views per hari"')
+                            ));
+
+        $bulan = Visitor::groupBy('date')
+        ->orderBy('date', 'DESC')
+        ->get(array(
+            DB::raw('month(created_at) as date'),
+            DB::raw('COUNT(*) as "views per bulan"')
+        ));
+
+        $tahun = Visitor::groupBy('date')
+        ->orderBy('date', 'DESC')
+        ->get(array(
+            DB::raw('year(created_at) as date'),
+            DB::raw('COUNT(*) as "views per tahun"')
+        ));
+
+        $tigatahun = Visitor::groupBy(DB::raw('floor(period_diff(date_format(current_date,"%Y"),date_format(rangemin,"%Y"))/3)'))
+        // ->orderBy('date', 'DESC')
+        ->get(array(
+            DB::raw('MIN(created_at) as rangemin'),
+            DB::raw('MAX(created_at) as rangemax'),
+            DB::raw('COUNT(*) as "views per tahun"')
+        ));
+         
+        $data[0] = $tanggal;
+        $data[1] = $bulan;
+        $data[2] = $tahun;
+        $data[3] = $tigatahun;
+
+        return $this->res(0,'','',$data);
     }
 
 
