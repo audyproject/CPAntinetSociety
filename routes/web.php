@@ -45,13 +45,24 @@ route::group(['middleware'=>['checkSession']],function(){
         Route::post('api/activate',[APIController::class,'activate']);
     });
     Route::get('api/cekadmin',[APIController::class,'cekAdmin']);
+    // project
     Route::post('api/createproject',[APIController::class,'createProject']);
     Route::post('api/editproject',[APIController::class,'editProject']);
     Route::get('api/getproject',[APIController::class,'getProject']);
     Route::post('api/spotlight',[APIController::class,'spotlight']);
     route::post('api/deletegambarlain',[APIController::class,'deleteGambarLain']);
     route::post('api/editgambarlain',[APIController::class,'editGambarLain']);
+    // subscription
+    route::get('api/getsubscription',[APIController::class,'getSubscription']);
+    // membership
+    route::get('api/getmembership',[APIController::class,'getMembership']);
+    route::post('api/membership/active',[APIController::class,'activeMembership']);
+    
+
+
+
     route::post('api/blast',[MailController::class,'blastMail']);
+
     
 });
 route::post('api/forgotpassword',[MailController::class,'forgotPassword']);

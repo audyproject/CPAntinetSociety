@@ -16,6 +16,8 @@ use App\Models\Token;
 use App\Models\Visitor;
 use App\Models\Sess;
 use App\Models\Project;
+use App\Models\Subscription;
+use App\Models\Membership;
 use App\Mail\TestMail;
 
 class APIController extends Controller
@@ -496,4 +498,40 @@ class APIController extends Controller
             return $this->res(1,'Data not found!');
         }
     }
+
+    public function getSubscription(){
+        $data = Subscription::all();
+        return $this->res(0,'Data Retrieved!','',$data);
+    }
+
+    public function getMembership(){
+        $data = Membership::all();
+        return $this->res(0,'Data Retrieved!','',$data);
+    }
+
+    public function activeMembership(request $r){
+        if(!$r->id){
+            return $this->res(1,'Data cannot be empty!');
+        }
+
+        if($r->isactive > 1 || $r->isactive < 0){
+            return $this->res(1,'Invalid request!');
+        }
+        
+        $act = Membership::where('id',$r->id)->first();
+        if(!$act){
+            return $this->res(1,'Data cannot be empty!');
+        }
+
+        $act->isactive = $r->isactive;
+        $act->save();
+        if($r->isactive == '1'){
+            return $this->res(0,'Data activated!');
+        } else {
+            return $this->res(0,'Data deactivated!');
+        }
+
+    }
+
+
 }
