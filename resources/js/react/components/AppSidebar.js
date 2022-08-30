@@ -56,6 +56,11 @@ const sidebarMenu = [
         icon: cilContact,
     },
     {
+        name: "Email",
+        url: "email",
+        icon: cilContact,
+    },
+    {
         title: "Admin",
         name: "User Management",
         url: "user-management",

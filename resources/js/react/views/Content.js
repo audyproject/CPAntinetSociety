@@ -7,6 +7,7 @@ import {
     SetProject,
     Membership,
     Subscription,
+    Email,
 } from "./content/index"
 
 export function Content({menu}){
@@ -21,6 +22,7 @@ export function Content({menu}){
         menu == "set-project" ? <SetProject/> :
         menu == "subscription" ? <Subscription/> :
         menu == "membership" ? <Membership/> :
+        menu == "email" ? <Email/> :
         "Error 404"
         }
         </>
