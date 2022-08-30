@@ -202,6 +202,7 @@ export function SetProject() {
                                                             setLink(data.link)
                                                             setModal(true)
                                                         }}>Edit</CButton>
+                                                    &nbsp;
                                                     <CButton id="editPicture" color="primary"
                                                         onClick={() => {
                                                             setId(data.id)
