@@ -19,7 +19,7 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import { requestAPI } from '../API'
 import { Toast, Toaster } from '../components/index'
 
-export const Login = ({setLogin, login, sendToast}) => {
+export const Login = ({ setLogin, login, sendToast, setLoginData }) => {
 
   const [loading, setLoading] = useState(false)
   const [toast, setToast] = useState()
@@ -32,15 +32,16 @@ export const Login = ({setLogin, login, sendToast}) => {
     e.preventDefault();
     setLoading(true)
     let data = {
-        "email": email,
-        "password": password
+      "email": email,
+      "password": password
     }
     try {
       const resp = await requestAPI("post", "api/login", data)
-      if(resp.status == 0){
+      if (resp.status == 0) {
+        setLoginData(resp.data)
         setToast(Toaster(toaster, Toast('success', "Login Success!")))
       } else {
-        setToast(Toaster(toaster, Toast('danger',resp.message)))
+        setToast(Toaster(toaster, Toast('danger', resp.message)))
       }
       setLogin(resp.status)
       console.log(resp.message)
@@ -51,10 +52,10 @@ export const Login = ({setLogin, login, sendToast}) => {
   }
 
   useEffect(() => {
-    if(sendToast == "logout"){
+    if (sendToast == "logout") {
       setToast(Toaster(toaster, Toast('success', "Logout Success!")))
     }
-  },[])
+  }, [])
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -77,7 +78,7 @@ export const Login = ({setLogin, login, sendToast}) => {
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
                       </CInputGroupText>
-                      <CFormInput onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" autoComplete="current-password" required/>
+                      <CFormInput onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" autoComplete="current-password" required />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={8}>
@@ -87,10 +88,10 @@ export const Login = ({setLogin, login, sendToast}) => {
                       </CCol>
                       <CCol xs={4}>
                         {loading ?
-                        <CSpinner color='primary' className='float-end'/> : 
-                        <CButton type='submit' color="primary" className="float-end px-4">
-                          Login
-                        </CButton>
+                          <CSpinner color='primary' className='float-end' /> :
+                          <CButton type='submit' color="primary" className="float-end px-4">
+                            Login
+                          </CButton>
                         }
                       </CCol>
                     </CRow>

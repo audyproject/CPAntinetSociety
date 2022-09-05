@@ -69,7 +69,11 @@ class APIController extends Controller
 
         //res
         Session::put('logged',$user->id);
-        return $this->res(0,'Login Success');
+        $obj = (object) array(
+            'role'=> $user->roles->role,
+            'user_id' => $user->id
+        );
+        return $this->res(0,'Login Success','',$obj);
     
     }
 

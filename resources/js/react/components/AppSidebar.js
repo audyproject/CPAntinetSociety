@@ -91,10 +91,12 @@ const sidebarMenu = [
     },
 ];
 
-export function AppSidebar({ menu, setMenu, logout }) {
+export function AppSidebar({ menu, setMenu, logout, loginData }) {
     const dispatch = useDispatch();
     const unfoldable = useSelector((state) => state.sidebarUnfoldable);
     const sidebarShow = useSelector((state) => state.sidebarShow);
+
+    console.log(loginData)
 
     let menuArray = [];
     // iterate every sidebar menu item
