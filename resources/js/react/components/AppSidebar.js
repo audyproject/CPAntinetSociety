@@ -106,7 +106,7 @@ export function AppSidebar({ menu, setMenu, logout }) {
                 );
         }
         {
-            !sidebarMenu[i].categories &&
+            !sidebarMenu[i].categories && sidebarMenu[i].name != "Logout" &&
                 menuArray.push(
                     <CNavItem
                         href="#"
@@ -119,6 +119,21 @@ export function AppSidebar({ menu, setMenu, logout }) {
                         {sidebarMenu[i].name}
                     </CNavItem>
                 );
+        }
+        {
+            sidebarMenu[i].name == "Logout" &&
+                menuArray.push(
+                    <CNavItem
+                        href="#"
+                        onClick={logout}
+                    >
+                        <CIcon
+                            customClassName="nav-icon"
+                            icon={sidebarMenu[i].icon}
+                        />
+                        {sidebarMenu[i].name}
+                    </CNavItem>
+                )
         }
         {
             sidebarMenu[i].categories &&
