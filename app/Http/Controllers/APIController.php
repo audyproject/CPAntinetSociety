@@ -541,21 +541,21 @@ class APIController extends Controller
                             ->orderBy('date', 'DESC')->limit(7)
                             ->get(array(
                                 DB::raw('day(created_at) as date'),
-                                DB::raw('COUNT(*) as "views per hari"')
+                                DB::raw('COUNT(*) as "views"')
                             ));
 
         $bulan = Visitor::groupBy('date')
         ->orderBy('date', 'DESC')->limit(3)
         ->get(array(
             DB::raw('month(created_at) as date'),
-            DB::raw('COUNT(*) as "views per bulan"')
+            DB::raw('COUNT(*) as "views"')
         ));
 
         $tahun = Visitor::groupBy('date')
         ->orderBy('date', 'DESC')->limit(3)
         ->get(array(
             DB::raw('year(created_at) as date'),
-            DB::raw('COUNT(*) as "views per tahun"')
+            DB::raw('COUNT(*) as "views"')
         ));
 
         // $tigatahun = Visitor::groupBy(DB::raw('floor(period_diff(date_format(current_date,"%Y"),date_format(rangemin,"%Y"))/3)'))

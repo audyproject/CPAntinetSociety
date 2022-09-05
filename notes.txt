@@ -37,3 +37,7 @@ troubleshoot:
 2. di etc/apache2/sites-available/000-default.conf -> ubah document root nya jadi public
 3. migration error -> php.ini (extension mysql, mysqli, pdo_mysql)
 4. turunin ke npm7 kalo eror react-dnd dll
+
+install webmail:
+1. https://tecadmin.net/how-to-install-roundcube-webmail-on-ubuntu-20-04/
+2. https://itkoding.com/cara-membuat-mail-server-postix-di-ubuntu/

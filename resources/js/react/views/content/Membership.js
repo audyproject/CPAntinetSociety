@@ -44,10 +44,10 @@ export function Membership(){
     const [dataRoles, setDataRoles] = useState(false)
 
     const request = async () => {
-        const response = await requestAPI('get','api/getuser')
+        const response = await requestAPI('get','api/getmembership')
         if(response.status == 0){
             // console.log(response.data)
-            setUserData(response.data)
+            setMemberData(response.data)
         } else {
             // console.warn(response.message)
         }
@@ -57,12 +57,12 @@ export function Membership(){
     const active = async (id, active) => {
         let data = {
             'id': id,
-            'active': active
+            'isactive': active
         }
-        const response = await requestAPI('post','api/activate', data)
+        const response = await requestAPI('post','api/membership/active', data)
         if(response.status == 0){
             // console.log(response.data)
-            setUserData(false)
+            setMemberData(false)
             if(id == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
             else setToast(Toaster(toaster, Toast('success', "Deactivate Success")))
         } else {
@@ -93,8 +93,8 @@ export function Membership(){
     $("#userTable").DataTable();
     useEffect(async () => {
         if(!ready || !memberData){
-            // request()
-            setMemberData(true)
+            request()
+            // setMemberData(true)
         }
         // if(!dataRoles){
         //     const response = await requestAPI('get','api/getrole')
@@ -348,14 +348,18 @@ export function Membership(){
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>asd</td>
-                                <td>asd</td>
-                                <td>asd</td>
-                                <td>2022-08-29</td>
-                                <td>asd</td>
-                            </tr>
+                            {memberData.map((data, i) => {
+                                return (<tr>
+                                    <td>{i+1}</td>
+                                    <td>{data.nama}</td>
+                                    <td>{data.email}</td>
+                                    <td>{data.telpon}</td>
+                                    <td>{data.created_at.replace(/[A-Z]/g, ' ').split(".")[0]}</td>
+                                    <td>{data.isactive ? 
+                                    <CButton color="danger" onClick={() => active(data.id, 0)}>Deactivate</CButton> : 
+                                    <CButton color="success" onClick={() => active(data.id, 1)}>Activate</CButton>}</td>
+                                </tr>)
+                            })}
                         </tbody>
                         <tfoot>
                             <tr>

@@ -6,6 +6,7 @@ import { AddProject } from "./AddProject"
 import { SetProject } from "./SetProject"
 import { Membership } from "./Membership"
 import { Subscription } from "./Subscription"
+import { Email } from "./Email"
 
 export {
     Dashboard,
@@ -16,4 +17,5 @@ export {
     SetProject,
     Membership,
     Subscription,
+    Email
 }
