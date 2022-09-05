@@ -59,15 +59,14 @@ route::group(['middleware'=>['checkSession']],function(){
     route::post('api/membership/active',[APIController::class,'activeMembership']);
     // visitor
     route::get('api/getvisitor',[APIController::class,'getVisitor']);
-    
-    
-    
-    
-    
     route::post('api/blast',[MailController::class,'blastMail']);
     
-    
 });
+
+//alex
+route::post('subscription',[APIController::class,'subscription']);
+
+
 route::post('api/forgotpassword',[MailController::class,'forgotPassword']);
 Route::get('send-email-queue', function(){
     $details['email'] = '<EMAIL ADDRESS>';

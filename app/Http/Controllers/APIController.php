@@ -538,21 +538,21 @@ class APIController extends Controller
 
         $tanggal = Visitor::where('created_at', '>=', Carbon::now()->subMonth())
                             ->groupBy('date')
-                            ->orderBy('date', 'DESC')
+                            ->orderBy('date', 'DESC')->limit(7)
                             ->get(array(
                                 DB::raw('day(created_at) as date'),
                                 DB::raw('COUNT(*) as "views"')
                             ));
 
         $bulan = Visitor::groupBy('date')
-        ->orderBy('date', 'DESC')
+        ->orderBy('date', 'DESC')->limit(3)
         ->get(array(
             DB::raw('month(created_at) as date'),
             DB::raw('COUNT(*) as "views"')
         ));
 
         $tahun = Visitor::groupBy('date')
-        ->orderBy('date', 'DESC')
+        ->orderBy('date', 'DESC')->limit(3)
         ->get(array(
             DB::raw('year(created_at) as date'),
             DB::raw('COUNT(*) as "views"')
@@ -572,6 +572,24 @@ class APIController extends Controller
         // $data[3] = $tigatahun;
 
         return $this->res(0,'','',$data);
+    }
+
+    //alex
+    public function subscription(request $r){
+        if(!$r->email){
+            return $this->res(1,'Please fill email !');
+        }
+
+        $cek = Subsciption::where('email',$r->email)->first();
+        if($cek->email){
+            return $this->res(0,'Subscribe Success !');
+        } else{
+            $ins = new Subscription();
+            $ins->email = $r->email;
+            $ins->save();
+            return $this->res(0,'Subscribe Success !');
+
+        }
     }
 
 
