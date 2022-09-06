@@ -25,7 +25,6 @@ class APIController extends Controller
 {
     
     public function test(){
-
     }
 
     public function checkSession(){
@@ -66,6 +65,7 @@ class APIController extends Controller
         else if($user->deleted_at){
             return $this->res(1,'Account not active!');
         }
+
 
         //res
         Session::put('logged',$user->id);
