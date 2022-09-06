@@ -25,13 +25,21 @@ class APIController extends Controller
 {
     
     public function test(){
-
     }
 
     public function checkSession(){
         if(Session::has('logged')){
             Session::regenerate();
-            return $this->res(0,'Success');
+            $id = Session::get('logged');
+            $user = User::where('id',$id)->first();
+            if(!$user){
+                return $this->res(1,'No Session');
+            }
+            $obj = (object) array(
+                'role'=> $user->roles->role,
+                'user_id' => $user->id
+            );
+            return $this->res(0,'Success','',$obj);
         } else{
             return $this->res(1,'No Session');
         }
@@ -66,6 +74,7 @@ class APIController extends Controller
         else if($user->deleted_at){
             return $this->res(1,'Account not active!');
         }
+
 
         //res
         Session::put('logged',$user->id);
