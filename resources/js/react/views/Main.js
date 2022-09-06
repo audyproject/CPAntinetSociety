@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { AppSidebar, AppHeader } from '../components/index'
 import { Content } from "./Content"
 
-export const Main = ({ setLogin, logout }) => {
+export const Main = ({ setLogin, logout, loginData }) => {
 
     const [menu, setMenu] = useState("dashboard")
 
     return (
         <>
-            <AppSidebar menu={menu} setMenu={setMenu} logout={logout} />
+            <AppSidebar menu={menu} setMenu={setMenu} logout={logout} loginData={loginData} />
             <div className="wrapper d-flex flex-column min-vh-100 bg-light">
                 <AppHeader setMenu={setMenu} logout={logout} />
                 <div className="body flex-grow-1 px-3">

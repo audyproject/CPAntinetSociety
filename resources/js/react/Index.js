@@ -12,9 +12,9 @@ import ForgotPassword from "./views/ForgotPassword";
 
 function Index() {
 
-    const logout = async() => {
+    const logout = async () => {
         const response = await requestAPI("get", "api/logout")
-        if(response.status == 0){
+        if (response.status == 0) {
             setLogin(9)
         } else {
             console.log(response.message)
@@ -22,24 +22,25 @@ function Index() {
     }
 
     const [login, setLogin] = useState()
+    const [loginData, setLoginData] = useState()
 
     const handleCheckLogin = async () => {
         const response = await requestAPI("get", "api/checksession")
         setLogin(response.status)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         handleCheckLogin()
-    },[])
+    }, [])
 
     return (
         <>
-        {login === 0 ? <Main setLogin={setLogin} logout={logout}/> : 
-        login === 1 ? <Login setLogin={setLogin} login={login}/> :
-        login === 2 ? <ForgotPassword setLogin={setLogin} login={login}/> :
-        login === 9 ? <Login setLogin={setLogin} login={login} sendToast={"logout"}/> :
-        "Loading..."
-        } 
+            {login === 0 ? <Main setLogin={setLogin} logout={logout} loginData={loginData} /> :
+                login === 1 ? <Login setLogin={setLogin} login={login} setLoginData={setLoginData} /> :
+                    login === 2 ? <ForgotPassword setLogin={setLogin} login={login} /> :
+                        login === 9 ? <Login setLogin={setLogin} login={login} sendToast={"logout"} /> :
+                            "Loading..."
+            }
         </>
     )
 }
@@ -48,8 +49,8 @@ export default Index;
 
 if (document.getElementById('app')) {
     ReactDOM.render(
-    <Provider store={store}>
-        <Index />
-    </Provider>, 
-    document.getElementById('app'));
+        <Provider store={store}>
+            <Index />
+        </Provider>,
+        document.getElementById('app'));
 }
