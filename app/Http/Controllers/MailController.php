@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Subscription;
 use App\Mail\ForgotMail;
+use App\Mail\BlastMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
@@ -31,18 +32,19 @@ class MailController extends Controller
         
         $title      = $r->title;
         $body       = $r->body;
+        $to         = $r->to;
 
         $details = [
             'title'     => $title,
             'body'      => $body
         ];
 
+        
         if($to=='all'){
             $ke = Subscription::all()->pluck('email');
         } else {
             $ke = $to;
         }
-
         Mail::to($ke)->send(new BlastMail($details));
         return $this->res(0,'Email sent!');
 

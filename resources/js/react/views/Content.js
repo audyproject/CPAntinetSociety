@@ -22,6 +22,7 @@ export function Content({ menu, setMenu }) {
                                     menu == "set-project" ? <SetProject /> :
                                         menu == "subscription" ? <Subscription /> :
                                             menu == "membership" ? <Membership /> :
+                                                menu == "email" ? <Email /> :  
                                                 "Error 404"
             }
         </>
