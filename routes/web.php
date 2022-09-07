@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\MailController;
+// use App\Http\Controllers\Controller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

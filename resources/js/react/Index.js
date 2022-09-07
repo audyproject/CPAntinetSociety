@@ -40,7 +40,7 @@ function Index() {
             {login === 0 ? <Main setLogin={setLogin} logout={logout} loginData={loginData} sessionData={sessionData} /> :
                 login === 1 ? <Login setLogin={setLogin} login={login} setLoginData={setLoginData} /> :
                     login === 2 ? <ForgotPassword setLogin={setLogin} login={login} /> :
-                        login === 9 ? <Login setLogin={setLogin} setLoginData={setLoginData} login={login} sendToast={"logout"} /> :
+                        login === 9 ? <Login setLogin={setLogin} login={login} setLoginData={setLoginData} sendToast={"logout"} /> :
                             "Loading..."
             }
         </>
