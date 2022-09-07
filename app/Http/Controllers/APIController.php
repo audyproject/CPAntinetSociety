@@ -587,6 +587,37 @@ class APIController extends Controller
         return $this->res(0,'','',$data);
     }
 
+    public function graphMember(){
+        $tanggal = Membership::where('created_at', '>=', Carbon::now()->subMonth())
+                            ->groupBy('date')
+                            ->orderBy('date', 'DESC')->limit(7)
+                            ->get(array(
+                                DB::raw('day(created_at) as date'),
+                                DB::raw('COUNT(*) as "views"')
+                            ));
+
+        $bulan = Membership::groupBy('date')
+        ->orderBy('date', 'DESC')->limit(3)
+        ->get(array(
+            DB::raw('month(created_at) as date'),
+            DB::raw('COUNT(*) as "views"')
+        ));
+
+        $tahun = Membership::groupBy('date')
+        ->orderBy('date', 'DESC')->limit(3)
+        ->get(array(
+            DB::raw('year(created_at) as date'),
+            DB::raw('COUNT(*) as "views"')
+        ));
+         
+        $data[0] = $tanggal;
+        $data[1] = $bulan;
+        $data[2] = $tahun;
+        // $data[3] = $tigatahun;
+
+        return $this->res(0,'','',$data);
+    }
+
     //alex
     public function subscription(request $r){
         if(!$r->email){
@@ -630,4 +661,5 @@ class APIController extends Controller
         ]);
     }
 
+    
 }
