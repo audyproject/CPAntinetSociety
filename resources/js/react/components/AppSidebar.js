@@ -1,14 +1,10 @@
 import {
-    CBadge,
-    CNav,
     CNavGroup,
     CNavItem,
-    CNavLink,
     CNavTitle,
     CSidebar,
     CSidebarBrand,
     CSidebarNav,
-    CSidebarToggler,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import {
@@ -91,21 +87,26 @@ const sidebarMenu = [
     },
 ];
 
-export function AppSidebar({ menu, setMenu, logout, loginData }) {
+export function AppSidebar({ menu, setMenu, logout, loginData, sessionData }) {
     const dispatch = useDispatch();
     const unfoldable = useSelector((state) => state.sidebarUnfoldable);
     const sidebarShow = useSelector((state) => state.sidebarShow);
-
-    console.log(loginData)
 
     let menuArray = [];
     // iterate every sidebar menu item
     for (let i = 0; i < sidebarMenu.length; i++) {
         {
-            sidebarMenu[i].title &&
-                menuArray.push(
-                    <CNavTitle key={i}>{sidebarMenu[i].title}</CNavTitle>
-                );
+            if (sidebarMenu[i].title) {
+                console.log(sessionData)
+                if (sidebarMenu[i].title == "Admin" && sessionData.role != "admin") {
+                    continue
+                } else {
+                    menuArray.push(
+                        <CNavTitle key={i}>{sidebarMenu[i].title}</CNavTitle>
+                    )
+                }
+            }
+
         }
         {
             !sidebarMenu[i].categories && sidebarMenu[i].name != "Logout" &&
@@ -175,7 +176,6 @@ export function AppSidebar({ menu, setMenu, logout, loginData }) {
                             />{" "}
                             {sidebarMenu[i].categories[1].name}
                         </CNavItem>
-                        {console.log("test")}
                     </CNavGroup>
                 );
         }

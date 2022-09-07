@@ -22,11 +22,13 @@ function Index() {
     }
 
     const [login, setLogin] = useState()
-    const [loginData, setLoginData] = useState()
+    // const [loginData, setLoginData] = useState()
+    const [sessionData, setSessionData] = useState(false)
 
     const handleCheckLogin = async () => {
         const response = await requestAPI("get", "api/checksession")
         setLogin(response.status)
+        setSessionData(response.data)
     }
 
     useEffect(() => {
@@ -35,10 +37,10 @@ function Index() {
 
     return (
         <>
-            {login === 0 ? <Main setLogin={setLogin} logout={logout} loginData={loginData} /> :
-                login === 1 ? <Login setLogin={setLogin} login={login} setLoginData={setLoginData} /> :
+            {login === 0 ? <Main setLogin={setLogin} logout={logout} sessionData={sessionData} /> :
+                login === 1 ? <Login setLogin={setLogin} login={login} setSessionData={setSessionData} /> :
                     login === 2 ? <ForgotPassword setLogin={setLogin} login={login} /> :
-                        login === 9 ? <Login setLogin={setLogin} login={login} sendToast={"logout"} /> :
+                        login === 9 ? <Login setLogin={setLogin} login={login} setSessionData={setSessionData} sendToast={"logout"} /> :
                             "Loading..."
             }
         </>

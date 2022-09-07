@@ -256,11 +256,8 @@ class APIController extends Controller
     
     public function getProject(){
         $data = Project::all();
-        if($data->isNotEmpty()){
-            return $this->res(0,"Data retrieved",'',$data);
-        } else{
-            return $this->res(1,"Data empty",'',$data);
-        }
+        return $this->res(0,"Data retrieved",'',$data);
+        
     }
     
     public function createProject(request $r){
@@ -624,15 +621,15 @@ class APIController extends Controller
             return $this->res(1,'Please fill email !');
         }
 
-        $cek = Subsciption::where('email',$r->email)->first();
-        if($cek->email){
-            return $this->res(0,'Subscribe Success !');
-        } else{
+        $cek = Subscription::where('email',$r->email)->first();
+        if(!$cek){
             $ins = new Subscription();
             $ins->email = $r->email;
             $ins->save();
             return $this->res(0,'Subscribe Success !');
-
+        }
+        else {
+            return $this->res(0,'Subscribe Success !');
         }
     }
 
@@ -648,7 +645,7 @@ class APIController extends Controller
         $ins = new Membership();
         $ins->nama = $nama;
         $ins->email = $email;
-        $ins->telpon = $r->telpon;
+        $ins->telpon = $telpon;
         $ins->save();
 
         return $this->res(0,'Join membership success!');
