@@ -48,6 +48,11 @@ class MailController extends Controller
 
     }
 
+    public function getAllEmail(){
+        $data = Subscription::all();
+        return $this->res(0,'Data retrieved','',$data);
+    }
+
     public function forgotPassword(request $r){
 
         if(!$r->email){
