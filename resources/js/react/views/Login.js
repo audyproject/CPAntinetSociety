@@ -18,7 +18,7 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import { requestAPI } from '../API'
 import { Toast, Toaster } from '../components/index'
 
-export const Login = ({ setLogin, login, sendToast, setLoginData }) => {
+export const Login = ({ setLogin, login, sendToast, setSessionData }) => {
 
   const [loading, setLoading] = useState(false)
   const [toast, setToast] = useState()
@@ -37,7 +37,7 @@ export const Login = ({ setLogin, login, sendToast, setLoginData }) => {
     try {
       const resp = await requestAPI("post", "api/login", data)
       if (resp.status == 0) {
-        setLoginData(resp.data)
+        setSessionData(resp.data)
         setToast(Toaster(toaster, Toast('success', "Login Success!")))
       } else {
         setToast(Toaster(toaster, Toast('danger', resp.message)))
