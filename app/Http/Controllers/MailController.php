@@ -31,6 +31,7 @@ class MailController extends Controller
         
         $title      = $r->title;
         $body       = $r->body;
+        $to         = $r->to;
 
         $details = [
             'title'     => $title,
