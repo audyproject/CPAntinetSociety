@@ -67,6 +67,8 @@ route::group(['middleware'=>['checkSession']],function(){
 
 //alex
 route::post('subscription',[APIController::class,'subscription']);
+route::post('membership',[APIController::class,'membership']);
+route::get('ans',[APIController::class,'ans']);
 
 
 route::post('api/forgotpassword',[MailController::class,'forgotPassword']);

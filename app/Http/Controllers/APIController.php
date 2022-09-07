@@ -605,5 +605,29 @@ class APIController extends Controller
         }
     }
 
+    public function membership(request $r){
+        if(!$r->name && !$r->email && !$r->phone){
+            return $this->res(1,'Please fill');
+        }
+
+        $nama = $r->name;
+        $email = $r->email;
+        $telpon = $r->phone;
+
+        $ins = new Membership();
+        $ins->nama = $nama;
+        $ins->email = $email;
+        $ins->telpon = $r->telpon;
+        $ins->save();
+
+        return $this->res(0,'Join membership success!');
+    }
+
+    public function ans(){
+        $project = Project::all();
+        return response()->json([
+            'project'  => $project
+        ]);
+    }
 
 }
