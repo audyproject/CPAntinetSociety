@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Subscription;
 use App\Mail\ForgotMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,21 +25,25 @@ class MailController extends Controller
 
     public function blastMail(request $r){
 
-        if(!$r->title || !$r->body || !$r->subject){
+        if(!$r->title || !$r->body || !$r->to){
             return $this->res(1,'Email fields cannot be empty!');
         }
         
         $title      = $r->title;
         $body       = $r->body;
-        $subject    = $r->subject;
 
         $details = [
             'title'     => $title,
-            'body'      => $body,
-            'subject'   => $subject
+            'body'      => $body
         ];
 
-        Mail::to("hwijaya91@gmail.com")->send(new BlastMail($details));
+        if($to=='all'){
+            $ke = Subscription::all()->pluck('email');
+        } else {
+            $ke = $to;
+        }
+
+        Mail::to($ke)->send(new BlastMail($details));
         return $this->res(0,'Email sent!');
 
     }
