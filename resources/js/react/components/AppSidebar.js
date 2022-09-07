@@ -97,6 +97,7 @@ export function AppSidebar({ menu, setMenu, logout, loginData, sessionData }) {
     for (let i = 0; i < sidebarMenu.length; i++) {
         {
             if (sidebarMenu[i].title) {
+                console.log(sessionData)
                 if (sidebarMenu[i].title == "Admin" && sessionData.role != "admin") {
                     continue
                 } else {

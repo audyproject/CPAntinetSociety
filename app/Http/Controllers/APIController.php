@@ -614,7 +614,7 @@ class APIController extends Controller
         $ins = new Membership();
         $ins->nama = $nama;
         $ins->email = $email;
-        $ins->telpon = $r->telpon;
+        $ins->telpon = $telpon;
         $ins->save();
 
         return $this->res(0,'Join membership success!');
