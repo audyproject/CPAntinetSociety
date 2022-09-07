@@ -12,7 +12,6 @@ import {
   CInputGroupText,
   CRow,
   CSpinner,
-  CToaster,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
@@ -44,7 +43,6 @@ export const Login = ({ setLogin, login, sendToast, setLoginData }) => {
         setToast(Toaster(toaster, Toast('danger', resp.message)))
       }
       setLogin(resp.status)
-      console.log(resp.message)
       setLoading(false)
     } catch (error) {
       window.location.reload
