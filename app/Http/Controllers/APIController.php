@@ -512,12 +512,22 @@ class APIController extends Controller
 
     public function getSubscription(){
         $data = Subscription::all();
-        return $this->res(0,'Data Retrieved!','',$data);
+        $graph = $this->graphSubscribe();
+        $out = (object)[
+            'graph'  => $graph,
+            'dataset' => $data
+        ];
+        return $this->res(0,'Data Retrieved!','',$out);
     }
 
     public function getMembership(){
         $data = Membership::all();
-        return $this->res(0,'Data Retrieved!','',$data);
+        $graph = $this->graphMember();
+        $out = (object)[
+            'graph'  => $graph,
+            'dataset' => $data
+        ];
+        return $this->res(0,'Data Retrieved!','',$out);
     }
 
     public function activeMembership(request $r){
@@ -550,19 +560,19 @@ class APIController extends Controller
                             ->groupBy('date')
                             ->orderBy('date', 'DESC')->limit(7)
                             ->get(array(
-                                DB::raw('day(created_at) as date'),
+                                DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date"),
                                 DB::raw('COUNT(*) as "views"')
                             ));
 
         $bulan = Visitor::groupBy('date')
-        ->orderBy('date', 'DESC')->limit(3)
+        ->orderBy('date', 'DESC') ->limit(12)
         ->get(array(
-            DB::raw('month(created_at) as date'),
+            DB::raw("DATE_FORMAT(created_at,'%Y-%m') as date"),
             DB::raw('COUNT(*) as "views"')
         ));
 
         $tahun = Visitor::groupBy('date')
-        ->orderBy('date', 'DESC')->limit(3)
+        ->orderBy('date', 'DESC') //->limit(3)
         ->get(array(
             DB::raw('year(created_at) as date'),
             DB::raw('COUNT(*) as "views"')
@@ -589,30 +599,56 @@ class APIController extends Controller
                             ->groupBy('date')
                             ->orderBy('date', 'DESC')->limit(7)
                             ->get(array(
-                                DB::raw('day(created_at) as date'),
+                                DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date"),
                                 DB::raw('COUNT(*) as "views"')
                             ));
 
         $bulan = Membership::groupBy('date')
-        ->orderBy('date', 'DESC')->limit(3)
+        ->orderBy('date', 'DESC')->limit(12)
         ->get(array(
-            DB::raw('month(created_at) as date'),
+            DB::raw("DATE_FORMAT(created_at,'%Y-%m') as date"),
             DB::raw('COUNT(*) as "views"')
         ));
 
-        $tahun = Membership::groupBy('date')
-        ->orderBy('date', 'DESC')->limit(3)
-        ->get(array(
-            DB::raw('year(created_at) as date'),
-            DB::raw('COUNT(*) as "views"')
-        ));
+        // $tahun = Membership::groupBy('date')
+        // ->orderBy('date', 'DESC')
+        // ->get(array(
+        //     DB::raw('year(created_at) as date'),
+        //     DB::raw('COUNT(*) as "views"')
+        // ));
+
+        $total = Membership::all()->count();
          
         $data[0] = $tanggal;
         $data[1] = $bulan;
-        $data[2] = $tahun;
-        // $data[3] = $tigatahun;
+        $data[2] = $total;
 
-        return $this->res(0,'','',$data);
+        return $data;
+    }
+
+    public function graphSubscribe(){
+        $tanggal = Subscription::where('created_at', '>=', Carbon::now()->subMonth())
+                            ->groupBy('date')
+                            ->orderBy('date', 'DESC')->limit(7)
+                            ->get(array(
+                                DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date"),
+                                DB::raw('COUNT(*) as "views"')
+                            ));
+
+        $bulan = Subscription::groupBy('date')
+        ->orderBy('date', 'DESC')->limit(12)
+        ->get(array(
+            DB::raw("DATE_FORMAT(created_at,'%Y-%m') as date"),
+            DB::raw('COUNT(*) as "views"')
+        ));
+
+        $total = Subscription::all()->count();
+         
+        $data[0] = $tanggal;
+        $data[1] = $bulan;
+        $data[2] = $total;
+
+        return $data;
     }
 
     //alex
