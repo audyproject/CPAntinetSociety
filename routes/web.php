@@ -58,7 +58,6 @@ route::group(['middleware'=>['checkSession']],function(){
     // membership
     route::get('api/getmembership',[APIController::class,'getMembership']);
     route::post('api/membership/active',[APIController::class,'activeMembership']);
-    route::get('api/graphmember',[APIController::class,'graphMember']);
     // visitor
     route::get('api/getvisitor',[APIController::class,'getVisitor']);
     route::post('api/blast',[MailController::class,'blastMail']);
