@@ -31,6 +31,7 @@ import {
 export function Membership(){
 
     const [memberData, setMemberData] = useState(false)
+    const [graphMembership, setGraphMembership] = useState(false)
     const [ready, setReady] = useState(false)
     const [loading, setLoading] = useState(false)
     const [toast, setToast] = useState()
@@ -47,12 +48,23 @@ export function Membership(){
         const response = await requestAPI('get','api/getmembership')
         if(response.status == 0){
             // console.log(response.data)
-            setMemberData(response.data)
+            setMemberData(response.data.dataset)
+            setGraphMembership(response.data.graph)
         } else {
             // console.warn(response.message)
         }
         setReady(true)
     }
+
+    // const request2 = async () => {
+    //     const resp = await requestAPI('get', 'api/graphmember')
+    //     if(resp.status == 0){
+    //         console.log(resp.data)
+    //         setGraphMembership(resp.data)
+    //     } else {
+
+    //     }
+    // }
 
     const active = async (id, active) => {
         let data = {
@@ -94,6 +106,7 @@ export function Membership(){
     useEffect(async () => {
         if(!ready || !memberData){
             request()
+            // request2()
             // setMemberData(true)
         }
         // if(!dataRoles){
@@ -106,7 +119,7 @@ export function Membership(){
 
     return(
         <>
-        {!memberData ? <CSpinner color="primary"/> : 
+        {!memberData || !graphMembership ? <CSpinner color="primary"/> : 
         <>
         <CRow>
             <CCol sm={12} lg={4}>
@@ -115,7 +128,8 @@ export function Membership(){
                 color="primary"
                 value={
                     <>
-                    12.345{' '}                
+                    {/* 12.345{' '}                 */}
+                    {graphMembership[2]+ " "}
                     {/* <span className="fs-6 fw-normal">
                         (-12.4% <CIcon icon={cilArrowBottom} />)
                     </span> */}
@@ -127,14 +141,20 @@ export function Membership(){
                     className="mt-3 mx-3"
                     style={{ height: '70px' }}
                     data={{
-                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        // labels: graphMembership[0].reverse().map((datas, i) => {
+                        //     return datas.date
+                        // }),
                         datasets: [
                         {
-                            label: 'My First dataset',
+                            label: 'Join Membership',
                             backgroundColor: 'transparent',
                             borderColor: 'rgba(255,255,255,.55)',
                             pointBackgroundColor: getStyle('--cui-primary'),
-                            data: [65, 59, 84, 84, 51, 55, 40],
+                            // data: [65, 59, 84, 84, 51, 55, 40],
+                            // data: graphMembership[0].reverse().map((datas, i) => {
+                            //     return datas.views
+                            // })
                         },
                         ],
                     }}
@@ -156,8 +176,8 @@ export function Membership(){
                             },
                         },
                         y: {
-                            min: 30,
-                            max: 89,
+                            min: 0,
+                            max: 52,
                             display: false,
                             grid: {
                             display: false,
@@ -190,6 +210,7 @@ export function Membership(){
                 value={
                     <>
                     12.345{' '}                
+                    {/* {graphMembership[2]+ " "} */}
                     {/* <span className="fs-6 fw-normal">
                         (-12.4% <CIcon icon={cilArrowBottom} />)
                     </span> */}
@@ -201,14 +222,20 @@ export function Membership(){
                     className="mt-3 mx-3"
                     style={{ height: '70px' }}
                     data={{
-                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        labels: graphMembership[0].reverse().map((datas, i) => {
+                            return datas.date
+                        }),
                         datasets: [
                         {
                             label: 'My First dataset',
                             backgroundColor: 'transparent',
                             borderColor: 'rgba(255,255,255,.55)',
                             pointBackgroundColor: getStyle('--cui-primary'),
-                            data: [65, 59, 84, 84, 51, 55, 40],
+                            // data: [65, 59, 84, 84, 51, 55, 40],
+                            data: graphMembership[0].reverse().map((datas, i) => {
+                                return datas.views
+                            })
                         },
                         ],
                     }}
@@ -230,8 +257,8 @@ export function Membership(){
                             },
                         },
                         y: {
-                            min: 30,
-                            max: 89,
+                            min: 0,
+                            max: 52,
                             display: false,
                             grid: {
                             display: false,
@@ -275,14 +302,20 @@ export function Membership(){
                     className="mt-3 mx-3"
                     style={{ height: '70px' }}
                     data={{
-                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        labels: graphMembership[1].reverse().map((datas, i) => {
+                            return datas.date
+                        }),
                         datasets: [
                         {
                             label: 'My First dataset',
                             backgroundColor: 'transparent',
                             borderColor: 'rgba(255,255,255,.55)',
                             pointBackgroundColor: getStyle('--cui-primary'),
-                            data: [65, 59, 84, 84, 51, 55, 40],
+                            // data: [65, 59, 84, 84, 51, 55, 40],
+                            data: graphMembership[1].reverse().map((datas, i) => {
+                                return datas.views
+                            })
                         },
                         ],
                     }}
