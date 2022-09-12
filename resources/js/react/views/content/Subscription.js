@@ -31,6 +31,7 @@ import {
 export function Subscription(){
 
     const [subscriptionData, setSubscriptionData] = useState(false)
+    const [graphSubscription, setGraphSubscription] = useState(false)
     const [ready, setReady] = useState(false)
     const [loading, setLoading] = useState(false)
     const [toast, setToast] = useState()
@@ -47,7 +48,9 @@ export function Subscription(){
         const response = await requestAPI('get','api/getsubscription')
         if(response.status == 0){
             // console.log(response.data)
-            setSubscriptionData(response.data)
+            setSubscriptionData(response.data.dataset)
+            setGraphSubscription(response.data.graph)
+            console.log(response.data.graph)
         } else {
             // console.warn(response.message)
         }
@@ -106,7 +109,7 @@ export function Subscription(){
 
     return(
         <>
-        {!subscriptionData ? <CSpinner color="primary"/> : 
+        {!subscriptionData || !graphSubscription ? <CSpinner color="primary"/> : 
         <>
         <CRow>
             <CCol sm={12} lg={4}>
@@ -115,7 +118,8 @@ export function Subscription(){
                 color="primary"
                 value={
                     <>
-                    12.345{' '}                
+                    {/* 12.345{' '}                 */}
+                    {graphSubscription[2]+ " "}
                     {/* <span className="fs-6 fw-normal">
                         (-12.4% <CIcon icon={cilArrowBottom} />)
                     </span> */}
@@ -127,14 +131,20 @@ export function Subscription(){
                     className="mt-3 mx-3"
                     style={{ height: '70px' }}
                     data={{
-                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        // labels: graphSubscription[0].reverse().map((datas, i) => {
+                        //     return datas.date
+                        // }),
                         datasets: [
                         {
                             label: 'My First dataset',
                             backgroundColor: 'transparent',
                             borderColor: 'rgba(255,255,255,.55)',
                             pointBackgroundColor: getStyle('--cui-primary'),
-                            data: [65, 59, 84, 84, 51, 55, 40],
+                            // data: [65, 59, 84, 84, 51, 55, 40],
+                            // data: graphSubscription[0].reverse().map((datas, i) => {
+                            //     return datas.views
+                            // })
                         },
                         ],
                     }}
@@ -201,14 +211,20 @@ export function Subscription(){
                     className="mt-3 mx-3"
                     style={{ height: '70px' }}
                     data={{
-                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        labels: graphSubscription[0].reverse().map((datas, i) => {
+                            return datas.date
+                        }),
                         datasets: [
                         {
                             label: 'My First dataset',
                             backgroundColor: 'transparent',
                             borderColor: 'rgba(255,255,255,.55)',
                             pointBackgroundColor: getStyle('--cui-primary'),
-                            data: [65, 59, 84, 84, 51, 55, 40],
+                            // data: [65, 59, 84, 84, 51, 55, 40],
+                            data: graphSubscription[0].reverse().map((datas, i) => {
+                                return datas.views
+                            })
                         },
                         ],
                     }}
@@ -275,14 +291,20 @@ export function Subscription(){
                     className="mt-3 mx-3"
                     style={{ height: '70px' }}
                     data={{
-                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        labels: graphSubscription[1].reverse().map((datas, i) => {
+                            return datas.date
+                        }),
                         datasets: [
                         {
                             label: 'My First dataset',
                             backgroundColor: 'transparent',
                             borderColor: 'rgba(255,255,255,.55)',
                             pointBackgroundColor: getStyle('--cui-primary'),
-                            data: [65, 59, 84, 84, 51, 55, 40],
+                            // data: [65, 59, 84, 84, 51, 55, 40],
+                            data: graphSubscription[1].reverse().map((datas, i) => {
+                                return datas.views
+                            })
                         },
                         ],
                     }}
