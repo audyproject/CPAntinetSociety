@@ -22,7 +22,6 @@ function Index() {
     }
 
     const [login, setLogin] = useState()
-    // const [loginData, setLoginData] = useState()
     const [sessionData, setSessionData] = useState(false)
 
     const handleCheckLogin = async () => {

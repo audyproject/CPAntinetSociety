@@ -26,10 +26,9 @@ export function SetUser({ sessionData }) {
     const request = async () => {
         const response = await requestAPI('get', 'api/getuser')
         if (response.status == 0) {
-            console.log(response.data)
             setUserData(response.data)
         } else {
-            // console.warn(response.message)
+
         }
         setReady(true)
     }
@@ -41,7 +40,6 @@ export function SetUser({ sessionData }) {
         }
         const response = await requestAPI('post', 'api/activate', data)
         if (response.status == 0) {
-            // console.log(response.data)
             setUserData(false)
             if (id == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
             else setToast(Toaster(toaster, Toast('success', "Deactivate Success")))
@@ -60,9 +58,7 @@ export function SetUser({ sessionData }) {
         }
         const response = await requestAPI('post', 'api/edituser', data)
         if (response.status == 0) {
-            // toast("Edit Success", "bg-success")
             setToast(Toaster(toaster, Toast('success', "Edit User Success")))
-            // $("#modalEdit").modal('hide');
             setModal(false)
         }
         setLoading(false)
@@ -82,8 +78,6 @@ export function SetUser({ sessionData }) {
             }
         }
     })
-
-    console.log(sessionData)
 
     return (
         <>
@@ -179,42 +173,6 @@ export function SetUser({ sessionData }) {
                             </CModalFooter>
                         </CForm>
                     </CModal>
-                    {/* <div className="modal fade" id="modalEdit" tabIndex="-1" aria-labelledby="exampleModalLgLabel" aria-hidden="true">
-            <div className="modal-dialog modal-lg">
-                <div className="modal-content">
-                <div className="modal-header">
-                    <h5 className="modal-title h4" id="exampleModalLgLabel">Large modal</h5>
-                    <button className="btn-close" id="closeModal" type="button" data-coreui-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                    <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label className="form-label" htmlFor="formGroupExampleInput">Email</label>
-                            <input disabled value={email} className="form-control" id="formGroupExampleInput" type="text"/>
-                        </div>
-                        <div className="mb-3">
-                            <label className="form-label" htmlFor="formGroupExampleInput2">Roles</label>
-                            <select onChange={e => setRoles(e.target.value)} value={roles} className="form-select" aria-label="Default select example">
-                                <option>Choose Roles</option>
-                                {!dataRoles ? <></> : 
-                                dataRoles.map((datas, i) => {
-                                    return <option value={datas.id}>{datas.role}</option>
-                                })
-                                }
-                            </select>
-                        </div>
-                        <div className="mb-3">
-                            <label className="form-label" htmlFor="formGroupExampleInput">Username</label>
-                            <input onChange={e => setUsername(e.target.value)} value={username} className="form-control" id="formGroupExampleInput" type="text"/>
-                        </div>
-                        <div className="col-6">
-                            {loading ? <div className="spinner-border text-info" role="status"><span className="visually-hidden">Loading...</span></div> : <button className="btn btn-primary px-4" type="submit">Submit</button>}
-                        </div>
-                    </form>
-                </div>
-                </div>
-            </div>
-        </div> */}
                     {toast}
                 </>
             }
