@@ -1,4 +1,3 @@
-// import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     CContainer,
@@ -29,7 +28,6 @@ export function AppHeader({ setMenu, logout }) {
             <CHeader position="sticky" className="mb-4">
                 <CContainer fluid>
                     <CHeaderNav className="ms-3">
-                        {/* <AppHeaderDropdown /> */}
                         <CHeaderToggler
                             className="ps-1"
                             onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}

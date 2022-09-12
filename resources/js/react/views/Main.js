@@ -13,7 +13,7 @@ export const Main = ({ setLogin, logout, loginData, sessionData }) => {
             <div className="wrapper d-flex flex-column min-vh-100 bg-light">
                 <AppHeader setMenu={setMenu} logout={logout} />
                 <div className="body flex-grow-1 px-3">
-                    <Content menu={menu} setMenu={setMenu} />
+                    <Content menu={menu} setMenu={setMenu} sessionData={sessionData} />
                 </div>
                 {/* <AppFooter /> */}
             </div>
