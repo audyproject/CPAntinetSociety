@@ -25,6 +25,7 @@ class APIController extends Controller
 {
     
     public function test(){
+        
     }
 
     public function checkSession(){
@@ -283,6 +284,8 @@ class APIController extends Controller
         if ($r->hasFile('gambar_utama')) {
             $ext = $r->file('gambar_utama')->extension();
             $ext = strtolower($ext);
+            // list($width, $height) = getimagesize($r->file('gambar_utama'));
+            // $size = $r->file('gambar_utama')->getSize(); // in bytes
             if (!in_array($ext, $supported_image)) {
                 return $this->res(1,'File is not supported!');
             }
