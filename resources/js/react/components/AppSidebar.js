@@ -193,7 +193,6 @@ export function AppSidebar({ menu, setMenu, logout, loginData, sessionData }) {
             >
                 <CSidebarBrand><img src="\antinet\logo\horizontal 1 - white.png" alt="Logo Antinet Society" width={250} height={140} /></CSidebarBrand>
                 <CSidebarNav>{menuArray}</CSidebarNav>
-                {/* <CSidebarToggler /> */}
             </CSidebar>
         </>
     );
