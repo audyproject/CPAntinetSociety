@@ -2,14 +2,14 @@ import { CCol, CRow, CSpinner, CWidgetStatsA } from "@coreui/react";
 import { CChartLine } from "@coreui/react-chartjs";
 import CIcon from "@coreui/icons-react";
 import {
-    cilArrowBottom,
-    cilArrowTop,
+  cilArrowBottom,
+  cilArrowTop,
 } from "@coreui/icons";
 import { getStyle } from '@coreui/utils'
 import { useEffect, useState } from "react";
 import { requestAPI } from "../../API";
 
-export function Dashboard(){
+export function Dashboard() {
 
   const [data, setData] = useState(false)
   const [ready, setReady] = useState(false)
@@ -20,67 +20,67 @@ export function Dashboard(){
   const [minDaily, setMinDaily] = useState(0)
   const [maxDaily, setMaxDaily] = useState(0)
 
-  async function request(){
+  async function request() {
     const resp = await requestAPI('get', 'api/getvisitor')
-    if(resp.status == 0){
+    if (resp.status == 0) {
       setData(resp.data)
       console.log(resp.data)
     }
     setReady(true)
   }
 
-  function minMax(data){
+  function minMax(data) {
     let min = 0
     let max = 0
     data.map((datas, i) => {
-      if(i == 0){
+      if (i == 0) {
         min = datas['views']
         max = datas['views']
       }
-      if(datas['views'] > max){
+      if (datas['views'] > max) {
         max = datas['views']
       }
-      if(datas['views'] < min){
+      if (datas['views'] < min) {
         min = datas['views']
       }
     })
-    return {min, max}
+    return { min, max }
   }
 
   useEffect(() => {
-    if(!ready || !data){
+    if (!ready || !data) {
       request()
     }
-    if(data){
-      if(data[0][data[0].length-1] && data[0][data[0].length-2]){
-        setDailyPercent((Math.floor((data[0][data[0].length-1]['views'] - data[0][data[0].length-2]['views']))/data[0][data[0].length-2]['views']*100).toFixed(2))
+    if (data) {
+      if (data[0][data[0].length - 1] && data[0][data[0].length - 2]) {
+        setDailyPercent((Math.floor((data[0][data[0].length - 1]['views'] - data[0][data[0].length - 2]['views'])) / data[0][data[0].length - 2]['views'] * 100).toFixed(2))
       }
-      if(data[1][data[1].length-1] && data[1][data[1].length-2]) setDailyPercent((Math.floor((data[1][data[1].length-1]['views'] - data[1][data[1].length-2]['views']))/data[1][data[1].length-2]['views']*100).toFixed(2))
-      if(data[2][data[2].length-1] && data[2][data[2].length-2]) setDailyPercent((Math.floor((data[2][data[2].length-1]['views'] - data[2][data[2].length-2]['views']))/data[2][data[2].length-2]['views']*100).toFixed(2))
+      if (data[1][data[1].length - 1] && data[1][data[1].length - 2]) setDailyPercent((Math.floor((data[1][data[1].length - 1]['views'] - data[1][data[1].length - 2]['views'])) / data[1][data[1].length - 2]['views'] * 100).toFixed(2))
+      if (data[2][data[2].length - 1] && data[2][data[2].length - 2]) setDailyPercent((Math.floor((data[2][data[2].length - 1]['views'] - data[2][data[2].length - 2]['views'])) / data[2][data[2].length - 2]['views'] * 100).toFixed(2))
       // if(data[1][0] && data[1][1]) setMonthlyPercent(Math.floor((data[1][0]['views per bulan'] - data[1][1]['views per bulan']))/data[1][1]['views per bulan']*100)
       // if(data[2][0] && data[2][1]) setYearlyPercent(Math.floor((data[2][0]['views per tahun'] - data[2][1]['views per tahun']))/data[2][1]['views per tahun']*100)
     }
-  },[data])
+  }, [data])
 
-    return(
-        <>
-        {!data ? <CSpinner color="primary"/> :
+  return (
+    <>
+      {!data ? <CSpinner color="primary" /> :
         <CRow>
-        <CCol sm={12} lg={4}>
-        <CWidgetStatsA
-            className="mb-4"
-            color="primary"
-            value={
+          <CCol sm={12} lg={4}>
+            <CWidgetStatsA
+              className="mb-4"
+              color="primary"
+              value={
                 <>
-                {data[0][data[0].length -1]['views']}
-                <span className="fs-6 fw-normal">
+                  {data[0][data[0].length - 1]['views']}
+                  <span className="fs-6 fw-normal">
                     {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
                     ({dailyPercent + "%"} {dailyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
-                </span>
+                  </span>
                 </>
-            }
-            title="Daily Visitor"
-            chart={
+              }
+              title="Daily Visitor"
+              chart={
                 <CChartLine
                   className="mt-3 mx-3"
                   style={{ height: '70px' }}
@@ -137,8 +137,8 @@ export function Dashboard(){
                         },
                       },
                       y: {
-                        min: minMax(data[0]).min-1,
-                        max: minMax(data[0]).max+1,
+                        min: minMax(data[0]).min - 1,
+                        max: minMax(data[0]).max + 1,
                         display: false,
                         grid: {
                           display: false,
@@ -162,23 +162,23 @@ export function Dashboard(){
                   }}
                 />
               }
-        />
-        </CCol>
-        <CCol sm={12} lg={4}>
-        <CWidgetStatsA
-            className="mb-4"
-            color="success"
-            value={
+            />
+          </CCol>
+          <CCol sm={12} lg={4}>
+            <CWidgetStatsA
+              className="mb-4"
+              color="success"
+              value={
                 <>
-                {data[1][0]['views']}
-                <span className="fs-6 fw-normal">
+                  {data[1][0]['views']}
+                  <span className="fs-6 fw-normal">
                     {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
                     ({monthlyPercent + "%"} {monthlyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
-                </span>
+                  </span>
                 </>
-            }
-            title="Monthly Visitor"
-            chart={
+              }
+              title="Monthly Visitor"
+              chart={
                 <CChartLine
                   className="mt-3 mx-3"
                   style={{ height: '70px' }}
@@ -229,8 +229,8 @@ export function Dashboard(){
                         },
                       },
                       y: {
-                        min: minMax(data[1]).min-1,
-                        max: minMax(data[1]).max+1,
+                        min: minMax(data[1]).min - 1,
+                        max: minMax(data[1]).max + 1,
                         display: false,
                         grid: {
                           display: false,
@@ -254,23 +254,23 @@ export function Dashboard(){
                   }}
                 />
               }
-        />
-        </CCol>
-        <CCol sm={12} lg={4}>
-        <CWidgetStatsA
-            className="mb-4"
-            color="danger"
-            value={
+            />
+          </CCol>
+          <CCol sm={12} lg={4}>
+            <CWidgetStatsA
+              className="mb-4"
+              color="danger"
+              value={
                 <>
-                {data[2][0]['views']}
-                <span className="fs-6 fw-normal">
+                  {data[2][0]['views']}
+                  <span className="fs-6 fw-normal">
                     {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
                     ({yearlyPercent + "%"} {yearlyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
-                </span>
+                  </span>
                 </>
-            }
-            title="Yearly Visitor"
-            chart={
+              }
+              title="Yearly Visitor"
+              chart={
                 <CChartLine
                   className="mt-3 mx-3"
                   style={{ height: '70px' }}
@@ -321,8 +321,8 @@ export function Dashboard(){
                         },
                       },
                       y: {
-                        min: minMax(data[2]).min-1,
-                        max: minMax(data[2]).max+1,
+                        min: minMax(data[2]).min - 1,
+                        max: minMax(data[2]).max + 1,
                         display: false,
                         grid: {
                           display: false,
@@ -346,10 +346,10 @@ export function Dashboard(){
                   }}
                 />
               }
-        />
-        </CCol>
+            />
+          </CCol>
         </CRow>
-        }
-        </>
-    )
+      }
+    </>
+  )
 }
