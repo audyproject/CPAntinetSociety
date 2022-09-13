@@ -75,8 +75,9 @@ export function Email(){
                 Send Email
             </CCardHeader>
             <CCardBody>
-                <span className="d-flex">To <CFormCheck style={{marginLeft: "25px"}} label="All"/></span>
+                <span className="d-flex">To <CFormCheck style={{marginLeft: "25px", marginRight: "0.5em"}} label="All"/></span>
                 <MultiSelect
+                    className="mb-3"
                     options={targetEmail}
                     value={selected}
                     onChange={setSelected}
@@ -89,6 +90,7 @@ export function Email(){
                     }}
                 />
                 <CFormInput
+                    className="mb-2"
                     onChange={(e) => setSubject(e.target.value)}
                     label="Subject"
                 />
@@ -96,7 +98,7 @@ export function Email(){
                 {/* </CFormInput> */}
             </CCardBody>
         </CCard>
-        <CCard>
+        <CCard className="mt-3">
             <CCardBody>
             <Editor
                 editorState={editorState}
@@ -108,9 +110,11 @@ export function Email(){
                 // toolbarStyle={<toolbarStyleObject>}
                 onEditorStateChange={(e) => setEditorState(e)}
             />
+            
             </CCardBody>
+            
         </CCard>
-        <CButton type="submit" color="primary">Send</CButton>
+        <CButton className="mt-3" type="submit" color="primary">Send</CButton>
         </CForm>
         </>
     )

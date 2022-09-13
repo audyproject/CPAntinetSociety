@@ -44,7 +44,11 @@ export function SetProject() {
         setReady(true)
     }
 
-    $("#projectTable").DataTable();
+    $("#projectTable").DataTable({
+        retrieve: true,
+        pagingType: "full_numbers",
+    });
+
     useEffect(() => {
         if (!ready || !projectData) {
             request()

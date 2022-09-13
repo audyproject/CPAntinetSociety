@@ -66,7 +66,11 @@ export function SetUser({ sessionData }) {
         setReady(false)
     }
 
-    $("#userTable").DataTable();
+    $("#userTable").DataTable({
+        retrieve: true,
+        pagingType: "full_numbers",
+    });
+
     useEffect(async () => {
         if (!ready || !userData) {
             request()
