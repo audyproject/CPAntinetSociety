@@ -62,7 +62,7 @@ route::group(['middleware'=>['checkSession']],function(){
     route::get('api/getvisitor',[APIController::class,'getVisitor']);
     route::post('api/blast',[MailController::class,'blastMail']);
     route::get('api/getallemail',[MailController::class,'getAllEmail']);
-
+    
     
 });
 

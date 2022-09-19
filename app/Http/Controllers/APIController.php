@@ -588,6 +588,33 @@ class APIController extends Controller
         //     DB::raw('MAX(created_at) as rangemax'),
         //     DB::raw('COUNT(*) as "views per tahun"')
         // ));
+
+        for($i=0;$i<7;$i++){
+            //tanggal
+            if(empty($tanggal[$i])) {
+                $tanggal[$i] = [
+                    'date' => date('Y-m-d',strtotime($tanggal[$i-1]['date'])-3600*24),
+                    'views' => 0
+                ];
+            }
+            //bulan
+            if(empty($bulan[$i])) {
+                $bulan[$i] = [
+                    'date' => date('Y-m',strtotime($bulan[$i-1]['date'])-3600*24*30),
+                    'views' => 0
+                ];
+            }
+            //tahun
+            if(empty($tahun[$i])) {
+                $tahun[$i] = [
+                    'date' => date('Y',strtotime($tahun[$i-1]['date']."-01-01")-3600*24*365),
+                    'views' => 0
+                ];
+            } 
+        }
+
+    
+        
          
         $data[0] = $tanggal;
         $data[1] = $bulan;
@@ -621,6 +648,24 @@ class APIController extends Controller
         // ));
 
         $total = Membership::all()->count();
+
+        for($i=0;$i<7;$i++){
+            //tanggal
+            if(empty($tanggal[$i])) {
+                $tanggal[$i] = [
+                    'date' => date('Y-m-d',strtotime($tanggal[$i-1]['date'])-3600*24),
+                    'views' => 0
+                ];
+            }
+            //bulan
+            if(empty($bulan[$i])) {
+                $bulan[$i] = [
+                    'date' => date('Y-m',strtotime($bulan[$i-1]['date'])-3600*24*30),
+                    'views' => 0
+                ];
+            }
+            
+        }
          
         $data[0] = $tanggal;
         $data[1] = $bulan;
@@ -646,6 +691,24 @@ class APIController extends Controller
         ));
 
         $total = Subscription::all()->count();
+
+        for($i=0;$i<7;$i++){
+            //tanggal
+            if(empty($tanggal[$i])) {
+                $tanggal[$i] = [
+                    'date' => date('Y-m-d',strtotime($tanggal[$i-1]['date'])-3600*24),
+                    'views' => 0
+                ];
+            }
+            //bulan
+            if(empty($bulan[$i])) {
+                $bulan[$i] = [
+                    'date' => date('Y-m',strtotime($bulan[$i-1]['date'])-3600*24*30),
+                    'views' => 0
+                ];
+            }
+            
+        }
          
         $data[0] = $tanggal;
         $data[1] = $bulan;
