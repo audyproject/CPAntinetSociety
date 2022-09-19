@@ -7,8 +7,8 @@
     <title>Antinet Society</title>
 </head>
 <body>
-    <h1>{{$details['title']}}</h1>
-    <h2>{{$details['body']}}</h2>
+    <h1>{!!$details['title']!!}</h1>
+    <h2>{!!$details['body']!!}</h2>
 
 
 
