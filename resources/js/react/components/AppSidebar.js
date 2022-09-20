@@ -9,11 +9,18 @@ import {
 import CIcon from "@coreui/icons-react";
 import {
     cilSpeedometer,
-    cilPuzzle,
     cilContact,
     cilAccountLogout,
-    cilRunning,
+    cilSettings,
     cilPeople,
+    cilEnvelopeOpen,
+    cilBullhorn,
+    cilPlus,
+    cilFolderOpen,
+    cilUserPlus,
+    cilUser,
+    cilImage
+
 } from "@coreui/icons";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -27,24 +34,24 @@ const sidebarMenu = [
     {
         name: "Project",
         url: "project",
-        icon: cilRunning,
+        icon: cilFolderOpen,
         categories: [
             {
                 name: "Add Project",
                 url: "add-project",
-                icon: cilPuzzle,
+                icon: cilPlus,
             },
             {
                 name: "Set Project",
                 url: "set-project",
-                icon: cilPuzzle,
+                icon: cilImage,
             },
         ],
     },
     {
         name: "Subscription",
         url: "subscription",
-        icon: cilContact,
+        icon: cilBullhorn,
     },
     {
         name: "Membership",
@@ -54,7 +61,7 @@ const sidebarMenu = [
     {
         name: "Email",
         url: "email",
-        icon: cilContact,
+        icon: cilEnvelopeOpen,
     },
     {
         title: "Admin",
@@ -65,12 +72,12 @@ const sidebarMenu = [
             {
                 name: "Add User",
                 url: "add-user",
-                icon: cilPuzzle,
+                icon: cilUserPlus,
             },
             {
                 name: "Set User",
                 url: "set-user",
-                icon: cilPuzzle,
+                icon: cilUser,
             },
         ],
     },
@@ -78,7 +85,7 @@ const sidebarMenu = [
         title: "Settings",
         name: "Change Password",
         url: "change-password",
-        icon: cilContact,
+        icon: cilSettings,
     },
     {
         name: "Logout",
