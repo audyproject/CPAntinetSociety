@@ -559,16 +559,18 @@ class APIController extends Controller
 
     public function getVisitor(){
 
-        $tanggal = Visitor::where('created_at', '>=', Carbon::now()->subMonth())
+        $now = Carbon::now();
+
+        $tanggal = Visitor::where('created_at', '<', $now)->where('created_at', '>=', Carbon::now()->subDays(7))
                             ->groupBy('date')
-                            ->orderBy('date', 'DESC')->limit(7)
+                            ->orderBy('date', 'DESC')
                             ->get(array(
                                 DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date"),
                                 DB::raw('COUNT(*) as "views"')
                             ));
 
         $bulan = Visitor::groupBy('date')
-        ->orderBy('date', 'DESC') ->limit(12)
+        ->orderBy('date', 'DESC')
         ->get(array(
             DB::raw("DATE_FORMAT(created_at,'%Y-%m') as date"),
             DB::raw('COUNT(*) as "views"')
@@ -588,6 +590,26 @@ class APIController extends Controller
         //     DB::raw('MAX(created_at) as rangemax'),
         //     DB::raw('COUNT(*) as "views per tahun"')
         // ));
+
+        // dd($tanggal);
+        if(empty($tanggal[0])){
+            $tanggal[0] = [
+                'date' => $now->format('Y-m-d'),
+                'views' => 0
+            ];
+        }
+        if(empty($bulan[0])){
+            $bulan[0] = [
+                'date' => $now->format('Y-m'),
+                'views' => 0
+            ];
+        }
+        if(empty($tahun[0])){
+            $tahun[0] = [
+                'date' => $now->format('Y'),
+                'views' => 0
+            ];
+        }
 
         for($i=0;$i<7;$i++){
             //tanggal

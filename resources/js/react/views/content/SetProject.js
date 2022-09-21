@@ -159,7 +159,7 @@ export function SetProject() {
     return (
         <>
             {/* {"SetProject"} */}
-            {projectData == false ? "wait" :
+            {ready == false ? "wait" :
                 <>
                     <div className="col-12">
                         <div className="card mb-4">

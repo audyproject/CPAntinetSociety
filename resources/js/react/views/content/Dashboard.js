@@ -20,12 +20,32 @@ export function Dashboard() {
   const [minDaily, setMinDaily] = useState(0)
   const [maxDaily, setMaxDaily] = useState(0)
 
+  const percent = (data) => {
+    if(data[0][1]['views'] == 0) {
+      if(data[0][0]['views'] == 0) setDailyPercent(0)
+      else setDailyPercent(100)
+    }
+    else setDailyPercent((Math.floor(data[0][0]['views']-data[0][1]['views']) / data[0][1]['views'] * 100).toFixed(2))
+
+    if(data[1][1]['views'] == 0) {
+      if(data[1][0]['views'] == 0) setMonthlyPercent(0)
+      else setMonthlyPercent(100)
+    }
+    else setMonthlyPercent((Math.floor(data[1][0]['views']-data[1][1]['views']) / data[1][1]['views'] * 100).toFixed(2))
+
+    if(data[2][1]['views'] == 0) {
+      if(data[2][0]['views'] == 0) setYearlyPercent(0)
+      else setYearlyPercent(100)
+    }
+    else setYearlyPercent((Math.floor(data[2][0]['views']-data[2][1]['views']) / data[2][1]['views'] * 100).toFixed(2))
+  }
+
   async function request() {
     const resp = await requestAPI('get', 'api/getvisitor')
     if (resp.status == 0) {
       setData(resp.data)
+      percent(resp.data)
       console.log(resp.data)
-      setDailyPercent((Math.floor(resp.data[0][0]['views'] - resp.data[0][1]['views']) / resp.data[0][1]['views'] * 100).toFixed(2))
     }
     setReady(true)
   }
@@ -52,21 +72,11 @@ export function Dashboard() {
     if (!ready || !data) {
       request()
     }
-    if (data) {
-      // if (data[0][data[0].length - 1] && data[0][data[0].length - 2]) {
-        console.log((Math.floor(data[0][6]['views']-data[0][5]['views']) / data[0][5]['views'] * 100).toFixed(2))
-        setDailyPercent((Math.floor(data[0][6]['views']-data[0][5]['views']) / data[0][5]['views'] * 100).toFixed(2))
-      // }
-      if (data[1][data[1].length - 1] && data[1][data[1].length - 2]) setMonthlyPercent((Math.floor((data[1][data[1].length - 1]['views'] - data[1][data[1].length - 2]['views'])) / data[1][data[1].length - 2]['views'] * 100).toFixed(2))
-      if (data[2][data[2].length - 1] && data[2][data[2].length - 2]) setYearlyPercent((Math.floor((data[2][data[2].length - 1]['views'] - data[2][data[2].length - 2]['views'])) / data[2][data[2].length - 2]['views'] * 100).toFixed(2))
-      // if(data[1][0] && data[1][1]) setMonthlyPercent(Math.floor((data[1][0]['views per bulan'] - data[1][1]['views per bulan']))/data[1][1]['views per bulan']*100)
-      // if(data[2][0] && data[2][1]) setYearlyPercent(Math.floor((data[2][0]['views per tahun'] - data[2][1]['views per tahun']))/data[2][1]['views per tahun']*100)
-    }
   }, [])
 
   return (
     <>
-      {!data ? <CSpinner color="primary" /> :
+      {!ready ? <CSpinner color="primary" /> :
         <CRow>
           <CCol sm={12} lg={4}>
             <CWidgetStatsA
@@ -96,7 +106,7 @@ export function Dashboard() {
                     //   data[0][1]['date'],
                     //   data[0][0]['date']
                     // ],
-                    labels: data[0].reverse().map((datas, i) => {
+                    labels: data[0].map((datas, i) => {
                       return datas['date']
                     }),
                     datasets: [
@@ -194,6 +204,9 @@ export function Dashboard() {
                     //   data[1][1]['date'],
                     //   data[1][0]['date']
                     // ],
+                    labels: data[1].reverse().map((datas, i) => {
+                      return datas['date']
+                    }),
                     datasets: [
                       {
                         label: 'Visitor',
@@ -210,6 +223,9 @@ export function Dashboard() {
                         //   data[1][1]['views'],
                         //   data[1][0]['views'],
                         // ],
+                        data: data[1].map((datas, i) => {
+                          return datas['views']
+                        }),
                       },
                     ],
                   }}
@@ -286,6 +302,9 @@ export function Dashboard() {
                     //   data[2][1]['date'],
                     //   data[2][0]['date']
                     // ],
+                    labels: data[2].reverse().map((datas, i) => {
+                      return datas['date']
+                    }),
                     datasets: [
                       {
                         label: 'Visitor',
@@ -302,6 +321,9 @@ export function Dashboard() {
                         //   data[2][1]['views'],
                         //   data[2][0]['views'],
                         // ],
+                        data: data[2].map((datas, i) => {
+                          return datas['views']
+                        }),
                       },
                     ],
                   }}
