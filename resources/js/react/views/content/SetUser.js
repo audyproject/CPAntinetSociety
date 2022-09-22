@@ -85,7 +85,7 @@ export function SetUser({ sessionData }) {
 
     return (
         <>
-            {!userData ? "wait" :
+            {!ready ? <CSpinner color="primary"/> :
                 <>
                     <div className="col-12">
                         <div className="card mb-4">

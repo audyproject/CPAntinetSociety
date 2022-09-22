@@ -70,6 +70,7 @@ export function SetProject() {
     };
 
     const doSpotlight = async (id, name) => {
+        setReady(false)
         let data = {
             "id": id
         }
@@ -79,7 +80,7 @@ export function SetProject() {
         } else {
             setToast(Toaster(toaster, Toast('danger', resp.message)))
         }
-        setProjectData()
+        setProjectData(false)
     }
 
     const deleteImage = async (id, link) => {
@@ -134,7 +135,7 @@ export function SetProject() {
         }
         setModal(false)
         setLoading(false)
-        setProjectData()
+        setProjectData(false)
     }
 
     const handleSubmit2 = async (e) => {
@@ -153,13 +154,13 @@ export function SetProject() {
         }
         setModal2(false)
         setLoading(false)
-        setProjectData()
+        setProjectData(false)
     }
 
     return (
         <>
             {/* {"SetProject"} */}
-            {projectData == false ? "wait" :
+            {ready == false ? <CSpinner color="primary"/> :
                 <>
                     <div className="col-12">
                         <div className="card mb-4">

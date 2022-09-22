@@ -262,93 +262,144 @@ class APIController extends Controller
     }
     
     public function createProject(request $r){
-        if(!$r->name || !$r->description || !$r->judul_paragraf1 || !$r->isi_paragraf1 || !$r->judul_paragraf2 || !$r->isi_paragraf2){
-            return $this->res(1,'Data cannot be empty!');
-        }
-        if(!$r->link){
-            $link = null;
-        } else{
-            $link = $r->link;
-        }
 
-        $cekName = Project::where('name',$r->name)->first();
-        if($cekName){
-            return $this->res(1,'This project name exists!');
-        }
-        
-        $supported_image = array(
-            'jpg',
-            'jpeg',
-            'png'
-        );
-        if ($r->hasFile('gambar_utama')) {
-            $ext = $r->file('gambar_utama')->extension();
-            $ext = strtolower($ext);
-            // list($width, $height) = getimagesize($r->file('gambar_utama'));
-            // $size = $r->file('gambar_utama')->getSize(); // in bytes
-            if (!in_array($ext, $supported_image)) {
-                return $this->res(1,'File is not supported!');
+        if(!$r->link){//ifbesar
+            $link=null;
+            if(!$r->name || !$r->description || !$r->judul_paragraf1 || !$r->isi_paragraf1 || !$r->judul_paragraf2 || !$r->isi_paragraf2){
+                return $this->res(1,'Data cannot be empty!');
             }
-            $r->file('gambar_utama')->move(public_path('antinet/projects'),$r->name.'_gambarutama.'.$ext);
-            $path_gambarutama = 'antinet/projects/'.$r->name.'_gambarutama.'.$ext;
-        } else{
-            return $this->res(1,'Gambar Utama cannot be empty!');
-        }
-
-        if ($r->hasFile('gambar_kiri')) {
-            $ext = $r->file('gambar_kiri')->extension();
-            $ext = strtolower($ext);
-            if (!in_array($ext, $supported_image)) {
-                return $this->res(1,'File is not supported!');
+            
+    
+            $cekName = Project::where('name',$r->name)->first();
+            if($cekName){
+                return $this->res(1,'This project name exists!');
             }
-            $r->file('gambar_kiri')->move(public_path('antinet/projects'),$r->name.'_gambarkiri.'.$ext);
-            $path_gambarkiri = 'antinet/projects/'.$r->name.'_gambarkiri.'.$ext;
-        } else{
-            return $this->res(1,'Gambar Kiri cannot be empty!');
-        }
-
-        if ($r->hasFile('gambar_kanan')) {
-            $ext = $r->file('gambar_kanan')->extension();
-            $ext = strtolower($ext);
-            if (!in_array($ext, $supported_image)) {
-                return $this->res(1,'File is not supported!');
+            
+            $supported_image = array(
+                'jpg',
+                'jpeg',
+                'png'
+            );
+            if ($r->hasFile('gambar_utama')) {
+                $ext = $r->file('gambar_utama')->extension();
+                $ext = strtolower($ext);
+                list($width, $height) = getimagesize($r->file('gambar_utama'));
+                // if($width != 918 && $height != 597){
+                //     return $this->res(1, $width." ".$height);
+                //     // return $this->res(1,'Main image dimension must be 918 x 597px!');
+                // }
+                if($width < $height*1.5 || $width > $height*1.8){
+                    return $this->res(1,'Main image ratio must between 3:2 and 9:5');
+                }
+                // $size = $r->file('gambar_utama')->getSize(); // in bytes
+                if (!in_array($ext, $supported_image)) {
+                    return $this->res(1,'File is not supported!');
+                }
+                $r->file('gambar_utama')->move(public_path('antinet/projects'),$r->name.'_gambarutama.'.$ext);
+                $path_gambarutama = 'antinet/projects/'.$r->name.'_gambarutama.'.$ext;
+            } else{
+                return $this->res(1,'Gambar Utama cannot be empty!');
             }
-            $r->file('gambar_kanan')->move(public_path('antinet/projects'),$r->name.'_gambarkanan.'.$ext);
-            $path_gambarkanan = 'antinet/projects/'.$r->name.'_gambarkanan.'.$ext;
-        } else{
-            return $this->res(1,'Gambar Kanan cannot be empty!');
-        }
-        if($r->hasFile('gambar_lain')){
-            $flag=1;
-            foreach($r->file('gambar_lain') as $image)
-            {
-                $ext = $image->extension();
+    
+            if ($r->hasFile('gambar_kiri')) {
+                $ext = $r->file('gambar_kiri')->extension();
                 $ext = strtolower($ext);
                 if (!in_array($ext, $supported_image)) {
                     return $this->res(1,'File is not supported!');
                 }
-                $image->move(public_path('antinet/projects'),$r->name.'_gambarlain_'.$flag.".".$ext);
-                $gambar_lain[] = 'antinet/projects/'.$r->name.'_gambarlain_'.$flag.'.'.$ext;
-                $flag++;
+                $r->file('gambar_kiri')->move(public_path('antinet/projects'),$r->name.'_gambarkiri.'.$ext);
+                $path_gambarkiri = 'antinet/projects/'.$r->name.'_gambarkiri.'.$ext;
+            } else{
+                return $this->res(1,'Gambar Kiri cannot be empty!');
             }
-        } else{
-            $gambar_lain = [];
-        }
+    
+            if ($r->hasFile('gambar_kanan')) {
+                $ext = $r->file('gambar_kanan')->extension();
+                $ext = strtolower($ext);
+                if (!in_array($ext, $supported_image)) {
+                    return $this->res(1,'File is not supported!');
+                }
+                $r->file('gambar_kanan')->move(public_path('antinet/projects'),$r->name.'_gambarkanan.'.$ext);
+                $path_gambarkanan = 'antinet/projects/'.$r->name.'_gambarkanan.'.$ext;
+            } else{
+                return $this->res(1,'Gambar Kanan cannot be empty!');
+            }
+            if($r->hasFile('gambar_lain')){
+                $flag=1;
+                foreach($r->file('gambar_lain') as $image)
+                {
+                    $ext = $image->extension();
+                    $ext = strtolower($ext);
+                    if (!in_array($ext, $supported_image)) {
+                        return $this->res(1,'File is not supported!');
+                    }
+                    $image->move(public_path('antinet/projects'),$r->name.'_gambarlain_'.$flag.".".$ext);
+                    $gambar_lain[] = 'antinet/projects/'.$r->name.'_gambarlain_'.$flag.'.'.$ext;
+                    $flag++;
+                }
+            } else{
+                $gambar_lain = [];
+            }
+    
+            $ins = new Project();
+            $ins->name = $r->name;
+            $ins->description = $r->description;
+            $ins->judul_paragraf1 = $r->judul_paragraf1;
+            $ins->isi_paragraf1 = $r->isi_paragraf1;
+            $ins->judul_paragraf2 = $r->judul_paragraf2;
+            $ins->isi_paragraf2 = $r->isi_paragraf2;
+            $ins->gambar_utama = $path_gambarutama;
+            $ins->gambar_kiri = $path_gambarkiri;
+            $ins->gambar_kanan = $path_gambarkanan;
+            $ins->gambar_lain = json_encode($gambar_lain);
+            $ins->hashtag=json_encode($r->hashtag);
+            $ins->link = $link;
+            $ins->save();
 
-        $ins = new Project();
-        $ins->name = $r->name;
-        $ins->description = $r->description;
-        $ins->judul_paragraf1 = $r->judul_paragraf1;
-        $ins->isi_paragraf1 = $r->isi_paragraf1;
-        $ins->judul_paragraf2 = $r->judul_paragraf2;
-        $ins->isi_paragraf2 = $r->isi_paragraf2;
-        $ins->gambar_utama = $path_gambarutama;
-        $ins->gambar_kiri = $path_gambarkiri;
-        $ins->gambar_kanan = $path_gambarkanan;
-        $ins->gambar_lain = json_encode($gambar_lain);
-        $ins->hashtag=json_encode($r->hashtag);
-        $ins->link = $link;
-        $ins->save();
+        } else { //elsebesar
+            if(!$r->name || !$r->description){
+                return $this->res(1,'Data cannot be empty!');
+            }
+            $cekName = Project::where('name',$r->name)->first();
+            if($cekName){
+                return $this->res(1,'This project name exists!');
+            }
+            
+            $supported_image = array(
+                'jpg',
+                'jpeg',
+                'png'
+            );
+
+            if ($r->hasFile('gambar_utama')) {
+                $ext = $r->file('gambar_utama')->extension();
+                $ext = strtolower($ext);
+                list($width, $height) = getimagesize($r->file('gambar_utama'));
+                
+                // if($width != 918 && $height != 597){
+                //     return $this->res(1,'Main image dimension must be 918 x 597px!');
+                // }
+                if($width < $height*1.5 || $width > $height*1.8){
+                    return $this->res(1,'Main image ratio must between 3:2 and 9:5');
+                }
+                // $size = $r->file('gambar_utama')->getSize(); // in bytes
+                if (!in_array($ext, $supported_image)) {
+                    return $this->res(1,'File is not supported!');
+                }
+                $r->file('gambar_utama')->move(public_path('antinet/projects'),$r->name.'_gambarutama.'.$ext);
+                $path_gambarutama = 'antinet/projects/'.$r->name.'_gambarutama.'.$ext;
+            } else{
+                return $this->res(1,'Gambar Utama cannot be empty!');
+            }
+
+            $ins                = new Project();
+            $ins->name          = $r->name;
+            $ins->description   = $r->description;
+            $ins->gambar_utama  = $path_gambarutama;
+            $ins->hashtag       = json_encode($r->hashtag);
+            $ins->link          = $r->link;
+            $ins->save();
+        }
 
         return $this->res(0,'New project added successfully!');
 
@@ -558,63 +609,96 @@ class APIController extends Controller
     }
 
     public function getVisitor(){
+        $tgl = DB::select("
+            SELECT *
+            FROM 
+                (SELECT 
+                DATE_FORMAT(created_at, '%Y-%m-%d') as date, 
+                COUNT(*) as views
+                FROM `visitor_log`
+                GROUP BY date) as table1
+            WHERE date > DATE_FORMAT(CURRENT_DATE() - INTERVAL 6 DAY,'%Y-%m-%d')
+        ");//ini bener
 
-        $tanggal = Visitor::where('created_at', '>=', Carbon::now()->subMonth())
-                            ->groupBy('date')
-                            ->orderBy('date', 'DESC')->limit(7)
-                            ->get(array(
-                                DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date"),
-                                DB::raw('COUNT(*) as "views"')
-                            ));
+        $bln = DB::select("
+            SELECT *
+            FROM 
+                (SELECT 
+                DATE_FORMAT(created_at, '%Y-%m') as date, 
+                COUNT(*) as views
+                FROM `visitor_log`
+                GROUP BY date) as table1
+            WHERE date > DATE_FORMAT(CURRENT_DATE() - INTERVAL 6 MONTH,'%Y-%m')
+        ");//ini bener
 
-        $bulan = Visitor::groupBy('date')
-        ->orderBy('date', 'DESC') ->limit(12)
-        ->get(array(
-            DB::raw("DATE_FORMAT(created_at,'%Y-%m') as date"),
-            DB::raw('COUNT(*) as "views"')
-        ));
+        $thn = DB::select("
+            SELECT *
+            FROM 
+                (SELECT 
+                DATE_FORMAT(created_at, '%Y') as date, 
+                COUNT(*) as views
+                FROM `visitor_log`
+                GROUP BY date) as table1
+            WHERE date > DATE_FORMAT(CURRENT_DATE() - INTERVAL 6 YEAR,'%Y')
+        ");//ini bener
 
-        $tahun = Visitor::groupBy('date')
-        ->orderBy('date', 'DESC') //->limit(3)
-        ->get(array(
-            DB::raw('year(created_at) as date'),
-            DB::raw('COUNT(*) as "views"')
-        ));
+        $tanggal = [];
+        $bulan = [];
+        $tahun = [];
 
-        // $tigatahun = Visitor::groupBy(DB::raw('floor(period_diff(date_format(current_date,"%Y"),date_format(rangemin,"%Y"))/3)'))
-        // // ->orderBy('date', 'DESC')
-        // ->get(array(
-        //     DB::raw('MIN(created_at) as rangemin'),
-        //     DB::raw('MAX(created_at) as rangemax'),
-        //     DB::raw('COUNT(*) as "views per tahun"')
-        // ));
-
+        $temp = 0;
+        $dayTime = Carbon::now()->subDays(6);
         for($i=0;$i<7;$i++){
-            //tanggal
-            if(empty($tanggal[$i])) {
+            if(empty($tgl[$temp]) || $tgl[$temp]->date != $dayTime->format('Y-m-d')){
                 $tanggal[$i] = [
-                    'date' => date('Y-m-d',strtotime($tanggal[$i-1]['date'])-3600*24),
+                    'date' => $dayTime->format('Y-m-d'),
                     'views' => 0
                 ];
+            } else {
+                $tanggal[$i] = [
+                    'date' => $dayTime->format('Y-m-d'),
+                    'views' => $tgl[$temp]->views
+                ];
+                $temp++;
             }
-            //bulan
-            if(empty($bulan[$i])) {
-                $bulan[$i] = [
-                    'date' => date('Y-m',strtotime($bulan[$i-1]['date'])-3600*24*30),
-                    'views' => 0
-                ];
-            }
-            //tahun
-            if(empty($tahun[$i])) {
-                $tahun[$i] = [
-                    'date' => date('Y',strtotime($tahun[$i-1]['date']."-01-01")-3600*24*365),
-                    'views' => 0
-                ];
-            } 
+            $dayTime->addDays(1);
         }
 
-    
-        
+        $monthTime = Carbon::now()->subMonth(6);
+        $temp = 0;
+        for($i=0;$i<7;$i++){
+            if(empty($bln[$temp]) || $bln[$temp]->date != $monthTime->format('Y-m')){
+                $bulan[$i] = [
+                    'date' => $monthTime->format('Y-m'),
+                    'views' => 0
+                ];
+            } else {
+                $bulan[$i] = [
+                    'date' => $monthTime->format('Y-m'),
+                    'views' => $bln[$temp]->views
+                ];
+                $temp++;
+            }
+            $monthTime->addMonth(1);
+        }
+
+        $yearTime = Carbon::now()->subYear(6);
+        $temp = 0;
+        for($i=0;$i<7;$i++){
+            if(empty($thn[$temp]) || $thn[$temp]->date != $yearTime->format('Y')){
+                $tahun[$i] = [
+                    'date' => $yearTime->format('Y'),
+                    'views' => 0
+                ];
+            } else {
+                $tahun[$i] = [
+                    'date' => $yearTime->format('Y'),
+                    'views' => $thn[$temp]->views
+                ];
+                $temp++;
+            }
+            $yearTime->addYear(1);
+        }
          
         $data[0] = $tanggal;
         $data[1] = $bulan;
@@ -627,14 +711,14 @@ class APIController extends Controller
     public function graphMember(){
         $tanggal = Membership::where('created_at', '>=', Carbon::now()->subMonth())
                             ->groupBy('date')
-                            ->orderBy('date', 'DESC')->limit(7)
+                            ->orderBy('date', 'ASC')->limit(7)
                             ->get(array(
                                 DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date"),
                                 DB::raw('COUNT(*) as "views"')
                             ));
 
         $bulan = Membership::groupBy('date')
-        ->orderBy('date', 'DESC')->limit(12)
+        ->orderBy('date', 'ASC')->limit(12)
         ->get(array(
             DB::raw("DATE_FORMAT(created_at,'%Y-%m') as date"),
             DB::raw('COUNT(*) as "views"')
@@ -677,14 +761,14 @@ class APIController extends Controller
     public function graphSubscribe(){
         $tanggal = Subscription::where('created_at', '>=', Carbon::now()->subMonth())
                             ->groupBy('date')
-                            ->orderBy('date', 'DESC')->limit(7)
+                            ->orderBy('date', 'ASC')->limit(7)
                             ->get(array(
                                 DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date"),
                                 DB::raw('COUNT(*) as "views"')
                             ));
 
         $bulan = Subscription::groupBy('date')
-        ->orderBy('date', 'DESC')->limit(12)
+        ->orderBy('date', 'ASC')->limit(12)
         ->get(array(
             DB::raw("DATE_FORMAT(created_at,'%Y-%m') as date"),
             DB::raw('COUNT(*) as "views"')

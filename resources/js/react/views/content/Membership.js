@@ -27,11 +27,14 @@ import {
     CWidgetStatsA,
     CRow,
 } from "@coreui/react";
+import { percent, minMax } from "./graph";
 
 export function Membership() {
 
     const [memberData, setMemberData] = useState(false)
     const [graphMembership, setGraphMembership] = useState(false)
+    const [dailyPercent, setDailyPercent] = useState(false)
+    const [monthlyPercent, setMonthlyPercent] = useState(false)
     const [ready, setReady] = useState(false)
     const [loading, setLoading] = useState(false)
     const [toast, setToast] = useState()
@@ -50,6 +53,8 @@ export function Membership() {
             // console.log(response.data)
             setMemberData(response.data.dataset)
             setGraphMembership(response.data.graph)
+            setDailyPercent(percent(response.data.graph[0]))
+            setMonthlyPercent(response.data.graph[1])
         } else {
             // console.warn(response.message)
         }
@@ -119,7 +124,7 @@ export function Membership() {
         //         setDataRoles(response.data)
         //     }
         // }
-    })
+    },[])
 
     return (
         <>
@@ -213,13 +218,13 @@ export function Membership() {
                                 color="info"
                                 value={
                                     <>
-                                        12.345{' '}
-                                        {/* {graphMembership[2]+ " "} */}
-                                        {/* <span className="fs-6 fw-normal">
-                        (-12.4% <CIcon icon={cilArrowBottom} />)
-                    </span> */}
+                                      {graphMembership[0][0]['views']}
+                                      <span className="fs-6 fw-normal">
+                                        {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
+                                        ({dailyPercent + "%"} {dailyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
+                                      </span>
                                     </>
-                                }
+                                  }
                                 title="Today"
                                 chart={
                                     <CChartLine
@@ -227,7 +232,7 @@ export function Membership() {
                                         style={{ height: '70px' }}
                                         data={{
                                             // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                                            labels: graphMembership[0].reverse().map((datas, i) => {
+                                            labels: graphMembership[0].map((datas, i) => {
                                                 return datas.date
                                             }),
                                             datasets: [
@@ -237,7 +242,7 @@ export function Membership() {
                                                     borderColor: 'rgba(255,255,255,.55)',
                                                     pointBackgroundColor: getStyle('--cui-primary'),
                                                     // data: [65, 59, 84, 84, 51, 55, 40],
-                                                    data: graphMembership[0].reverse().map((datas, i) => {
+                                                    data: graphMembership[0].map((datas, i) => {
                                                         return datas.views
                                                     })
                                                 },
@@ -261,8 +266,8 @@ export function Membership() {
                                                     },
                                                 },
                                                 y: {
-                                                    min: 0,
-                                                    max: 52,
+                                                    min: minMax(graphMembership[0]).min-1,
+                                                    max: minMax(graphMembership[0]).max+1,
                                                     display: false,
                                                     grid: {
                                                         display: false,
@@ -294,12 +299,13 @@ export function Membership() {
                                 color="danger"
                                 value={
                                     <>
-                                        12.345{' '}
-                                        {/* <span className="fs-6 fw-normal">
-                        (-12.4% <CIcon icon={cilArrowBottom} />)
-                    </span> */}
+                                      {graphMembership[1][0]['views']}
+                                      <span className="fs-6 fw-normal">
+                                        {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
+                                        ({dailyPercent + "%"} {dailyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
+                                      </span>
                                     </>
-                                }
+                                  }
                                 title="Monthly"
                                 chart={
                                     <CChartLine
@@ -307,7 +313,7 @@ export function Membership() {
                                         style={{ height: '70px' }}
                                         data={{
                                             // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                                            labels: graphMembership[1].reverse().map((datas, i) => {
+                                            labels: graphMembership[1].map((datas, i) => {
                                                 return datas.date
                                             }),
                                             datasets: [
@@ -317,7 +323,7 @@ export function Membership() {
                                                     borderColor: 'rgba(255,255,255,.55)',
                                                     pointBackgroundColor: getStyle('--cui-primary'),
                                                     // data: [65, 59, 84, 84, 51, 55, 40],
-                                                    data: graphMembership[1].reverse().map((datas, i) => {
+                                                    data: graphMembership[1].map((datas, i) => {
                                                         return datas.views
                                                     })
                                                 },
@@ -341,8 +347,8 @@ export function Membership() {
                                                     },
                                                 },
                                                 y: {
-                                                    min: 30,
-                                                    max: 89,
+                                                    min: minMax(graphMembership[1]).min-1,
+                                                    max: minMax(graphMembership[1]).max+1,
                                                     display: false,
                                                     grid: {
                                                         display: false,

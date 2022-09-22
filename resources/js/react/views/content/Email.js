@@ -3,7 +3,7 @@ import { Editor } from "react-draft-wysiwyg";
 import '../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
-import { CButton, CCard, CCardBody, CCardHeader, CForm, CFormCheck, CFormInput, CFormSelect } from "@coreui/react";
+import { CButton, CCard, CCardBody, CCardHeader, CForm, CFormCheck, CFormInput, CFormSelect, CSpinner } from "@coreui/react";
 import { requestAPI } from "../../API";
 
 import { EditorState, convertToRaw } from "draft-js";
@@ -15,11 +15,7 @@ export function Email(){
     const [selected, setSelected] = useState([])
     const [subject, setSubject] = useState(false)
 
-    const options = [
-        { label: "Grapes 🍇", value: "grapes" },
-        { label: "Mango 🥭", value: "mango" },
-        { label: "Strawberry 🍓", value: "strawberry", disabled: true },
-    ];
+    const [loading, setLoading] = useState(false)
 
     const [targetEmail, setTargetEmail] = useState(false)
 
@@ -39,6 +35,7 @@ export function Email(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         let to = []
         selected.map((datas, i) => {
             to.push(datas.value)
@@ -50,18 +47,19 @@ export function Email(){
         }
         const resp = await requestAPI('post', 'api/blast', data)
         console.log(resp)
+        setLoading(false)
     }
 
-    const selecting = (e) => {
-        console.log(e)
-        let a = []
-        e.map((datas, i) => {
-            if(datas !== 'undefined') a.push(datas.value)
-            console.log(datas.value)
-        })
-        setSelected(a)
-        console.log(a)
-    }
+    // const selecting = (e) => {
+    //     console.log(e)
+    //     let a = []
+    //     e.map((datas, i) => {
+    //         if(datas !== 'undefined') a.push(datas.value)
+    //         console.log(datas.value)
+    //     })
+    //     setSelected(a)
+    //     console.log(a)
+    // }
 
     useEffect(() => {
         if(!targetEmail) requestTargetEmail()
@@ -75,7 +73,7 @@ export function Email(){
                 Send Email
             </CCardHeader>
             <CCardBody>
-                <span className="d-flex">To <CFormCheck style={{marginLeft: "25px", marginRight: "0.5em"}} label="All"/></span>
+                <span className="d-flex">To </span>
                 <MultiSelect
                     className="mb-3"
                     options={targetEmail}
@@ -85,8 +83,8 @@ export function Email(){
                     // shouldToggleOnHover="true"
                     valueRenderer={(selected, _options) => {
                         return selected.length
-                        ? selected.map((label) => <><span class="bg-light">{label.label}</span></>)
-                        : "no item"
+                        ? selected.map((label) => <><span class="bg-light" style={{margin: "0 5px", padding: "0 5px"}}>{label.label}</span></>)
+                        : "No Email Selected"
                     }}
                 />
                 <CFormInput
@@ -114,7 +112,9 @@ export function Email(){
             </CCardBody>
             
         </CCard>
-        <CButton className="mt-3" type="submit" color="primary">Send</CButton>
+        <div className="mt-2">
+            {loading ? <CSpinner color="primary"/> : <CButton type="submit" color="primary">Send</CButton>}
+        </div>
         </CForm>
         </>
     )

@@ -41,3 +41,8 @@ troubleshoot:
 install webmail:
 1. https://tecadmin.net/how-to-install-roundcube-webmail-on-ubuntu-20-04/
 2. https://itkoding.com/cara-membuat-mail-server-postix-di-ubuntu/
+
+
+gambar utama = 918x597 (between 3:2 and 9:5, max 1MB)
+gambarlain = 643x418 (gak jadi dipake)
+gambarkiri/kanan = 615x999 (6:10, max 1MB)

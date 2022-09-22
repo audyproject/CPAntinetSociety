@@ -4,6 +4,7 @@ import {
     CCardBody,
     CCardHeader,
     CForm,
+    CFormCheck,
     CFormInput,
     CFormTextarea,
     CImage,
@@ -24,12 +25,15 @@ export function AddProject({ setMenu }) {
     const [title, setTitle] = useState();
     const [description, setDescription] = useState("");
     const [hashtag, setHashtag] = useState([]);
+
+    const [isLink, setIsLink] = useState(true);
+
+    const [link, setLink] = useState();
+
     const [paragraf1, setParagraf1] = useState();
     const [paragraf2, setParagraf2] = useState();
     const [titleParagraf1, setTitleParagraf1] = useState();
     const [titleParagraf2, setTitleParagraf2] = useState();
-    const [link, setLink] = useState();
-
     const [mainImage, setMainImage] = useState();
     const [image1, setImage1] = useState();
     const [image2, setImage2] = useState();
@@ -37,9 +41,7 @@ export function AddProject({ setMenu }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(hashtag[0].id)
-        // return
-        // setLoading(true)
+    
         const data = new FormData();
         data.append("name", title);
         data.append("description", description);
@@ -48,29 +50,31 @@ export function AddProject({ setMenu }) {
             console.log(a);
             data.append(`hashtag[]`, a);
         }
-        // data.append('hashtag', hashtag)
-        data.append("judul_paragraf1", titleParagraf1);
-        data.append("judul_paragraf2", titleParagraf2);
-        data.append("isi_paragraf1", paragraf1);
-        data.append("isi_paragraf2", paragraf2);
         data.append("gambar_utama", mainImage);
-        data.append("gambar_kanan", image1);
-        data.append("gambar_kiri", image2);
-        for (let i = 0; i < anotherImage.length; i++) {
-            data.append("gambar_lain[]", anotherImage[i]);
+        if(isLink == true){
+            data.append("link", link);
+        } else {
+            data.append("judul_paragraf1", titleParagraf1);
+            data.append("judul_paragraf2", titleParagraf2);
+            data.append("isi_paragraf1", paragraf1);
+            data.append("isi_paragraf2", paragraf2);
+            data.append("gambar_kanan", image1);
+            data.append("gambar_kiri", image2);
+            for (let i = 0; i < anotherImage.length; i++) {
+                data.append("gambar_lain[]", anotherImage[i]);
+            }
         }
-        data.append("link", link);
         const resp = await requestAPI("post", "/api/createproject", data);
         console.log(resp);
         if (resp.status == 0) {
             setToast(
                 Toaster(toaster, Toast("success", "Create Project Success!"))
             );
+            setMenu("set-project")
         } else {
             setToast(Toaster(toaster, Toast("danger", resp.message)));
         }
         setLoading(false);
-        setMenu("set-project")
     };
 
     const handleDelete = (i) => {
@@ -82,8 +86,8 @@ export function AddProject({ setMenu }) {
     };
 
     useEffect(() => {
-        console.log(hashtag);
-    }, [hashtag]);
+        // console.log(hashtag);
+    }, []);
 
     return (
         <>
@@ -142,7 +146,10 @@ export function AddProject({ setMenu }) {
                             handleAddition={handleAddition}
                             inputFieldPosition="top"
                         />
-                        <div className="mb-3"></div>
+                        {/* <div className="mb-3"></div> */}
+                        <CFormCheck type="radio" name="link" label="Link" defaultChecked onClick={() => setIsLink(true)}/>
+                        <CFormCheck type="radio" name="link" label="Popup" onClick={() => setIsLink(false)}/>
+                        {isLink == false ? <>
                         <CFormInput
                             className="mb-3"
                             type="text"
@@ -202,14 +209,16 @@ export function AddProject({ setMenu }) {
                                 setImage2(e.target.files[0]);
                             }}
                         />
-                        <CFormInput
+                        {/* <CFormInput
                             className="mb-3"
                             multiple="multiple"
                             type="file"
                             id="formFile"
                             label="Another Image"
                             onChange={(e) => setAnotherImage(e.target.files)}
-                        />
+                        /> */}
+                        </>
+                        :
                         <CFormInput
                             className="mb-3"
                             type="text"
@@ -220,6 +229,7 @@ export function AddProject({ setMenu }) {
                             aria-describedby="exampleFormControlInputHelpInline"
                             onChange={(e) => setLink(e.target.value)}
                         />
+                        }
                         {loading ? (
                             <CSpinner color="primary" />
                         ) : (
