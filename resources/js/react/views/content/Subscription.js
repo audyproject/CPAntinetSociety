@@ -10,6 +10,7 @@ import { CChartLine } from "@coreui/react-chartjs";
 import CIcon from "@coreui/icons-react";
 import { getStyle } from '@coreui/utils'
 import {
+    cilArrowTop,
     cilArrowBottom,
 } from "@coreui/icons";
 import {
@@ -27,11 +28,14 @@ import {
     CWidgetStatsA,
     CRow,
 } from "@coreui/react";
+import { percent, minMax } from "./graph";
 
 export function Subscription() {
 
     const [subscriptionData, setSubscriptionData] = useState(false)
     const [graphSubscription, setGraphSubscription] = useState(false)
+    const [dailyPercent, setDailyPercent] = useState(false)
+    const [monthlyPercent, setMonthlyPercent] = useState(false)
     const [ready, setReady] = useState(false)
     const [loading, setLoading] = useState(false)
     const [toast, setToast] = useState()
@@ -50,6 +54,8 @@ export function Subscription() {
             // console.log(response.data)
             setSubscriptionData(response.data.dataset)
             setGraphSubscription(response.data.graph)
+            setDailyPercent(percent(response.data.graph[0]))
+            setMonthlyPercent(percent(response.data.graph[1]))
             console.log(response.data.graph)
         } else {
             // console.warn(response.message)
@@ -109,7 +115,7 @@ export function Subscription() {
         //         setDataRoles(response.data)
         //     }
         // }
-    })
+    },[])
 
     return (
         <>
@@ -203,12 +209,13 @@ export function Subscription() {
                                 color="info"
                                 value={
                                     <>
-                                        12.345{' '}
-                                        {/* <span className="fs-6 fw-normal">
-                        (-12.4% <CIcon icon={cilArrowBottom} />)
-                    </span> */}
+                                      {graphSubscription[0][0]['views']}
+                                      <span className="fs-6 fw-normal">
+                                        {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
+                                        ({dailyPercent + "%"} {dailyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
+                                      </span>
                                     </>
-                                }
+                                  }
                                 title="Today"
                                 chart={
                                     <CChartLine
@@ -216,7 +223,7 @@ export function Subscription() {
                                         style={{ height: '70px' }}
                                         data={{
                                             // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                                            labels: graphSubscription[0].reverse().map((datas, i) => {
+                                            labels: graphSubscription[0].map((datas, i) => {
                                                 return datas.date
                                             }),
                                             datasets: [
@@ -226,7 +233,7 @@ export function Subscription() {
                                                     borderColor: 'rgba(255,255,255,.55)',
                                                     pointBackgroundColor: getStyle('--cui-primary'),
                                                     // data: [65, 59, 84, 84, 51, 55, 40],
-                                                    data: graphSubscription[0].reverse().map((datas, i) => {
+                                                    data: graphSubscription[0].map((datas, i) => {
                                                         return datas.views
                                                     })
                                                 },
@@ -250,8 +257,8 @@ export function Subscription() {
                                                     },
                                                 },
                                                 y: {
-                                                    min: 30,
-                                                    max: 89,
+                                                    min: minMax(graphSubscription[0]).min - 1,
+                                                    smax: minMax(graphSubscription[0]).max + 1,
                                                     display: false,
                                                     grid: {
                                                         display: false,
@@ -283,12 +290,13 @@ export function Subscription() {
                                 color="danger"
                                 value={
                                     <>
-                                        12.345{' '}
-                                        {/* <span className="fs-6 fw-normal">
-                        (-12.4% <CIcon icon={cilArrowBottom} />)
-                    </span> */}
+                                      {graphSubscription[1][0]['views']}
+                                      <span className="fs-6 fw-normal">
+                                        {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
+                                        ({monthlyPercent + "%"} {monthlyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
+                                      </span>
                                     </>
-                                }
+                                  }
                                 title="Monthly"
                                 chart={
                                     <CChartLine
@@ -296,7 +304,7 @@ export function Subscription() {
                                         style={{ height: '70px' }}
                                         data={{
                                             // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                                            labels: graphSubscription[1].reverse().map((datas, i) => {
+                                            labels: graphSubscription[1].map((datas, i) => {
                                                 return datas.date
                                             }),
                                             datasets: [
@@ -306,7 +314,7 @@ export function Subscription() {
                                                     borderColor: 'rgba(255,255,255,.55)',
                                                     pointBackgroundColor: getStyle('--cui-primary'),
                                                     // data: [65, 59, 84, 84, 51, 55, 40],
-                                                    data: graphSubscription[1].reverse().map((datas, i) => {
+                                                    data: graphSubscription[1].map((datas, i) => {
                                                         return datas.views
                                                     })
                                                 },
@@ -330,8 +338,8 @@ export function Subscription() {
                                                     },
                                                 },
                                                 y: {
-                                                    min: 30,
-                                                    max: 89,
+                                                    min: minMax(graphSubscription[1]).min - 1,
+                                                    smax: minMax(graphSubscription[1]).max + 1,
                                                     display: false,
                                                     grid: {
                                                         display: false,
@@ -367,7 +375,7 @@ export function Subscription() {
                                         <tr>
                                             <th>No</th>
                                             <th>Email</th>
-                                            <th>Action</th>
+                                            <th>Join Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>

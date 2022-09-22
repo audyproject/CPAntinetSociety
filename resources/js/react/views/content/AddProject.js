@@ -50,7 +50,7 @@ export function AddProject({ setMenu }) {
             console.log(a);
             data.append(`hashtag[]`, a);
         }
-
+        data.append("gambar_utama", mainImage);
         if(isLink == true){
             data.append("link", link);
         } else {
@@ -58,12 +58,11 @@ export function AddProject({ setMenu }) {
             data.append("judul_paragraf2", titleParagraf2);
             data.append("isi_paragraf1", paragraf1);
             data.append("isi_paragraf2", paragraf2);
-            data.append("gambar_utama", mainImage);
             data.append("gambar_kanan", image1);
             data.append("gambar_kiri", image2);
-        }
-        for (let i = 0; i < anotherImage.length; i++) {
-            data.append("gambar_lain[]", anotherImage[i]);
+            for (let i = 0; i < anotherImage.length; i++) {
+                data.append("gambar_lain[]", anotherImage[i]);
+            }
         }
         const resp = await requestAPI("post", "/api/createproject", data);
         console.log(resp);
@@ -71,11 +70,11 @@ export function AddProject({ setMenu }) {
             setToast(
                 Toaster(toaster, Toast("success", "Create Project Success!"))
             );
+            setMenu("set-project")
         } else {
             setToast(Toaster(toaster, Toast("danger", resp.message)));
         }
         setLoading(false);
-        setMenu("set-project")
     };
 
     const handleDelete = (i) => {
