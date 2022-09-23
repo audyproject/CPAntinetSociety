@@ -209,7 +209,7 @@ export function Subscription() {
                                 color="info"
                                 value={
                                     <>
-                                      {graphSubscription[0][0]['views']}
+                                      {graphSubscription[0][6]['views']}
                                       <span className="fs-6 fw-normal">
                                         {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
                                         ({dailyPercent + "%"} {dailyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
@@ -257,8 +257,8 @@ export function Subscription() {
                                                     },
                                                 },
                                                 y: {
-                                                    min: minMax(graphSubscription[0]).min - 1,
-                                                    smax: minMax(graphSubscription[0]).max + 1,
+                                                    min: minMax(graphSubscription[0]).min - minMax(graphSubscription[0]).range,
+                                                    max: minMax(graphSubscription[0]).max + minMax(graphSubscription[0]).range,
                                                     display: false,
                                                     grid: {
                                                         display: false,
@@ -290,7 +290,7 @@ export function Subscription() {
                                 color="danger"
                                 value={
                                     <>
-                                      {graphSubscription[1][0]['views']}
+                                      {graphSubscription[1][6]['views']}
                                       <span className="fs-6 fw-normal">
                                         {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
                                         ({monthlyPercent + "%"} {monthlyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
@@ -338,8 +338,8 @@ export function Subscription() {
                                                     },
                                                 },
                                                 y: {
-                                                    min: minMax(graphSubscription[1]).min - 1,
-                                                    smax: minMax(graphSubscription[1]).max + 1,
+                                                    min: minMax(graphSubscription[1]).min - minMax(graphSubscription[1]).range,
+                                                    max: minMax(graphSubscription[1]).max + minMax(graphSubscription[1]).range,
                                                     display: false,
                                                     grid: {
                                                         display: false,

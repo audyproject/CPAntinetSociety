@@ -22,8 +22,9 @@ function minMax(data) {
         min = datas['views']
       }
     })
-    if(max-min == 0) range = 1
-    else range = max-min
+    if((max-min)*10/100 < 1) range = 1
+    else range = Math.round((max-min)*10/100)
+    // console.log(max + "-" + min + "-" + range)
     return { min, max, range }
 }
 

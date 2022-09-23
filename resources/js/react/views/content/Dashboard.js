@@ -98,8 +98,8 @@ export function Dashboard() {
                         },
                       },
                       y: {
-                        min: minMax(data[0]).min - minMax(data[0]).range * 10 / 100,
-                        max: minMax(data[0]).max + minMax(data[0]).range * 10 / 100,
+                        min: minMax(data[0]).min - minMax(data[0]).range,
+                        max: minMax(data[0]).max + minMax(data[0]).range,
                         display: false,
                         grid: {
                           display: false,
@@ -176,8 +176,8 @@ export function Dashboard() {
                         },
                       },
                       y: {
-                        min: minMax(data[1]).min - minMax(data[1]).range * 10 / 100,
-                        max: minMax(data[1]).max + minMax(data[1]).range * 10 / 100,
+                        min: minMax(data[1]).min - minMax(data[1]).range,
+                        max: minMax(data[1]).max + minMax(data[1]).range,
                         display: false,
                         grid: {
                           display: false,
@@ -254,8 +254,8 @@ export function Dashboard() {
                         },
                       },
                       y: {
-                        min: minMax(data[2]).min - minMax(data[2]).range * 10 / 100,
-                        max: minMax(data[2]).max + minMax(data[2]).range * 10 / 100,
+                        min: minMax(data[2]).min - minMax(data[2]).range,
+                        max: minMax(data[2]).max + minMax(data[2]).range,
                         display: false,
                         grid: {
                           display: false,
