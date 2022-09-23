@@ -10,6 +10,7 @@ import { CChartLine } from "@coreui/react-chartjs";
 import CIcon from "@coreui/icons-react";
 import { getStyle } from '@coreui/utils'
 import {
+    cilArrowTop,
     cilArrowBottom,
 } from "@coreui/icons";
 import {
@@ -47,14 +48,18 @@ export function Membership() {
     const [id, setId] = useState(0)
     const [dataRoles, setDataRoles] = useState(false)
 
+    const percentage = (data) => {
+        setDailyPercent(percent(data[0]))
+        setMonthlyPercent(percent(data[1]))
+    }
+
     const request = async () => {
         const response = await requestAPI('get', 'api/getmembership')
         if (response.status == 0) {
             // console.log(response.data)
             setMemberData(response.data.dataset)
             setGraphMembership(response.data.graph)
-            setDailyPercent(percent(response.data.graph[0]))
-            setMonthlyPercent(response.data.graph[1])
+            percentage(response.data.graph)
         } else {
             // console.warn(response.message)
         }
@@ -218,7 +223,7 @@ export function Membership() {
                                 color="info"
                                 value={
                                     <>
-                                      {graphMembership[0][0]['views']}
+                                      {graphMembership[0][6]['views']}
                                       <span className="fs-6 fw-normal">
                                         {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
                                         ({dailyPercent + "%"} {dailyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
@@ -266,8 +271,8 @@ export function Membership() {
                                                     },
                                                 },
                                                 y: {
-                                                    min: minMax(graphMembership[0]).min-1,
-                                                    max: minMax(graphMembership[0]).max+1,
+                                                    min: minMax(graphMembership[0]).min - minMax(graphMembership[0]).range,
+                                                    max: minMax(graphMembership[0]).max + minMax(graphMembership[0]).range,
                                                     display: false,
                                                     grid: {
                                                         display: false,
@@ -299,10 +304,10 @@ export function Membership() {
                                 color="danger"
                                 value={
                                     <>
-                                      {graphMembership[1][0]['views']}
+                                      {graphMembership[1][6]['views']}
                                       <span className="fs-6 fw-normal">
                                         {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
-                                        ({dailyPercent + "%"} {dailyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
+                                        ({monthlyPercent + "%"} {monthlyPercent > 0 ? <CIcon icon={cilArrowTop} /> : <CIcon icon={cilArrowBottom} />})
                                       </span>
                                     </>
                                   }
@@ -347,8 +352,8 @@ export function Membership() {
                                                     },
                                                 },
                                                 y: {
-                                                    min: minMax(graphMembership[1]).min-1,
-                                                    max: minMax(graphMembership[1]).max+1,
+                                                    min: minMax(graphMembership[1]).min - minMax(graphMembership[1]).range,
+                                                    max: minMax(graphMembership[1]).max + minMax(graphMembership[1]).range,
                                                     display: false,
                                                     grid: {
                                                         display: false,
