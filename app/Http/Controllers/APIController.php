@@ -284,10 +284,6 @@ class APIController extends Controller
                 $ext = $r->file('gambar_utama')->extension();
                 $ext = strtolower($ext);
                 list($width, $height) = getimagesize($r->file('gambar_utama'));
-                // if($width != 918 && $height != 597){
-                //     return $this->res(1, $width." ".$height);
-                //     // return $this->res(1,'Main image dimension must be 918 x 597px!');
-                // }
                 if($width < $height*1.5 || $width > $height*1.8){
                     return $this->res(1,'Main image ratio must between 3:2 and 9:5');
                 }
@@ -298,7 +294,7 @@ class APIController extends Controller
                 $r->file('gambar_utama')->move(public_path('antinet/projects'),$r->name.'_gambarutama.'.$ext);
                 $path_gambarutama = 'antinet/projects/'.$r->name.'_gambarutama.'.$ext;
             } else{
-                return $this->res(1,'Gambar Utama cannot be empty!');
+                return $this->res(1,'Main Image cannot be empty!');
             }
     
             if ($r->hasFile('gambar_kiri')) {
@@ -307,10 +303,15 @@ class APIController extends Controller
                 if (!in_array($ext, $supported_image)) {
                     return $this->res(1,'File is not supported!');
                 }
+                list($width, $height) = getimagesize($r->file('gambar_kiri'));
+                //615x999 ( mau 6:10 )
+                if($width < $height*0.5 || $width > $height*0.7){ //1:2 - 7:10
+                    return $this->res(1,'Image 2 ratio must between 1:2 and 7:10');
+                }
                 $r->file('gambar_kiri')->move(public_path('antinet/projects'),$r->name.'_gambarkiri.'.$ext);
                 $path_gambarkiri = 'antinet/projects/'.$r->name.'_gambarkiri.'.$ext;
             } else{
-                return $this->res(1,'Gambar Kiri cannot be empty!');
+                return $this->res(1,'Image 2 cannot be empty!');
             }
     
             if ($r->hasFile('gambar_kanan')) {
@@ -319,27 +320,32 @@ class APIController extends Controller
                 if (!in_array($ext, $supported_image)) {
                     return $this->res(1,'File is not supported!');
                 }
+                list($width, $height) = getimagesize($r->file('gambar_kanan'));
+                //615x999 ( mau 6:10 )
+                if($width < $height*0.5 || $width > $height*0.7){ //1:2 - 7:10
+                    return $this->res(1,'Image 1 ratio must between 1:2 and 7:10');
+                }
                 $r->file('gambar_kanan')->move(public_path('antinet/projects'),$r->name.'_gambarkanan.'.$ext);
                 $path_gambarkanan = 'antinet/projects/'.$r->name.'_gambarkanan.'.$ext;
             } else{
-                return $this->res(1,'Gambar Kanan cannot be empty!');
+                return $this->res(1,'Image 1 cannot be empty!');
             }
-            if($r->hasFile('gambar_lain')){
-                $flag=1;
-                foreach($r->file('gambar_lain') as $image)
-                {
-                    $ext = $image->extension();
-                    $ext = strtolower($ext);
-                    if (!in_array($ext, $supported_image)) {
-                        return $this->res(1,'File is not supported!');
-                    }
-                    $image->move(public_path('antinet/projects'),$r->name.'_gambarlain_'.$flag.".".$ext);
-                    $gambar_lain[] = 'antinet/projects/'.$r->name.'_gambarlain_'.$flag.'.'.$ext;
-                    $flag++;
-                }
-            } else{
-                $gambar_lain = [];
-            }
+            // if($r->hasFile('gambar_lain')){
+            //     $flag=1;
+            //     foreach($r->file('gambar_lain') as $image)
+            //     {
+            //         $ext = $image->extension();
+            //         $ext = strtolower($ext);
+            //         if (!in_array($ext, $supported_image)) {
+            //             return $this->res(1,'File is not supported!');
+            //         }
+            //         $image->move(public_path('antinet/projects'),$r->name.'_gambarlain_'.$flag.".".$ext);
+            //         $gambar_lain[] = 'antinet/projects/'.$r->name.'_gambarlain_'.$flag.'.'.$ext;
+            //         $flag++;
+            //     }
+            // } else{
+            //     $gambar_lain = [];
+            // }
     
             $ins = new Project();
             $ins->name = $r->name;
@@ -351,7 +357,7 @@ class APIController extends Controller
             $ins->gambar_utama = $path_gambarutama;
             $ins->gambar_kiri = $path_gambarkiri;
             $ins->gambar_kanan = $path_gambarkanan;
-            $ins->gambar_lain = json_encode($gambar_lain);
+            // $ins->gambar_lain = json_encode($gambar_lain);
             $ins->hashtag=json_encode($r->hashtag);
             $ins->link = $link;
             $ins->save();
@@ -389,7 +395,7 @@ class APIController extends Controller
                 $r->file('gambar_utama')->move(public_path('antinet/projects'),$r->name.'_gambarutama.'.$ext);
                 $path_gambarutama = 'antinet/projects/'.$r->name.'_gambarutama.'.$ext;
             } else{
-                return $this->res(1,'Gambar Utama cannot be empty!');
+                return $this->res(1,'Main Image cannot be empty!');
             }
 
             $ins                = new Project();
@@ -432,6 +438,10 @@ class APIController extends Controller
             if (!in_array($ext, $supported_image)) {
                 return $this->res(1,'File is not supported!');
             }
+            list($width, $height) = getimagesize($r->file('gambar_utama'));
+                if($width < $height*1.5 || $width > $height*1.8){
+                    return $this->res(1,'Main image ratio must between 3:2 and 9:5');
+                }
             $r->file('gambar_utama')->move(public_path('antinet/projects'),$r->name.'_gambarutama.'.$ext);
             $path_gambarutama = 'antinet/projects/'.$r->name.'_gambarutama.'.$ext;
             
@@ -444,6 +454,11 @@ class APIController extends Controller
             if (!in_array($ext, $supported_image)) {
                 return $this->res(1,'File is not supported!');
             }
+            list($width, $height) = getimagesize($r->file('gambar_kiri'));
+                //615x999 ( mau 6:10 )
+                if($width < $height*0.5 || $width > $height*0.7){ //1:2 - 7:10
+                    return $this->res(1,'Image 2 ratio must between 1:2 and 7:10');
+                }
             $r->file('gambar_kiri')->move(public_path('antinet/projects'),$r->name.'_gambarkiri.'.$ext);
             $path_gambarkiri = 'antinet/projects/'.$r->name.'_gambarkiri.'.$ext;
             $edit->gambar_kiri = $path_gambarkiri;
@@ -455,6 +470,11 @@ class APIController extends Controller
             if (!in_array($ext, $supported_image)) {
                 return $this->res(1,'File is not supported!');
             }
+            list($width, $height) = getimagesize($r->file('gambar_kanan'));
+                //615x999 ( mau 6:10 )
+                if($width < $height*0.5 || $width > $height*0.7){ //1:2 - 7:10
+                    return $this->res(1,'Image 1 ratio must between 1:2 and 7:10');
+                }
             $r->file('gambar_kanan')->move(public_path('antinet/projects'),$r->name.'_gambarkanan.'.$ext);
             $path_gambarkanan = 'antinet/projects/'.$r->name.'_gambarkanan.'.$ext;
             $edit->gambar_kanan = $path_gambarkanan;
@@ -703,53 +723,73 @@ class APIController extends Controller
         $data[0] = $tanggal;
         $data[1] = $bulan;
         $data[2] = $tahun;
-        // $data[3] = $tigatahun;
 
         return $this->res(0,'','',$data);
     }
 
     public function graphMember(){
-        $tanggal = Membership::where('created_at', '>=', Carbon::now()->subMonth())
-                            ->groupBy('date')
-                            ->orderBy('date', 'ASC')->limit(7)
-                            ->get(array(
-                                DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date"),
-                                DB::raw('COUNT(*) as "views"')
-                            ));
+        
+        $tgl = DB::select("
+            SELECT *
+            FROM 
+                (SELECT 
+                DATE_FORMAT(created_at, '%Y-%m-%d') as date, 
+                COUNT(*) as views
+                FROM `memberships`
+                GROUP BY date) as table1
+            WHERE date > DATE_FORMAT(CURRENT_DATE() - INTERVAL 6 DAY,'%Y-%m-%d')
+        ");//ini bener
 
-        $bulan = Membership::groupBy('date')
-        ->orderBy('date', 'ASC')->limit(12)
-        ->get(array(
-            DB::raw("DATE_FORMAT(created_at,'%Y-%m') as date"),
-            DB::raw('COUNT(*) as "views"')
-        ));
+        $bln = DB::select("
+            SELECT *
+            FROM 
+                (SELECT 
+                DATE_FORMAT(created_at, '%Y-%m') as date, 
+                COUNT(*) as views
+                FROM `memberships`
+                GROUP BY date) as table1
+            WHERE date > DATE_FORMAT(CURRENT_DATE() - INTERVAL 6 MONTH,'%Y-%m')
+        ");//ini bener
 
-        // $tahun = Membership::groupBy('date')
-        // ->orderBy('date', 'DESC')
-        // ->get(array(
-        //     DB::raw('year(created_at) as date'),
-        //     DB::raw('COUNT(*) as "views"')
-        // ));
+        $tanggal = [];
+        $bulan = [];
+        $temp = 0;
+        $dayTime = Carbon::now()->subDays(6);
+        for($i=0;$i<7;$i++){
+            if(empty($tgl[$temp]) || $tgl[$temp]->date != $dayTime->format('Y-m-d')){
+                $tanggal[$i] = [
+                    'date' => $dayTime->format('Y-m-d'),
+                    'views' => 0
+                ];
+            } else {
+                $tanggal[$i] = [
+                    'date' => $dayTime->format('Y-m-d'),
+                    'views' => $tgl[$temp]->views
+                ];
+                $temp++;
+            }
+            $dayTime->addDays(1);
+        }
+
+        $monthTime = Carbon::now()->subMonth(6);
+        $temp = 0;
+        for($i=0;$i<7;$i++){
+            if(empty($bln[$temp]) || $bln[$temp]->date != $monthTime->format('Y-m')){
+                $bulan[$i] = [
+                    'date' => $monthTime->format('Y-m'),
+                    'views' => 0
+                ];
+            } else {
+                $bulan[$i] = [
+                    'date' => $monthTime->format('Y-m'),
+                    'views' => $bln[$temp]->views
+                ];
+                $temp++;
+            }
+            $monthTime->addMonth(1);
+        }
 
         $total = Membership::all()->count();
-
-        for($i=0;$i<7;$i++){
-            //tanggal
-            if(empty($tanggal[$i])) {
-                $tanggal[$i] = [
-                    'date' => date('Y-m-d',strtotime($tanggal[$i-1]['date'])-3600*24),
-                    'views' => 0
-                ];
-            }
-            //bulan
-            if(empty($bulan[$i])) {
-                $bulan[$i] = [
-                    'date' => date('Y-m',strtotime($bulan[$i-1]['date'])-3600*24*30),
-                    'views' => 0
-                ];
-            }
-            
-        }
          
         $data[0] = $tanggal;
         $data[1] = $bulan;
@@ -759,40 +799,71 @@ class APIController extends Controller
     }
 
     public function graphSubscribe(){
-        $tanggal = Subscription::where('created_at', '>=', Carbon::now()->subMonth())
-                            ->groupBy('date')
-                            ->orderBy('date', 'ASC')->limit(7)
-                            ->get(array(
-                                DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d') as date"),
-                                DB::raw('COUNT(*) as "views"')
-                            ));
+       
+        $tgl = DB::select("
+            SELECT *
+            FROM 
+                (SELECT 
+                DATE_FORMAT(created_at, '%Y-%m-%d') as date, 
+                COUNT(*) as views
+                FROM `subscriptions`
+                GROUP BY date) as table1
+            WHERE date > DATE_FORMAT(CURRENT_DATE() - INTERVAL 6 DAY,'%Y-%m-%d')
+        ");//ini bener
 
-        $bulan = Subscription::groupBy('date')
-        ->orderBy('date', 'ASC')->limit(12)
-        ->get(array(
-            DB::raw("DATE_FORMAT(created_at,'%Y-%m') as date"),
-            DB::raw('COUNT(*) as "views"')
-        ));
+        $bln = DB::select("
+            SELECT *
+            FROM 
+                (SELECT 
+                DATE_FORMAT(created_at, '%Y-%m') as date, 
+                COUNT(*) as views
+                FROM `subscriptions`
+                GROUP BY date) as table1
+            WHERE date > DATE_FORMAT(CURRENT_DATE() - INTERVAL 6 MONTH,'%Y-%m')
+        ");//ini bener
 
+        $tanggal = [];
+        $bulan = [];
+        $temp = 0;
+        $dayTime = Carbon::now()->subDays(6);
+        for($i=0;$i<7;$i++){
+            if(empty($tgl[$temp]) || $tgl[$temp]->date != $dayTime->format('Y-m-d')){
+                $tanggal[$i] = [
+                    'date' => $dayTime->format('Y-m-d'),
+                    'views' => 0
+                ];
+            } else {
+                $tanggal[$i] = [
+                    'date' => $dayTime->format('Y-m-d'),
+                    'views' => $tgl[$temp]->views
+                ];
+                $temp++;
+            }
+            $dayTime->addDays(1);
+        }
+
+        $monthTime = Carbon::now()->subMonth(6);
+        $temp = 0;
+        for($i=0;$i<7;$i++){
+            if(empty($bln[$temp]) || $bln[$temp]->date != $monthTime->format('Y-m')){
+                $bulan[$i] = [
+                    'date' => $monthTime->format('Y-m'),
+                    'views' => 0
+                ];
+            } else {
+                $bulan[$i] = [
+                    'date' => $monthTime->format('Y-m'),
+                    'views' => $bln[$temp]->views
+                ];
+                $temp++;
+            }
+            $monthTime->addMonth(1);
+        }
+        
+        
+        
         $total = Subscription::all()->count();
 
-        for($i=0;$i<7;$i++){
-            //tanggal
-            if(empty($tanggal[$i])) {
-                $tanggal[$i] = [
-                    'date' => date('Y-m-d',strtotime($tanggal[$i-1]['date'])-3600*24),
-                    'views' => 0
-                ];
-            }
-            //bulan
-            if(empty($bulan[$i])) {
-                $bulan[$i] = [
-                    'date' => date('Y-m',strtotime($bulan[$i-1]['date'])-3600*24*30),
-                    'views' => 0
-                ];
-            }
-            
-        }
          
         $data[0] = $tanggal;
         $data[1] = $bulan;
