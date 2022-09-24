@@ -7,20 +7,19 @@ import {
     CFormCheck,
     CFormInput,
     CFormTextarea,
-    CImage,
     CSpinner,
 } from "@coreui/react";
 import { useEffect, useRef, useState } from "react";
 import { requestAPI } from "../../API";
-import { Toast, Toaster } from "../../components/index";
+// import { Toast, Toaster } from "../../components/index";
 import { WithContext as ReactTags } from "react-tag-input";
 import "../../../../css/app.css";
 
-export function AddProject({ setMenu }) {
+export function AddProject({ setMenu, Toast, Toaster, setToast, toaster, setT }) {
 
     const [loading, setLoading] = useState(false);
-    const [toast, setToast] = useState();
-    const toaster = useRef();
+    // const [toast, setToast] = useState();
+    // const toaster = useRef();
 
     const [title, setTitle] = useState();
     const [description, setDescription] = useState("");
@@ -73,6 +72,8 @@ export function AddProject({ setMenu }) {
             setMenu("set-project")
         } else {
             setToast(Toaster(toaster, Toast("danger", resp.message)));
+            // setMenu("set-project")
+            // setT('danger')
         }
         setLoading(false);
     };
@@ -127,7 +128,7 @@ export function AddProject({ setMenu }) {
                             label="Main Image"
                             onChange={(e) => setMainImage(e.target.files[0])}
                         />
-                        {mainImage ? <CImage src={mainImage} /> : <></>}
+                        {/* {mainImage ? <CImage src={mainImage} /> : <></>} */}
                         {/* <CFormInput
                         className=''
                         type="text"
@@ -242,7 +243,7 @@ export function AddProject({ setMenu }) {
                     </CForm>
                 </CCardBody>
             </CCard>
-            {toast}
+            {/* {toast} */}
         </>
     );
 }

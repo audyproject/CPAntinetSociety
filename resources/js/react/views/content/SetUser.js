@@ -8,13 +8,13 @@ import { useEffect, useRef, useState } from "react";
 import { Toast, Toaster } from "../../components";
 import { CButton, CForm, CFormInput, CFormSelect, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle, CSpinner } from "@coreui/react";
 
-export function SetUser({ sessionData }) {
+export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
 
     const [userData, setUserData] = useState(false)
     const [ready, setReady] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [toast, setToast] = useState()
-    const toaster = useRef()
+    // const [toast, setToast] = useState()
+    // const toaster = useRef()
     const [modal, setModal] = useState(false)
 
     const [username, setUsername] = useState("")
@@ -41,6 +41,7 @@ export function SetUser({ sessionData }) {
         const response = await requestAPI('post', 'api/activate', data)
         if (response.status == 0) {
             setUserData(false)
+            setReady(false)
             if (id == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
             else setToast(Toaster(toaster, Toast('success', "Deactivate Success")))
         } else {
@@ -62,8 +63,8 @@ export function SetUser({ sessionData }) {
             setModal(false)
         }
         setLoading(false)
-        setUserData(false)
         setReady(false)
+        // setUserData(false)
     }
 
     $("#userTable").DataTable({
@@ -81,7 +82,7 @@ export function SetUser({ sessionData }) {
                 setDataRoles(response.data)
             }
         }
-    })
+    },[ready])
 
     return (
         <>
@@ -177,7 +178,6 @@ export function SetUser({ sessionData }) {
                             </CModalFooter>
                         </CForm>
                     </CModal>
-                    {toast}
                 </>
             }
         </>
