@@ -12,12 +12,12 @@ import { useEffect, useRef, useState } from "react";
 import { Toast, Toaster } from "../../components";
 import { requestAPI } from "../../API";
 
-export function AddUser(){
+export function AddUser({ setMenu, Toast, Toaster, toaster, setToast }){
 
     const [dataRoles, setDataRoles] = useState(false)
     const [loading, setLoading] = useState(false)
-    const toaster = useRef()
-    const [toast, setToast] = useState()
+    // const toaster = useRef()
+    // const [toast, setToast] = useState()
 
     const [email, setEmail] = useState("")
     const [pass, setPass] = useState("")
@@ -46,6 +46,7 @@ export function AddUser(){
         const response = await requestAPI('post', 'api/createuser', data)
         if(response.status == 0){
             setToast(Toaster(toaster, Toast('success', "Add User Success")))
+            setMenu("set-user")
         } else {
             setToast(Toaster(toaster, Toast('danger', response.message)))
         }
@@ -113,8 +114,7 @@ export function AddUser(){
                     <CButton className='mt-3' type="submit" color="primary">Submit</CButton>}
                 </CForm>
             </CCardBody>
-        </CCard>
-        {toast}
+        </CCard>        
         </>
     )
 }

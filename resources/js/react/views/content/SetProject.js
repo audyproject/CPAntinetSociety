@@ -4,7 +4,7 @@ import "/js/jquery.dataTables.min.js";
 import "/js/dataTables.bootstrap4.min.js";
 import { WithContext as ReactTags } from 'react-tag-input';
 
-import { CButton, CForm, CFormInput, CFormTextarea, CImage, CModal, CModalBody, CModalFooter, CModalHeader, CSpinner } from "@coreui/react";
+import { CButton, CForm, CFormCheck, CFormInput, CFormTextarea, CImage, CModal, CModalBody, CModalFooter, CModalHeader, CSpinner } from "@coreui/react";
 import { useEffect, useRef, useState } from "react";
 import { requestAPI } from "../../API";
 import { Toast, Toaster } from "../../components";
@@ -19,6 +19,10 @@ export function SetProject() {
     const [modal, setModal] = useState(false)
     const [modal2, setModal2] = useState(false)
 
+    const [isLink, setIsLink] = useState(true);
+    
+    const [link, setLink] = useState()
+    
     const [id, setId] = useState(false)
     const [title, setTitle] = useState()
     const [description, setDescription] = useState("")
@@ -27,7 +31,6 @@ export function SetProject() {
     const [paragraf2, setParagraf2] = useState()
     const [titleParagraf1, setTitleParagraf1] = useState()
     const [titleParagraf2, setTitleParagraf2] = useState()
-    const [link, setLink] = useState()
 
     const [mainImage, setMainImage] = useState()
     const [image1, setImage1] = useState()
@@ -40,6 +43,7 @@ export function SetProject() {
         const resp = await requestAPI('get', '/api/getproject')
         if (resp.status == 0) {
             setProjectData(resp.data)
+            console.log(resp.data)
         }
         setReady(true)
     }
@@ -118,14 +122,17 @@ export function SetProject() {
             console.log(a)
             data.append(`hashtag[]`, a)
         }
-        data.append('judul_paragraf1', titleParagraf1)
-        data.append('judul_paragraf2', titleParagraf2)
-        data.append('isi_paragraf1', paragraf1)
-        data.append('isi_paragraf2', paragraf2)
         data.append('gambar_utama', mainImage)
-        data.append('gambar_kanan', image1)
-        data.append('gambar_kiri', image2)
-        data.append('link', link)
+        if(isLink == true){
+            data.append("link", link);
+        } else {
+            data.append('judul_paragraf1', titleParagraf1)
+            data.append('judul_paragraf2', titleParagraf2)
+            data.append('isi_paragraf1', paragraf1)
+            data.append('isi_paragraf2', paragraf2)
+            data.append('gambar_kanan', image1)
+            data.append('gambar_kiri', image2)
+        }
         const resp = await requestAPI('post', '/api/editproject', data)
         console.log(resp)
         if (resp.status == 0) {
@@ -192,10 +199,6 @@ export function SetProject() {
                                                             setId(data.id)
                                                             setTitle(data.name)
                                                             setDescription(data.description)
-                                                            setTitleParagraf1(data.judul_paragraf1)
-                                                            setParagraf1(data.isi_paragraf1)
-                                                            setTitleParagraf2(data.judul_paragraf2)
-                                                            setParagraf2(data.isi_paragraf2)
                                                             setHashtag(() => {
                                                                 return JSON.parse(data.hashtag).map((datas, i) => {
                                                                     return {
@@ -204,15 +207,29 @@ export function SetProject() {
                                                                     }
                                                                 })
                                                             })
+                                                            setTitleParagraf1(data.judul_paragraf1)
+                                                            setParagraf1(data.isi_paragraf1)
+                                                            setTitleParagraf2(data.judul_paragraf2)
+                                                            setParagraf2(data.isi_paragraf2)
                                                             setLink(data.link)
                                                             setModal(true)
+                                                            if(data.link != null) {
+                                                                setIsLink(true)
+                                                                document.getElementById('radio_link').checked = true
+                                                                document.getElementById('radio_popup').checked = false
+                                                            }
+                                                            else {
+                                                                setIsLink(false)
+                                                                document.getElementById('radio_popup').checked = true
+                                                                document.getElementById('radio_link').checked = false
+                                                            }
                                                         }}>Edit</CButton> &nbsp;
-                                                    <CButton id="editPicture" color="primary"
+                                                    {/* <CButton id="editPicture" color="primary"
                                                         onClick={() => {
                                                             setId(data.id)
                                                             setViewAnotherImage(JSON.parse(projectData[i].gambar_lain))
                                                             setModal2(true)
-                                                        }}>Edit Picture</CButton>
+                                                        }}>Edit Picture</CButton> */}
                                                     {/* {!data.spotlight && <CButton color="warning" className="text-white" onClick={() => doSpotlight(data.id, data.name)}>Spotlight</CButton>} */}
                                                     {/* {data.active == 1 ? 
 >>>>>>> 5b34639a3fcf48fcacb99c8926a5561167debe69
@@ -280,7 +297,21 @@ export function SetProject() {
                                         tagInputField: 'col-sm-4'
                                     }}
                                 />
-                                <div className="mb-3"></div>
+                                {/* <div className="mb-3"></div> */}
+                                <CFormCheck type="radio" id="radio_link" name="link" label="Link" onClick={() => setIsLink(true)}/>
+                                <CFormCheck type="radio" id="radio_popup" name="link" label="Popup" onClick={() => setIsLink(false)}/>
+                                {isLink ? 
+                                <CFormInput
+                                    className='mb-3'
+                                    type="text"
+                                    id="link"
+                                    label="Link"
+                                    placeholder="Input here..."
+                                    // text="Must be 8-20 characters long."
+                                    aria-describedby="exampleFormControlInputHelpInline"
+                                    onChange={e => setLink(e.target.value)}
+                                    value={link}
+                                /> :<>
                                 <CFormInput
                                     className='mb-3'
                                     type="text"
@@ -329,18 +360,8 @@ export function SetProject() {
                                 // feedback={"more than 100 words"}
                                 />
                                 <CFormInput className='mb-3' type="file" id="formFile" label="Image 2" onChange={e => { console.log(e.target.files); setImage2(e.target.files[0]) }} />
+                                </>}
                                 {/* <CFormInput className='mb-3' multiple="multiple" type="file" id="formFile" label="Another Image" onChange={e => setAnotherImage(e.target.files)} /> */}
-                                <CFormInput
-                                    className='mb-3'
-                                    type="text"
-                                    id="link"
-                                    label="Link"
-                                    placeholder="Input here..."
-                                    // text="Must be 8-20 characters long."
-                                    aria-describedby="exampleFormControlInputHelpInline"
-                                    onChange={e => setLink(e.target.value)}
-                                    value={link}
-                                />
                             </CModalBody>
                             <CModalFooter>
                                 <CButton color="secondary" onClick={() => setModal(false)}>

@@ -12,10 +12,10 @@ import { useRef, useState } from 'react'
 import { Toast, Toaster } from '../../components/index'
 import { requestAPI } from '../../API'
 
-export function ChangePassword(){
+export function ChangePassword({Toast, Toaster, toaster, setToast}){
     const [loading, setLoading] = useState(false)
-    const [toast, setToast] = useState()
-    const toaster = useRef()
+    // const [toast, setToast] = useState()
+    // const toaster = useRef()
 
     const [oldPass, setOldPass] = useState("")
     const [newPass, setNewPass] = useState("")
@@ -24,19 +24,26 @@ export function ChangePassword(){
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading(true)
-        const data = {
-            'oldPassword': oldPass,
-            'newPassword': newPass
+        if(oldPass == false || newPass == false) setToast(Toaster(toaster, Toast('danger', "Data cannot be empty")))
+        else if(newPass != confPass) setToast(Toaster(toaster, Toast('danger', "Please Check Your Data!")))
+        else {
+            const data = {
+                'oldPassword': oldPass,
+                'newPassword': newPass
+            }
+            const response = await requestAPI('post', "api/changepassword", data)
+            if(response.status == 0){
+                setToast(Toaster(toaster, Toast('success', "Change Password Success")))
+                document.getElementById('old-password').value = ''
+                setOldPass(false)
+                document.getElementById('new-password').value = ''
+                setNewPass(false)
+                document.getElementById('confirm-password').value = ''
+                setConfPass(false)
+            } else {
+                setToast(Toaster(toaster, Toast('danger', response.message)))
+            }        
         }
-        const response = await requestAPI('post', "api/changepassword", data)
-        if(response.status == 0){
-            setToast(Toaster(toaster, Toast('success', "Change Password Success")))
-            setOldPass("")
-            setNewPass("")
-            setConfPass("")
-        } else {
-            setToast(Toaster(toaster, Toast('danger', response.message)))
-        }        
         setLoading(false)
     }
 
@@ -85,7 +92,6 @@ export function ChangePassword(){
                 </CForm>
             </CCardBody>
         </CCard>
-        {toast}
         </>
     )
 }
