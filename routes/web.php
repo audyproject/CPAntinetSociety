@@ -39,12 +39,12 @@ route::group(['middleware'=>['checkSession']],function(){
     route::group(['middleware'=>['adminOnly']],function(){
         //adminOnly
         Route::post('api/createuser',[APIController::class,'createUser']);
-        Route::post('api/changepassword',[APIController::class,'changePass']);
         Route::get('api/getuser',[APIController::class,'getUser']);
         Route::post('api/edituser',[APIController::class,'editUser']);
         Route::get('api/getrole',[APIController::class,'getRole']);
         Route::post('api/activate',[APIController::class,'activate']);
     });
+    Route::post('api/changepassword',[APIController::class,'changePass']);
     Route::get('api/cekadmin',[APIController::class,'cekAdmin']);
     // project
     Route::post('api/createproject',[APIController::class,'createProject']);
