@@ -85,7 +85,9 @@ export function Membership() {
         if (response.status == 0) {
             // console.log(response.data)
             setMemberData(false)
-            if (id == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
+            setReady(false)
+            setGraphMembership(false)
+            if (active == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
             else setToast(Toaster(toaster, Toast('success', "Deactivate Success")))
         } else {
             setToast(Toaster(toaster, Toast('danger', response.message)))
@@ -108,7 +110,8 @@ export function Membership() {
             setModal(false)
         }
         setLoading(false)
-        setUserData(false)
+        setMemberData(false)
+        setGraphMembership(false)
         setReady(false)
     }
 
@@ -117,7 +120,7 @@ export function Membership() {
         pagingType: "full_numbers",
     });
 
-    useEffect(async () => {
+    useEffect(() => {
         if (!ready || !memberData) {
             request()
             // request2()
@@ -129,7 +132,7 @@ export function Membership() {
         //         setDataRoles(response.data)
         //     }
         // }
-    },[])
+    },[ready])
 
     return (
         <>

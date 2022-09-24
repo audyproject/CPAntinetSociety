@@ -375,7 +375,7 @@ export function Subscription() {
                                         <tr>
                                             <th>No</th>
                                             <th>Email</th>
-                                            <th>Join Time</th>
+                                            <th>Join Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
