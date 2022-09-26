@@ -24,7 +24,7 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
     const [dataRoles, setDataRoles] = useState(false)
 
     const request = async () => {
-        const response = await requestAPI('get', 'api/getuser')
+        const response = await requestAPI('get', 'api/user/get')
         if (response.status == 0) {
             setUserData(response.data)
         } else {
@@ -38,7 +38,7 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
             'id': id,
             'active': active
         }
-        const response = await requestAPI('post', 'api/activate', data)
+        const response = await requestAPI('post', 'api/user/activate', data)
         if (response.status == 0) {
             setUserData(false)
             setReady(false)
@@ -57,7 +57,7 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
             'username': username,
             'role': roles
         }
-        const response = await requestAPI('post', 'api/edituser', data)
+        const response = await requestAPI('post', 'api/user/edit', data)
         if (response.status == 0) {
             setToast(Toaster(toaster, Toast('success', "Edit User Success")))
             setModal(false)
@@ -77,7 +77,7 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
             request()
         }
         if (!dataRoles) {
-            const response = await requestAPI('get', 'api/getrole')
+            const response = await requestAPI('get', 'api/user/getrole')
             if (response.status == 0) {
                 setDataRoles(response.data)
             }

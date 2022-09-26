@@ -11,6 +11,7 @@ import {
 } from "./content/index"
 import { Toast, Toaster } from "../components"
 import { useRef, useState } from "react"
+import { CContainer } from "@coreui/react"
 
 export function Content({ menu, setMenu, sessionData }) {
 
@@ -19,6 +20,7 @@ export function Content({ menu, setMenu, sessionData }) {
 
     return (
         <>
+            <CContainer>
             {
                 menu == "dashboard" ? <Dashboard /> :
                     menu == "change-password" ? <ChangePassword Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster}/> :
@@ -31,6 +33,7 @@ export function Content({ menu, setMenu, sessionData }) {
                                                 menu == "email" ? <Email /> :
                                                     "Error 404"
             }
+            </CContainer>
             {toast}
         </>
     )

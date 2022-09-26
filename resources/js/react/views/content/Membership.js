@@ -54,7 +54,7 @@ export function Membership() {
     }
 
     const request = async () => {
-        const response = await requestAPI('get', 'api/getmembership')
+        const response = await requestAPI('get', 'api/membership/get')
         if (response.status == 0) {
             // console.log(response.data)
             setMemberData(response.data.dataset)
@@ -81,7 +81,7 @@ export function Membership() {
             'id': id,
             'isactive': active
         }
-        const response = await requestAPI('post', 'api/membership/active', data)
+        const response = await requestAPI('post', 'api/membership/activate', data)
         if (response.status == 0) {
             // console.log(response.data)
             setMemberData(false)
@@ -94,26 +94,26 @@ export function Membership() {
         }
     }
 
-    async function handleSubmit(e) {
-        e.preventDefault()
-        setLoading(true)
-        const data = {
-            'id': id,
-            'username': username,
-            'role': roles
-        }
-        const response = await requestAPI('post', 'api/edituser', data)
-        if (response.status == 0) {
-            // toast("Edit Success", "bg-success")
-            setToast(Toaster(toaster, Toast('success', "Edit User Success")))
-            // $("#modalEdit").modal('hide');
-            setModal(false)
-        }
-        setLoading(false)
-        setMemberData(false)
-        setGraphMembership(false)
-        setReady(false)
-    }
+    // async function handleSubmit(e) {
+    //     e.preventDefault()
+    //     setLoading(true)
+    //     const data = {
+    //         'id': id,
+    //         'username': username,
+    //         'role': roles
+    //     }
+    //     const response = await requestAPI('post', 'api/user/edit', data)
+    //     if (response.status == 0) {
+    //         // toast("Edit Success", "bg-success")
+    //         setToast(Toaster(toaster, Toast('success', "Edit User Success")))
+    //         // $("#modalEdit").modal('hide');
+    //         setModal(false)
+    //     }
+    //     setLoading(false)
+    //     setMemberData(false)
+    //     setGraphMembership(false)
+    //     setReady(false)
+    // }
 
     $("#userTable").DataTable({
         retrieve: true,
@@ -416,7 +416,7 @@ export function Membership() {
                             </div>
                         </div>
                     </div>
-                    <CModal visible={modal} backdrop={false} onClose={() => setModal(false)}>
+                    {/* <CModal visible={modal} backdrop={false} onClose={() => setModal(false)}>
                         <CModalHeader>
                             <CModalTitle>Edit User</CModalTitle>
                         </CModalHeader>
@@ -458,7 +458,7 @@ export function Membership() {
                                 {loading ? <CSpinner color="primary" /> : <CButton color="primary" type="submit">Save changes</CButton>}
                             </CModalFooter>
                         </CForm>
-                    </CModal>
+                    </CModal> */}
                     {/* <div className="modal fade" id="modalEdit" tabIndex="-1" aria-labelledby="exampleModalLgLabel" aria-hidden="true">
             <div className="modal-dialog modal-lg">
                 <div className="modal-content">
@@ -494,8 +494,7 @@ export function Membership() {
                 </div>
                 </div>
             </div>
-        </div> */}
-                    {toast}
+                            </div> */}                    
                 </>
             }
         </>

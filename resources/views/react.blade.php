@@ -60,7 +60,7 @@
 
         <!-- <link rel="stylesheet" href="../css/app.css"> -->
     </head>
-    <body>
+    <body style="overflow: scroll">
         <div id="app"></div>
         <!-- CoreUI and necessary plugins -->
         <!-- <script src="vendors/@coreui/coreui/js/coreui.bundle2.min.js"></script> -->

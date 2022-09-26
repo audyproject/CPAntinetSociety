@@ -18,6 +18,7 @@ export function SetProject() {
     const toaster = useRef()
     const [modal, setModal] = useState(false)
     const [modal2, setModal2] = useState(false)
+    const [modal3, setModal3] = useState(false)
 
     const [isLink, setIsLink] = useState(true);
     
@@ -40,7 +41,7 @@ export function SetProject() {
     const [viewAnotherImage, setViewAnotherImage] = useState()
 
     const request = async () => {
-        const resp = await requestAPI('get', '/api/getproject')
+        const resp = await requestAPI('get', '/api/project/get')
         if (resp.status == 0) {
             setProjectData(resp.data)
             console.log(resp.data)
@@ -57,13 +58,13 @@ export function SetProject() {
         if (!ready || !projectData) {
             request()
         }
-        if (id && projectData) {
-            console.log(id)
-            projectData.map((datas, i) => {
-                if (datas.id == id) setViewAnotherImage(JSON.parse(datas.gambar_lain))
-            })
-        }
-    }, [projectData])
+        // if (id && projectData) {
+        //     console.log(id)
+        //     projectData.map((datas, i) => {
+        //         if (datas.id == id) setViewAnotherImage(JSON.parse(datas.gambar_lain))
+        //     })
+        // }
+    }, [ready])
 
     const handleDelete = i => {
         setHashtag(hashtag.filter((hashtag, index) => index !== i));
@@ -78,7 +79,7 @@ export function SetProject() {
         let data = {
             "id": id
         }
-        const resp = await requestAPI('post', '/api/spotlight', data)
+        const resp = await requestAPI('post', '/api/project/spotlight', data)
         if (resp.status == 0) {
             setToast(Toaster(toaster, Toast('success', `Spotlight ${name} success!`)))
         } else {
@@ -110,6 +111,7 @@ export function SetProject() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         // console.log(hashtag[0].id)
         // return
         // setLoading(true)
@@ -133,16 +135,17 @@ export function SetProject() {
             data.append('gambar_kanan', image1)
             data.append('gambar_kiri', image2)
         }
-        const resp = await requestAPI('post', '/api/editproject', data)
+        const resp = await requestAPI('post', '/api/project/edit', data)
         console.log(resp)
         if (resp.status == 0) {
             setToast(Toaster(toaster, Toast('success', "Edit Project Success!")))
+            setModal(false)
+            setLoading(false)
+            setReady(false)
+            setProjectData(false)
         } else {
             setToast(Toaster(toaster, Toast('danger', resp.message)))
         }
-        setModal(false)
-        setLoading(false)
-        setProjectData(false)
     }
 
     const handleSubmit2 = async (e) => {
@@ -162,6 +165,16 @@ export function SetProject() {
         setModal2(false)
         setLoading(false)
         setProjectData(false)
+        setReady(false)
+    }
+
+    const handleSubmit3 = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        let data = {
+            id: id
+        }
+        const resp = await requestAPI('post', "api/project/activate")
     }
 
     return (
@@ -224,6 +237,15 @@ export function SetProject() {
                                                                 document.getElementById('radio_link').checked = false
                                                             }
                                                         }}>Edit</CButton> &nbsp;
+                                                        <CButton color="danger"
+                                                            onClick={() => {
+                                                                setId(data.id)
+                                                                setTitle(data.name)
+                                                                setModal3(true)
+                                                            }}
+                                                        >
+                                                            Delete
+                                                        </CButton>
                                                     {/* <CButton id="editPicture" color="primary"
                                                         onClick={() => {
                                                             setId(data.id)
@@ -401,6 +423,20 @@ export function SetProject() {
                                     Close
                                 </CButton>
                                 {loading ? <CSpinner color="primary" /> : <CButton color="primary" type="submit">Save changes</CButton>}
+                            </CModalFooter>
+                        </CForm>
+                    </CModal>
+                    <CModal size="xl" visible={modal3} onClose={() => setModal3(false)}>
+                        <CModalHeader></CModalHeader>
+                        <CForm onSubmit={handleSubmit3}>
+                            <CModalBody>
+                                <p>Are You Sure Want To Deactivate {title} Project?</p>
+                            </CModalBody>
+                            <CModalFooter>
+                                <CButton color="secondary" onClick={() => setModal3(false)}>
+                                    No
+                                </CButton>
+                                {loading ? <CSpinner color="primary" /> : <CButton color="primary" type="submit">Yes</CButton>}
                             </CModalFooter>
                         </CForm>
                     </CModal>
