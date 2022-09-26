@@ -22,9 +22,9 @@ export function SetProject() {
 
     const [isLink, setIsLink] = useState(true);
     const [active, setActive] = useState(false);
-    
+
     const [link, setLink] = useState()
-    
+
     const [id, setId] = useState(false)
     const [title, setTitle] = useState()
     const [description, setDescription] = useState("")
@@ -126,7 +126,7 @@ export function SetProject() {
             data.append(`hashtag[]`, a)
         }
         data.append('gambar_utama', mainImage)
-        if(isLink == true){
+        if (isLink == true) {
             data.append("link", link);
         } else {
             data.append('judul_paragraf1', titleParagraf1)
@@ -176,10 +176,10 @@ export function SetProject() {
             id: id
         }
         const resp = await requestAPI('post', "api/project/activate", data)
-        if(resp.status == 0){
-            setToast(Toaster(toaster, Toast('success', {active} + " " + {title} + " success")))
+        if (resp.status == 0) {
+            setToast(Toaster(toaster, Toast('success', { active } + " " + { title } + " success")))
         } else {
-            setToast(Toaster(toaster, Toast('danger', {active} + " " + {title} + " failed")))
+            setToast(Toaster(toaster, Toast('danger', { active } + " " + { title } + " failed")))
         }
         setActive(false)
         setTitle(false)
@@ -190,7 +190,7 @@ export function SetProject() {
     return (
         <>
             {/* {"SetProject"} */}
-            {ready == false ? <CSpinner color="primary"/> :
+            {ready == false ? <CSpinner color="primary" /> :
                 <>
                     <div className="col-12">
                         <div className="card mb-4">
@@ -223,7 +223,7 @@ export function SetProject() {
                                                             setTitle(data.name)
                                                             setDescription(data.description)
                                                             setHashtag(() => {
-                                                                if(data.hashtag != "null") {
+                                                                if (data.hashtag != "null") {
                                                                     console.log(data.hashtag != null)
                                                                     return JSON.parse(data.hashtag).map((datas, i) => {
                                                                         return {
@@ -241,7 +241,7 @@ export function SetProject() {
                                                             setParagraf2(data.isi_paragraf2)
                                                             setLink(data.link)
                                                             setModal(true)
-                                                            if(data.link != null) {
+                                                            if (data.link != null) {
                                                                 setIsLink(true)
                                                                 // document.getElementById('radio_link').checked = true
                                                                 // document.getElementById('radio_popup').checked = false
@@ -252,30 +252,30 @@ export function SetProject() {
                                                                 // document.getElementById('radio_link').checked = false
                                                             }
                                                         }}>Edit</CButton> &nbsp;
-                                                        {
-                                                            data.active == 1 ? 
+                                                    {
+                                                        data.active == 1 ?
                                                             <CButton color="danger" className="text-white" onClick={() => {
                                                                 setId(data.id)
                                                                 setTitle(data.name)
                                                                 setModal3(true)
                                                                 setActive("Deactivate")
-                                                            }}>Deactivate</CButton> : 
+                                                            }}>Deactivate</CButton> :
                                                             <CButton color="danger" className="text-white" onClick={() => {
                                                                 setId(data.id)
                                                                 setTitle(data.name)
                                                                 setModal3(true)
                                                                 setActive("Activate")
                                                             }}>Activate</CButton>
-                                                        }
-                                                        <CButton color="danger"
-                                                            onClick={() => {
-                                                                setId(data.id)
-                                                                setTitle(data.name)
-                                                                setModal3(true)
-                                                            }}
-                                                        >
-                                                            Delete
-                                                        </CButton>
+                                                    }
+                                                    <CButton color="danger"
+                                                        onClick={() => {
+                                                            setId(data.id)
+                                                            setTitle(data.name)
+                                                            setModal3(true)
+                                                        }}
+                                                    >
+                                                        Delete
+                                                    </CButton>
                                                     {/* <CButton id="editPicture" color="primary"
                                                         onClick={() => {
                                                             setId(data.id)
@@ -350,69 +350,80 @@ export function SetProject() {
                                     }}
                                 />
                                 {/* <div className="mb-3"></div> */}
-                                <CFormCheck type="radio" id="radio_link" name="link" label="Link" onClick={() => setIsLink(true)}/>
-                                <CFormCheck type="radio" id="radio_popup" name="link" label="Popup" onClick={() => setIsLink(false)}/>
-                                {isLink ? 
-                                <CFormInput
-                                    className='mb-3'
-                                    type="text"
-                                    id="link"
-                                    label="Link"
-                                    placeholder="Input here..."
-                                    // text="Must be 8-20 characters long."
-                                    aria-describedby="exampleFormControlInputHelpInline"
-                                    onChange={e => setLink(e.target.value)}
-                                    value={link}
-                                /> :<>
-                                <CFormInput
-                                    className='mb-3'
-                                    type="text"
-                                    id="judul1"
-                                    label="Title Paragraf 1"
-                                    placeholder="Input here..."
-                                    // text="Must be 8-20 characters long."
-                                    aria-describedby="exampleFormControlInputHelpInline"
-                                    onChange={e => setTitleParagraf1(e.target.value)}
-                                    value={titleParagraf1}
-                                />
-                                <CFormTextarea
-                                    className='mb-3'
-                                    id="paragraf1"
-                                    label="Paragraf 1"
-                                    rows="4"
-                                    // text={description.length + "/100 words"}
-                                    placeholder="Describe the project"
-                                    onChange={e => setParagraf1(e.target.value)}
-                                    value={paragraf1}
-                                // invalid={description.length > 100}
-                                // feedback={"more than 100 words"}
-                                />
-                                <CFormInput className='mb-3' type="file" id="formFile" label="Image 1" onChange={e => setImage1(e.target.files[0])} />
-                                <CFormInput
-                                    className='mb-3'
-                                    type="text"
-                                    id="judul2"
-                                    label="Title Paragraf 2"
-                                    placeholder="Input here..."
-                                    // text="Must be 8-20 characters long."
-                                    aria-describedby="exampleFormControlInputHelpInline"
-                                    onChange={e => setTitleParagraf2(e.target.value)}
-                                    value={titleParagraf1}
-                                />
-                                <CFormTextarea
-                                    className='mb-3'
-                                    id="paragraf2"
-                                    label="Paragraf 2"
-                                    rows="4"
-                                    // text={description.length + "/100 words"}
-                                    placeholder="Describe the project"
-                                    onChange={e => setParagraf2(e.target.value)}
-                                    value={paragraf2}
-                                // invalid={description.length > 100}
-                                // feedback={"more than 100 words"}
-                                />
-                                <CFormInput className='mb-3' type="file" id="formFile" label="Image 2" onChange={e => { console.log(e.target.files); setImage2(e.target.files[0]) }} />
-                                </>}
+                                {link != null &&
+                                    <>
+                                        <CFormCheck type="radio" id="radio_link" name="link" label="Link" onClick={() => setIsLink(true)} checked />
+                                        <CFormCheck type="radio" id="radio_popup" name="link" label="Popup" onClick={() => setIsLink(false)} />
+                                    </>
+                                }
+                                {link == null &&
+                                    <>
+                                        <CFormCheck type="radio" id="radio_link" name="link" label="Link" onClick={() => setIsLink(true)} />
+                                        <CFormCheck type="radio" id="radio_popup" name="link" label="Popup" onClick={() => setIsLink(false)} checked />
+                                    </>
+                                }
+
+                                {isLink ?
+                                    <CFormInput
+                                        className='mb-3'
+                                        type="text"
+                                        id="link"
+                                        label="Link"
+                                        placeholder="Input here..."
+                                        // text="Must be 8-20 characters long."
+                                        aria-describedby="exampleFormControlInputHelpInline"
+                                        onChange={e => setLink(e.target.value)}
+                                        value={link}
+                                    /> : <>
+                                        <CFormInput
+                                            className='mb-3'
+                                            type="text"
+                                            id="judul1"
+                                            label="Title Paragraf 1"
+                                            placeholder="Input here..."
+                                            // text="Must be 8-20 characters long."
+                                            aria-describedby="exampleFormControlInputHelpInline"
+                                            onChange={e => setTitleParagraf1(e.target.value)}
+                                            value={titleParagraf1}
+                                        />
+                                        <CFormTextarea
+                                            className='mb-3'
+                                            id="paragraf1"
+                                            label="Paragraf 1"
+                                            rows="4"
+                                            // text={description.length + "/100 words"}
+                                            placeholder="Describe the project"
+                                            onChange={e => setParagraf1(e.target.value)}
+                                            value={paragraf1}
+                                        // invalid={description.length > 100}
+                                        // feedback={"more than 100 words"}
+                                        />
+                                        <CFormInput className='mb-3' type="file" id="formFile" label="Image 1" onChange={e => setImage1(e.target.files[0])} />
+                                        <CFormInput
+                                            className='mb-3'
+                                            type="text"
+                                            id="judul2"
+                                            label="Title Paragraf 2"
+                                            placeholder="Input here..."
+                                            // text="Must be 8-20 characters long."
+                                            aria-describedby="exampleFormControlInputHelpInline"
+                                            onChange={e => setTitleParagraf2(e.target.value)}
+                                            value={titleParagraf1}
+                                        />
+                                        <CFormTextarea
+                                            className='mb-3'
+                                            id="paragraf2"
+                                            label="Paragraf 2"
+                                            rows="4"
+                                            // text={description.length + "/100 words"}
+                                            placeholder="Describe the project"
+                                            onChange={e => setParagraf2(e.target.value)}
+                                            value={paragraf2}
+                                        // invalid={description.length > 100}
+                                        // feedback={"more than 100 words"}
+                                        />
+                                        <CFormInput className='mb-3' type="file" id="formFile" label="Image 2" onChange={e => { console.log(e.target.files); setImage2(e.target.files[0]) }} />
+                                    </>}
                                 {/* <CFormInput className='mb-3' multiple="multiple" type="file" id="formFile" label="Another Image" onChange={e => setAnotherImage(e.target.files)} /> */}
                             </CModalBody>
                             <CModalFooter>
