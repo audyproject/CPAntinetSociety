@@ -42,12 +42,6 @@ export function Subscription() {
     const toaster = useRef()
     const [modal, setModal] = useState(false)
 
-    const [username, setUsername] = useState("")
-    const [roles, setRoles] = useState("")
-    const [email, setEmail] = useState("")
-    const [id, setId] = useState(0)
-    const [dataRoles, setDataRoles] = useState(false)
-
     const request = async () => {
         const response = await requestAPI('get', 'api/subscription/get')
         if (response.status == 0) {
@@ -61,6 +55,10 @@ export function Subscription() {
             // console.warn(response.message)
         }
         setReady(true)
+        $("#subscriptionTable").DataTable({
+            retrieve: true,
+            pagingType: "full_numbers",
+        });
     }
 
     const active = async (id, active) => {
@@ -98,12 +96,7 @@ export function Subscription() {
     //     setUserData(false)
     //     setReady(false)
     // }
-
-    $("#userTable").DataTable({
-        retrieve: true,
-        pagingType: "full_numbers",
-    });
-
+    
     useEffect(async () => {
         if (!ready || !subscriptionData) {
             request()
@@ -119,7 +112,7 @@ export function Subscription() {
 
     return (
         <>
-            {!subscriptionData || !graphSubscription ? <CSpinner color="primary" /> :
+            {!ready ? <CSpinner color="primary" /> :
                 <>
                     <CRow>
                         <CCol sm={12} lg={4}>
@@ -370,7 +363,7 @@ export function Subscription() {
                         <div className="card mb-4">
                             <div className="card-header"><strong>Data Subscription</strong></div>
                             <div className="card-body">
-                                <table id="userTable" className="table table-striped" style={{ 'width': '100%' }}>
+                                <table id="subscriptionTable" className="table table-striped" style={{ 'width': '100%' }}>
                                     <thead>
                                         <tr>
                                             <th>No</th>

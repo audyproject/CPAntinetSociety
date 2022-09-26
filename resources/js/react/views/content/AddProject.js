@@ -7,6 +7,8 @@ import {
     CFormCheck,
     CFormInput,
     CFormTextarea,
+    CInputGroup,
+    CInputGroupText,
     CSpinner,
 } from "@coreui/react";
 import { useEffect, useRef, useState } from "react";
@@ -51,7 +53,7 @@ export function AddProject({ setMenu, Toast, Toaster, setToast, toaster, setT })
         }
         data.append("gambar_utama", mainImage);
         if(isLink == true){
-            data.append("link", link);
+            data.append("link", "https://"+link);
         } else {
             data.append("judul_paragraf1", titleParagraf1);
             data.append("judul_paragraf2", titleParagraf2);
@@ -113,11 +115,11 @@ export function AddProject({ setMenu, Toast, Toaster, setToast, toaster, setT })
                             id="exampleFormControlTextarea1"
                             label="Description"
                             rows="3"
-                            text={description.length + "/100 words"}
+                            text={description.length + " words"}
                             placeholder="Describe the project"
                             onChange={(e) => setDescription(e.target.value)}
-                            invalid={description.length > 100}
-                            feedback={"more than 100 words"}
+                            // invalid={description.length > 100}
+                            // feedback={"more than 100 words"}
                         />
                         <div className="mb-3"></div>
 
@@ -220,16 +222,19 @@ export function AddProject({ setMenu, Toast, Toaster, setToast, toaster, setT })
                         /> */}
                         </>
                         :
-                        <CFormInput
-                            className="mb-3"
-                            type="text"
-                            id="link"
-                            label="Link"
-                            placeholder="Input here..."
-                            // text="Must be 8-20 characters long."
-                            aria-describedby="exampleFormControlInputHelpInline"
-                            onChange={(e) => setLink(e.target.value)}
-                        />
+                        <CInputGroup>
+                            <CInputGroupText>https://</CInputGroupText>
+                            <CFormInput
+                                className="mb-3"
+                                type="text"
+                                id="link"
+                                label="Link"
+                                placeholder="Input here..."
+                                // text="Must be 8-20 characters long."
+                                aria-describedby="exampleFormControlInputHelpInline"
+                                onChange={(e) => setLink(e.target.value)}
+                            />
+                        </CInputGroup>
                         }
                         {loading ? (
                             <CSpinner color="primary" />
