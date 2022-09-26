@@ -38,33 +38,53 @@ route::group(['middleware'=>['checkSession']],function(){
     //yangmau di middleware
     route::group(['middleware'=>['adminOnly']],function(){
         //adminOnly
-        Route::post('api/createuser',[APIController::class,'createUser']);
-        Route::post('api/changepassword',[APIController::class,'changePass']);
-        Route::get('api/getuser',[APIController::class,'getUser']);
-        Route::post('api/edituser',[APIController::class,'editUser']);
-        Route::get('api/getrole',[APIController::class,'getRole']);
-        Route::post('api/activate',[APIController::class,'activate']);
+        $user = "api/user/";
+        Route::post($user."create",[APIController::class,'createUser']);
+        Route::post($user."changepassword",[APIController::class,'changePass']);
+        Route::get($user."get",[APIController::class,'getUser']);
+        Route::post($user."edit",[APIController::class,'editUser']);
+        Route::get($user."getrole",[APIController::class,'getRole']);
+        Route::post($user."activate",[APIController::class,'activate']);
+        // Route::post('api/createuser',[APIController::class,'createUser']);
+        // Route::post('api/changepassword',[APIController::class,'changePass']);
+        // Route::get('api/getuser',[APIController::class,'getUser']);
+        // Route::post('api/edituser',[APIController::class,'editUser']);
+        // Route::get('api/getrole',[APIController::class,'getRole']);
+        // Route::post('api/activate',[APIController::class,'activate']);
     });
     Route::get('api/cekadmin',[APIController::class,'cekAdmin']);
     // project
-    Route::post('api/createproject',[APIController::class,'createProject']);
-    Route::post('api/editproject',[APIController::class,'editProject']);
-    Route::get('api/getproject',[APIController::class,'getProject']);
-    Route::post('api/spotlight',[APIController::class,'spotlight']);
-    route::post('api/deletegambarlain',[APIController::class,'deleteGambarLain']);
+    $project = "api/project/";
+    Route::post($project."create",[APIController::class,'createProject']);
+    Route::post($project."edit",[APIController::class,'editProject']);
+    Route::get($project."get",[APIController::class,'getProject']);
+    Route::post($project."spotlight",[APIController::class,'spotlight']);
+    // Route::post('api/createproject',[APIController::class,'createProject']);
+    // Route::post('api/editproject',[APIController::class,'editProject']);
+    // Route::get('api/getproject',[APIController::class,'getProject']);
+    // Route::post('api/spotlight',[APIController::class,'spotlight']);
+    // route::post('api/deletegambarlain',[APIController::class,'deleteGambarLain']);
     // route::post('api/editgambarlain',[APIController::class,'editGambarLain']);
     // subscription
-    route::get('api/getsubscription',[APIController::class,'getSubscription']);
+    $subscription = "api/subscription/";
+    route::get($subscription."get",[APIController::class,'getSubscription']);
+    route::get($subscription."activate",[APIController::class,'getSubscription']); //classnya belom dibuat
+    // route::get('api/getsubscription',[APIController::class,'getSubscription']);
     // membership
-    route::get('api/getmembership',[APIController::class,'getMembership']);
-    route::post('api/membership/active',[APIController::class,'activeMembership']);
+    $membership = "api/membership/";
+    route::get($membership."get",[APIController::class,'getMembership']);
+    route::post($membership."activate",[APIController::class,'activeMembership']);
+    // route::get('api/getmembership',[APIController::class,'getMembership']);
+    // route::post('api/membership/active',[APIController::class,'activeMembership']);
     // visitor
-    route::get('api/getvisitor',[APIController::class,'getVisitor']);
-    route::post('api/blast',[MailController::class,'blastMail']);
-    route::get('api/getallemail',[MailController::class,'getAllEmail']);
-    
-    
+    $visitor = "api/visitor/";
+    route::get($visitor."get",[APIController::class,'getVisitor']);
+    // route::get('api/getvisitor',[APIController::class,'getVisitor']);
+    // route::post('api/blast',[MailController::class,'blastMail']);
+    // route::get('api/getallemail',[MailController::class,'getAllEmail']);
 });
+route::post("api/blast",[MailController::class,'blastMail']);
+route::get("api/getallemail",[MailController::class,'getAllEmail']);
 
 //alex
 route::post('subscription',[APIController::class,'subscription']);

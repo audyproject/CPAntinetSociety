@@ -63,7 +63,7 @@ export function AddProject({ setMenu, Toast, Toaster, setToast, toaster, setT })
                 data.append("gambar_lain[]", anotherImage[i]);
             }
         }
-        const resp = await requestAPI("post", "/api/createproject", data);
+        const resp = await requestAPI("post", "/api/project/create", data);
         console.log(resp);
         if (resp.status == 0) {
             setToast(

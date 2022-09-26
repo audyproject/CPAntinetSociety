@@ -31,7 +31,7 @@ export function ChangePassword({Toast, Toaster, toaster, setToast}){
                 'oldPassword': oldPass,
                 'newPassword': newPass
             }
-            const response = await requestAPI('post', "api/changepassword", data)
+            const response = await requestAPI('post', "api/user/changepassword", data)
             if(response.status == 0){
                 setToast(Toaster(toaster, Toast('success', "Change Password Success")))
                 document.getElementById('old-password').value = ''
