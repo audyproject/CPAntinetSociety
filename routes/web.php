@@ -41,7 +41,7 @@ route::group(['middleware'=>['checkSession']],function(){
 
         $user = "api/user/";
         Route::post($user."create",[APIController::class,'createUser']);
-        Route::post($user."changepassword",[APIController::class,'changePass']);
+        // Route::post($user."changepassword",[APIController::class,'changePass']);
         Route::get($user."get",[APIController::class,'getUser']);
         Route::post($user."edit",[APIController::class,'editUser']);
         Route::get($user."getrole",[APIController::class,'getRole']);
@@ -53,7 +53,7 @@ route::group(['middleware'=>['checkSession']],function(){
         // Route::get('api/getrole',[APIController::class,'getRole']);
         // Route::post('api/activate',[APIController::class,'activate']);
     });
-    Route::post('api/changepassword',[APIController::class,'changePass']);
+    Route::post('api/user/changepassword',[APIController::class,'changePass']);
     Route::get('api/cekadmin',[APIController::class,'cekAdmin']);
     // project
     $project = "api/project/";

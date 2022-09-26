@@ -15,6 +15,7 @@ class UpdateDeactivateProject extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->boolean('active')->default(1)->nullable();
+            $table->text('description')->change();
         });
 
     }
@@ -28,6 +29,7 @@ class UpdateDeactivateProject extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->dropColumn('active');
+            $table->string('description')->change();
         });
     }
 }
