@@ -38,9 +38,10 @@ route::group(['middleware'=>['checkSession']],function(){
     //yangmau di middleware
     route::group(['middleware'=>['adminOnly']],function(){
         //adminOnly
+
         $user = "api/user/";
         Route::post($user."create",[APIController::class,'createUser']);
-        Route::post($user."changepassword",[APIController::class,'changePass']);
+        // Route::post($user."changepassword",[APIController::class,'changePass']);
         Route::get($user."get",[APIController::class,'getUser']);
         Route::post($user."edit",[APIController::class,'editUser']);
         Route::get($user."getrole",[APIController::class,'getRole']);
@@ -52,6 +53,7 @@ route::group(['middleware'=>['checkSession']],function(){
         // Route::get('api/getrole',[APIController::class,'getRole']);
         // Route::post('api/activate',[APIController::class,'activate']);
     });
+    Route::post('api/user/changepassword',[APIController::class,'changePass']);
     Route::get('api/cekadmin',[APIController::class,'cekAdmin']);
     // project
     $project = "api/project/";
@@ -59,6 +61,7 @@ route::group(['middleware'=>['checkSession']],function(){
     Route::post($project."edit",[APIController::class,'editProject']);
     Route::get($project."get",[APIController::class,'getProject']);
     Route::post($project."spotlight",[APIController::class,'spotlight']);
+    Route::post($project."active",[APIController::class,'activeProject']);
     // Route::post('api/createproject',[APIController::class,'createProject']);
     // Route::post('api/editproject',[APIController::class,'editProject']);
     // Route::get('api/getproject',[APIController::class,'getProject']);

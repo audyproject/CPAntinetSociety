@@ -412,20 +412,19 @@ class APIController extends Controller
     }
 
     public function editProject(request $r){
-        if(!$r->id || !$r->name || !$r->description || !$r->judul_paragraf1 || !$r->isi_paragraf1 || !$r->judul_paragraf2 || !$r->isi_paragraf2){
-            return $this->res(1,'Data cannot be empty!');
-        }
-
-        $edit = Project::where('id',$r->id)->first();
-        if(!$edit){
-            return $this->res(1,'Data not found!');
-        }
-
-        if(!$r->link){
-            $link = null;
-        } else{
-            $link = $r->link;
-        }
+        if(!$r->link){//ifbesar
+            $link=null;
+            if(!$r->id || !$r->name || !$r->description || !$r->judul_paragraf1 || !$r->isi_paragraf1 || !$r->judul_paragraf2 || !$r->isi_paragraf2){
+                return $this->res(1,'Data cannot be empty!');
+            }
+            $edit = Project::where('id',$r->id)->first();
+            if(!$edit){
+                return $this->res(1,'Data not found!');
+            }
+            $cekName = Project::where('name',$r->name)->where('id','!=',$r->id)->first();
+            if($cekName){
+                return $this->res(1,'This project name exists!');
+            }
         
         $supported_image = array(
             'jpg',
@@ -491,6 +490,47 @@ class APIController extends Controller
         $edit->save();
 
         return $this->res(0,'Project saved successfully!');
+    } else{
+        if(!$r->id || !$r->name || !$r->description){
+            return $this->res(1,'Data cannot be empty!');
+        }
+        $edit = Project::where('id',$r->id)->first();
+            if(!$edit){
+                return $this->res(1,'Data not found!');
+            }
+        $cekName = Project::where('name',$r->name)->where('id','!=',$r->id)->first();
+        if($cekName){
+            return $this->res(1,'This project name exists!');
+        }
+        
+        $supported_image = array(
+            'jpg',
+            'jpeg',
+            'png'
+        );
+
+        if ($r->hasFile('gambar_utama')) {
+            $ext = $r->file('gambar_utama')->extension();
+            $ext = strtolower($ext);
+            if (!in_array($ext, $supported_image)) {
+                return $this->res(1,'File is not supported!');
+            }
+            list($width, $height) = getimagesize($r->file('gambar_utama'));
+                if($width < $height*1.5 || $width > $height*1.8){
+                    return $this->res(1,'Main image ratio must between 3:2 and 9:5');
+                }
+            $r->file('gambar_utama')->move(public_path('antinet/projects'),$r->name.'_gambarutama.'.$ext);
+            $path_gambarutama = 'antinet/projects/'.$r->name.'_gambarutama.'.$ext;
+            
+            $edit->gambar_utama = $path_gambarutama;
+        } 
+        $edit->name = $r->name;
+        $edit->description = $r->description;
+        $edit->hashtag=json_encode($r->hashtag);
+        $edit->link = $r->link;
+        $edit->save();
+        return $this->res(0,'Project saved successfully!');
+    }
 
     }
 
@@ -515,6 +555,27 @@ class APIController extends Controller
 
         return $this->res(0,'Spotlight changed!');
         
+    }
+
+    public function activeProject(request $r){
+        if(!$r->id){
+            return $this->res(1,'Data not found!');
+        }
+
+        $cek = Project::where('id',$r->id)->first();
+        if(!$cek){
+            return $this->res(1,'Data not found!');
+        }
+
+        if($cek->active == 1){
+            $cek->active=0;
+            $cek->save();
+            return $this->res(0,'Project Deactivated!');
+        }else{
+            $cek->active=1;
+            $cek->save();
+            return $this->res(0,'Project Activated!');
+        }
     }
 
     public function deleteGambarLain(request $r){
@@ -909,7 +970,7 @@ class APIController extends Controller
     }
 
     public function ans(){
-        $project = Project::all();
+        $project = Project::where('active',1)->get();
         return response()->json([
             'project'  => $project
         ]);
