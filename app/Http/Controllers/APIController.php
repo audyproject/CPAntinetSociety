@@ -517,6 +517,27 @@ class APIController extends Controller
         
     }
 
+    public function activeProject(request $r){
+        if(!$r->id){
+            return $this->res(1,'Data not found!');
+        }
+
+        $cek = Project::where('id',$r->id)->first();
+        if(!$cek){
+            return $this->res(1,'Data not found!');
+        }
+
+        if($cek->active == 1){
+            $cek->active=0;
+            $cek->save();
+            return $this->res(0,'Project Deactivated!');
+        }else{
+            $cek->active=1;
+            $cek->save();
+            return $this->res(0,'Project Activated!');
+        }
+    }
+
     public function deleteGambarLain(request $r){
         if(!isset($r->id) || !$r->delete){
             return $this->res(1,'Data cannot be empty!');
@@ -909,7 +930,7 @@ class APIController extends Controller
     }
 
     public function ans(){
-        $project = Project::all();
+        $project = Project::where('active',1)->get();
         return response()->json([
             'project'  => $project
         ]);
