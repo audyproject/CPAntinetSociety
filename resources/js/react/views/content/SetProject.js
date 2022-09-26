@@ -21,6 +21,7 @@ export function SetProject() {
     const [modal3, setModal3] = useState(false)
 
     const [isLink, setIsLink] = useState(true);
+    const [active, setActive] = useState(false);
     
     const [link, setLink] = useState()
     
@@ -140,12 +141,12 @@ export function SetProject() {
         if (resp.status == 0) {
             setToast(Toaster(toaster, Toast('success', "Edit Project Success!")))
             setModal(false)
-            setLoading(false)
             setReady(false)
             setProjectData(false)
         } else {
             setToast(Toaster(toaster, Toast('danger', resp.message)))
         }
+        setLoading(false)
     }
 
     const handleSubmit2 = async (e) => {
@@ -174,7 +175,16 @@ export function SetProject() {
         let data = {
             id: id
         }
-        const resp = await requestAPI('post', "api/project/activate")
+        const resp = await requestAPI('post', "api/project/activate", data)
+        if(resp.status == 0){
+            setToast(Toaster(toaster, Toast('success', {active} + " " + {title} + " success")))
+        } else {
+            setToast(Toaster(toaster, Toast('danger', {active} + " " + {title} + " failed")))
+        }
+        setActive(false)
+        setTitle(false)
+        setId(false)
+        setLoading(false)
     }
 
     return (
@@ -213,12 +223,17 @@ export function SetProject() {
                                                             setTitle(data.name)
                                                             setDescription(data.description)
                                                             setHashtag(() => {
-                                                                return JSON.parse(data.hashtag).map((datas, i) => {
-                                                                    return {
-                                                                        "id": datas,
-                                                                        "text": datas
-                                                                    }
-                                                                })
+                                                                if(data.hashtag != "null") {
+                                                                    console.log(data.hashtag != null)
+                                                                    return JSON.parse(data.hashtag).map((datas, i) => {
+                                                                        return {
+                                                                            "id": datas,
+                                                                            "text": datas
+                                                                        }
+                                                                    })
+                                                                } else {
+                                                                    return []
+                                                                }
                                                             })
                                                             setTitleParagraf1(data.judul_paragraf1)
                                                             setParagraf1(data.isi_paragraf1)
@@ -228,15 +243,30 @@ export function SetProject() {
                                                             setModal(true)
                                                             if(data.link != null) {
                                                                 setIsLink(true)
-                                                                document.getElementById('radio_link').checked = true
-                                                                document.getElementById('radio_popup').checked = false
+                                                                // document.getElementById('radio_link').checked = true
+                                                                // document.getElementById('radio_popup').checked = false
                                                             }
                                                             else {
                                                                 setIsLink(false)
-                                                                document.getElementById('radio_popup').checked = true
-                                                                document.getElementById('radio_link').checked = false
+                                                                // document.getElementById('radio_popup').checked = true
+                                                                // document.getElementById('radio_link').checked = false
                                                             }
                                                         }}>Edit</CButton> &nbsp;
+                                                        {
+                                                            data.active == 1 ? 
+                                                            <CButton color="danger" className="text-white" onClick={() => {
+                                                                setId(data.id)
+                                                                setTitle(data.name)
+                                                                setModal3(true)
+                                                                setActive("Deactivate")
+                                                            }}>Deactivate</CButton> : 
+                                                            <CButton color="danger" className="text-white" onClick={() => {
+                                                                setId(data.id)
+                                                                setTitle(data.name)
+                                                                setModal3(true)
+                                                                setActive("Activate")
+                                                            }}>Activate</CButton>
+                                                        }
                                                         <CButton color="danger"
                                                             onClick={() => {
                                                                 setId(data.id)
@@ -430,7 +460,7 @@ export function SetProject() {
                         <CModalHeader></CModalHeader>
                         <CForm onSubmit={handleSubmit3}>
                             <CModalBody>
-                                <p>Are You Sure Want To Deactivate {title} Project?</p>
+                                <p>Are You Sure Want To {active} {title} Project?</p>
                             </CModalBody>
                             <CModalFooter>
                                 <CButton color="secondary" onClick={() => setModal3(false)}>
