@@ -31,22 +31,28 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
 
         }
         setReady(true)
+        $("#userTable").DataTable({
+            retrieve: true,
+            pagingType: "full_numbers",
+        });
     }
 
     const active = async (id, active) => {
+        setLoading(true)
         let data = {
             'id': id,
             'active': active
         }
         const response = await requestAPI('post', 'api/user/activate', data)
         if (response.status == 0) {
-            setUserData(false)
-            setReady(false)
-            if (id == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
+            if (active == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
             else setToast(Toaster(toaster, Toast('success', "Deactivate Success")))
+            setReady(false)
+            setUserData(false)
         } else {
             setToast(Toaster(toaster, Toast('danger', response.message)))
         }
+        setLoading(false)
     }
 
     async function handleSubmit(e) {
@@ -61,16 +67,13 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
         if (response.status == 0) {
             setToast(Toaster(toaster, Toast('success', "Edit User Success")))
             setModal(false)
+            setReady(false)
+            setUserData(false)
+        } else {
+            setToast(Toaster(toaster, Toast('danger', response.message)))
         }
         setLoading(false)
-        setReady(false)
-        // setUserData(false)
     }
-
-    $("#userTable").DataTable({
-        retrieve: true,
-        pagingType: "full_numbers",
-    });
 
     useEffect(async () => {
         if (!ready || !userData) {
@@ -118,12 +121,12 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
                                                             setModal(true)
                                                         }}>Edit</button>
                                                     {
-                                                        data.role != sessionData.role && data.active == 1 &&
-                                                        <CButton color="danger" className="text-white" onClick={() => active(data.id, 0)}>Deactivate</CButton>
+                                                        data.role != sessionData.role && data.active == 1 ?
+                                                        loading ? <CSpinner color="primary"/> : <CButton color="danger" className="text-white" onClick={() => active(data.id, 0)}>Deactivate</CButton> : <></>
                                                     }
                                                     {
-                                                        data.role != sessionData.role && data.active == 0 &&
-                                                        <CButton color="success" className="text-white" onClick={() => active(data.id, 1)}>Activate</CButton>
+                                                        data.role != sessionData.role && data.active == 0 ?
+                                                        loading ? <CSpinner color="primary"/> : <CButton color="success" className="text-white" onClick={() => active(data.id, 1)}>Activate</CButton> : <></>
                                                     }
 
 
@@ -135,7 +138,7 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
                             </div>
                         </div>
                     </div>
-                    <CModal visible={modal} backdrop={false} onClose={() => setModal(false)}>
+                    <CModal visible={modal} backdrop={true} onClose={() => setModal(false)}>
                         <CModalHeader>
                             <CModalTitle>Edit User</CModalTitle>
                         </CModalHeader>

@@ -21,7 +21,7 @@ export const Main = ({ logout, sessionData }) => {
         <>
             <AppSidebar menu={menu} setMenu={setMenu} logout={logout} sessionData={sessionData} />
             <div className="wrapper d-flex flex-column min-vh-100 bg-light">
-                <AppHeader setMenu={setMenu} logout={logout} />
+                <AppHeader setMenu={setMenu} logout={logout} username={sessionData.username} />
                 <div className="body flex-grow-1 px-3">
                     <Content 
                         menu={menu} 
