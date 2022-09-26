@@ -30,7 +30,7 @@ import {
 } from "@coreui/react";
 import { percent, minMax } from "./graph";
 
-export function Membership() {
+export function Membership({Toast, Toaster, toaster, setToast}) {
 
     const [memberData, setMemberData] = useState(false)
     const [graphMembership, setGraphMembership] = useState(false)
@@ -38,8 +38,8 @@ export function Membership() {
     const [monthlyPercent, setMonthlyPercent] = useState(false)
     const [ready, setReady] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [toast, setToast] = useState()
-    const toaster = useRef()
+    // const [toast, setToast] = useState()
+    // const toaster = useRef()
     const [modal, setModal] = useState(false)
 
     const [username, setUsername] = useState("")
@@ -64,6 +64,10 @@ export function Membership() {
             // console.warn(response.message)
         }
         setReady(true)
+        $("#membershipTable").DataTable({
+            retrieve: true,
+            pagingType: "full_numbers",
+        });
     }
 
     // const request2 = async () => {
@@ -77,6 +81,7 @@ export function Membership() {
     // }
 
     const active = async (id, active) => {
+        setLoading(true)
         let data = {
             'id': id,
             'isactive': active
@@ -84,14 +89,15 @@ export function Membership() {
         const response = await requestAPI('post', 'api/membership/activate', data)
         if (response.status == 0) {
             // console.log(response.data)
+            if (active == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
+            else setToast(Toaster(toaster, Toast('success', "Deactivate Success")))
             setMemberData(false)
             setReady(false)
             setGraphMembership(false)
-            if (active == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
-            else setToast(Toaster(toaster, Toast('success', "Deactivate Success")))
         } else {
             setToast(Toaster(toaster, Toast('danger', response.message)))
         }
+        setLoading(false)
     }
 
     // async function handleSubmit(e) {
@@ -114,11 +120,6 @@ export function Membership() {
     //     setGraphMembership(false)
     //     setReady(false)
     // }
-
-    $("#userTable").DataTable({
-        retrieve: true,
-        pagingType: "full_numbers",
-    });
 
     useEffect(() => {
         if (!ready || !memberData) {
@@ -387,7 +388,7 @@ export function Membership() {
                         <div className="card mb-4">
                             <div className="card-header"><strong>Data Membership</strong></div>
                             <div className="card-body">
-                                <table id="userTable" className="table table-striped" style={{ 'width': '100%' }}>
+                                <table id="membershipTable" className="table table-striped" style={{ 'width': '100%' }}>
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -406,7 +407,7 @@ export function Membership() {
                                                 <td>{data.email}</td>
                                                 <td>{data.telpon}</td>
                                                 <td>{data.created_at.replace(/[A-Z]/g, ' ').split(".")[0]}</td>
-                                                <td>{data.isactive ?
+                                                <td>{loading ? <CSpinner color="primary"/> : data.isactive ?
                                                     <CButton color="danger" onClick={() => active(data.id, 0)}>Deactivate</CButton> :
                                                     <CButton color="success" onClick={() => active(data.id, 1)}>Activate</CButton>}</td>
                                             </tr>)

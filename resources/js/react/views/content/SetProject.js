@@ -48,12 +48,11 @@ export function SetProject() {
             console.log(resp.data)
         }
         setReady(true)
+        $("#projectTable").DataTable({
+            retrieve: true,
+            pagingType: "full_numbers",
+        });
     }
-
-    $("#projectTable").DataTable({
-        retrieve: true,
-        pagingType: "full_numbers",
-    });
 
     useEffect(() => {
         if (!ready || !projectData) {
@@ -260,22 +259,13 @@ export function SetProject() {
                                                                 setModal3(true)
                                                                 setActive("Deactivate")
                                                             }}>Deactivate</CButton> : 
-                                                            <CButton color="danger" className="text-white" onClick={() => {
+                                                            <CButton color="success" className="text-white" onClick={() => {
                                                                 setId(data.id)
                                                                 setTitle(data.name)
                                                                 setModal3(true)
                                                                 setActive("Activate")
                                                             }}>Activate</CButton>
                                                         }
-                                                        <CButton color="danger"
-                                                            onClick={() => {
-                                                                setId(data.id)
-                                                                setTitle(data.name)
-                                                                setModal3(true)
-                                                            }}
-                                                        >
-                                                            Delete
-                                                        </CButton>
                                                     {/* <CButton id="editPicture" color="primary"
                                                         onClick={() => {
                                                             setId(data.id)
@@ -284,7 +274,6 @@ export function SetProject() {
                                                         }}>Edit Picture</CButton> */}
                                                     {/* {!data.spotlight && <CButton color="warning" className="text-white" onClick={() => doSpotlight(data.id, data.name)}>Spotlight</CButton>} */}
                                                     {/* {data.active == 1 ? 
->>>>>>> 5b34639a3fcf48fcacb99c8926a5561167debe69
                                         <CButton color="danger" className="text-white" onClick={() => active(data.id, 0)}>Deactivate</CButton> :
                                         <CButton color="success" className="text-white"  onClick={() => active(data.id, 1)}>Activate</CButton>
                                         // <button className="btn btn-success text-white" data-coreui-toggle="modal" data-coreui-target="#modalActive">Deactivate</button> : 
@@ -298,7 +287,7 @@ export function SetProject() {
                             </div>
                         </div>
                     </div>
-                    <CModal size="xl" backdrop={false} visible={modal} onClose={() => setModal(false)}>
+                    <CModal size="xl" backdrop={true} visible={modal} onClose={() => setModal(false)}>
                         <CModalHeader>Edit Project</CModalHeader>
                         <CForm onSubmit={handleSubmit}>
                             <CModalBody>
@@ -318,11 +307,11 @@ export function SetProject() {
                                     id="exampleFormControlTextarea1"
                                     label="Description"
                                     rows="3"
-                                    text={description.length + "/100 words"}
+                                    text={description.length + " words"}
                                     placeholder="Describe the project"
                                     onChange={e => setDescription(e.target.value)}
-                                    invalid={description.length > 100}
-                                    feedback={"more than 100 words"}
+                                    // invalid={description.length > 100}
+                                    // feedback={"more than 100 words"}
                                     value={description}
                                 />
                                 <div className="mb-3"></div>
@@ -423,7 +412,7 @@ export function SetProject() {
                             </CModalFooter>
                         </CForm>
                     </CModal>
-                    <CModal size="xl" visible={modal2} onClose={() => setModal2(false)}>
+                    <CModal size="xl" backdrop={true} visible={modal2} onClose={() => setModal2(false)}>
                         <CModalHeader>Edit Another Image</CModalHeader>
                         <CForm onSubmit={handleSubmit2}>
                             <CModalBody>
@@ -456,7 +445,7 @@ export function SetProject() {
                             </CModalFooter>
                         </CForm>
                     </CModal>
-                    <CModal size="xl" visible={modal3} onClose={() => setModal3(false)}>
+                    <CModal size="xl" backdrop={true} visible={modal3} onClose={() => setModal3(false)}>
                         <CModalHeader></CModalHeader>
                         <CForm onSubmit={handleSubmit3}>
                             <CModalBody>
