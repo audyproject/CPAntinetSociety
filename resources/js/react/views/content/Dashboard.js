@@ -28,7 +28,7 @@ export function Dashboard() {
   }
 
   async function request() {
-    const resp = await requestAPI('get', 'api/getvisitor')
+    const resp = await requestAPI('get', 'api/visitor/get')
     if (resp.status == 0) {
       setData(resp.data)
       percentage(resp.data)
@@ -219,6 +219,7 @@ export function Dashboard() {
               chart={
                 <CChartLine
                   className="mt-3 mx-3"
+                  customTooltips
                   style={{ height: '70px' }}
                   data={{
                     labels: data[2].map((datas, i) => {
@@ -233,6 +234,7 @@ export function Dashboard() {
                         data: data[2].map((datas, i) => {
                           return datas['views']
                         }),
+                        // data: [14000,13000,16000,18000,17000,15000,18000]
                       },
                     ],
                   }}
@@ -256,6 +258,8 @@ export function Dashboard() {
                       y: {
                         min: minMax(data[2]).min - minMax(data[2]).range,
                         max: minMax(data[2]).max + minMax(data[2]).range,
+                        // min: 12000,
+                        // max: 18000,
                         display: false,
                         grid: {
                           display: false,

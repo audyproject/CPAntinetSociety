@@ -43,7 +43,7 @@ export function AddUser({ setMenu, Toast, Toaster, toaster, setToast }){
             'role': roles,
             'username': username
         }
-        const response = await requestAPI('post', 'api/createuser', data)
+        const response = await requestAPI('post', 'api/user/create', data)
         if(response.status == 0){
             setToast(Toaster(toaster, Toast('success', "Add User Success")))
             setMenu("set-user")
@@ -56,7 +56,7 @@ export function AddUser({ setMenu, Toast, Toaster, toaster, setToast }){
 
     useEffect(async () => {
         if(!dataRoles){
-            const response = await requestAPI('get','api/getrole')
+            const response = await requestAPI('get','api/user/getrole')
             if(response.status == 0){
                 console.log(response.data)
                 setDataRoles(response.data)
