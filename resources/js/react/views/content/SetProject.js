@@ -335,20 +335,19 @@ export function SetProject() {
                                     inputFieldPosition="top"
                                     classNames={{
                                         tags: 'form-control',
-                                        tagInputField: 'col-sm-4'
                                     }}
                                 />
                                 {/* <div className="mb-3"></div> */}
                                 {link != null &&
                                     <>
-                                        <CFormCheck type="radio" id="radio_link" name="link" label="Link" onClick={() => setIsLink(true)} checked />
+                                        <CFormCheck type="radio" id="radio_link" name="link" label="Link" onClick={() => setIsLink(true)} defaultChecked />
                                         <CFormCheck type="radio" id="radio_popup" name="link" label="Popup" onClick={() => setIsLink(false)} />
                                     </>
                                 }
                                 {link == null &&
                                     <>
                                         <CFormCheck type="radio" id="radio_link" name="link" label="Link" onClick={() => setIsLink(true)} />
-                                        <CFormCheck type="radio" id="radio_popup" name="link" label="Popup" onClick={() => setIsLink(false)} checked />
+                                        <CFormCheck type="radio" id="radio_popup" name="link" label="Popup" onClick={() => setIsLink(false)} defaultChecked />
                                     </>
                                 }
 
