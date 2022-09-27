@@ -61,7 +61,7 @@ route::group(['middleware'=>['checkSession']],function(){
     Route::post($project."edit",[APIController::class,'editProject']);
     Route::get($project."get",[APIController::class,'getProject']);
     Route::post($project."spotlight",[APIController::class,'spotlight']);
-    Route::post($project."active",[APIController::class,'activeProject']);
+    Route::post($project."activate",[APIController::class,'activeProject']);
     // Route::post('api/createproject',[APIController::class,'createProject']);
     // Route::post('api/editproject',[APIController::class,'editProject']);
     // Route::get('api/getproject',[APIController::class,'getProject']);
