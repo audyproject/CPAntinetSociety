@@ -38,7 +38,8 @@ class APIController extends Controller
             }
             $obj = (object) array(
                 'role'=> $user->roles->role,
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'username' => $user->username
             );
             return $this->res(0,'Success','',$obj);
         } else{
@@ -81,7 +82,8 @@ class APIController extends Controller
         Session::put('logged',$user->id);
         $obj = (object) array(
             'role'=> $user->roles->role,
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'username' => $user->username
         );
         return $this->res(0,'Login Success','',$obj);
     
@@ -490,7 +492,7 @@ class APIController extends Controller
         $edit->save();
 
         return $this->res(0,'Project saved successfully!');
-    } else{
+        } else{
         if(!$r->id || !$r->name || !$r->description){
             return $this->res(1,'Data cannot be empty!');
         }
@@ -530,7 +532,7 @@ class APIController extends Controller
         $edit->link = $r->link;
         $edit->save();
         return $this->res(0,'Project saved successfully!');
-    }
+        }
 
     }
 
