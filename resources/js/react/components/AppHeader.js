@@ -16,7 +16,7 @@ import CIcon from '@coreui/icons-react'
 import {
     cilMenu,
     cilSettings,
-    cilUser,
+    cilAccountLogout,
 } from '@coreui/icons'
 import ANSHugeBlack from '/antinet/logo/ANS huge logo space - black.png'
 
@@ -45,11 +45,11 @@ export function AppHeader({ setMenu, logout, username }) {
                             <CDropdownMenu className="pt-0" placement="bottom-end">
                                 <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
                                 <CDropdownItem href="#" onClick={() => setMenu('change-password')}>
-                                    <CIcon icon={cilUser} className="me-2" />
+                                    <CIcon icon={cilSettings} className="me-2" />
                                     Change Password
                                 </CDropdownItem>
                                 <CDropdownItem href="#" onClick={logout}>
-                                    <CIcon icon={cilSettings} className="me-2" />
+                                    <CIcon icon={cilAccountLogout} className="me-2" />
                                     Logout
                                 </CDropdownItem>
                             </CDropdownMenu>
