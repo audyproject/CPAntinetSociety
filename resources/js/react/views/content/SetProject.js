@@ -4,7 +4,7 @@ import "/js/jquery.dataTables.min.js";
 import "/js/dataTables.bootstrap4.min.js";
 import { WithContext as ReactTags } from 'react-tag-input';
 
-import { CButton, CForm, CFormCheck, CFormInput, CFormTextarea, CImage, CModal, CModalBody, CModalFooter, CModalHeader, CSpinner } from "@coreui/react";
+import { CButton, CForm, CFormCheck, CFormInput, CFormLabel, CFormTextarea, CImage, CInputGroup, CInputGroupText, CModal, CModalBody, CModalFooter, CModalHeader, CSpinner } from "@coreui/react";
 import { useEffect, useRef, useState } from "react";
 import { requestAPI } from "../../API";
 import { Toast, Toaster } from "../../components";
@@ -354,17 +354,32 @@ export function SetProject() {
                                 }
 
                                 {isLink ?
-                                    <CFormInput
-                                        className='mb-3'
-                                        type="text"
-                                        id="link"
-                                        label="Link"
-                                        placeholder="Input here..."
-                                        // text="Must be 8-20 characters long."
-                                        aria-describedby="exampleFormControlInputHelpInline"
-                                        onChange={e => setLink(e.target.value)}
-                                        value={link}
-                                    /> : <>
+                                    <>
+                                    <CFormLabel>Link</CFormLabel>
+                                    <CInputGroup className="mb-3">
+                                        <CInputGroupText>https://</CInputGroupText>
+                                        <CFormInput
+                                            type="text"
+                                            id="link"
+                                            placeholder="Input here..."
+                                            // text="Must be 8-20 characters long."
+                                            aria-describedby="exampleFormControlInputHelpInline"
+                                            onChange={(e) => setLink(e.target.value)}
+                                        />
+                                    </CInputGroup>
+                                    </>
+                                    // <CFormInput
+                                    //     className='mb-3'
+                                    //     type="text"
+                                    //     id="link"
+                                    //     label="Link"
+                                    //     placeholder="Input here..."
+                                    //     // text="Must be 8-20 characters long."
+                                    //     aria-describedby="exampleFormControlInputHelpInline"
+                                    //     onChange={e => setLink(e.target.value)}
+                                    //     value={link}
+                                    // /> 
+                                    : <>
                                         <CFormInput
                                             className='mb-3'
                                             type="text"
