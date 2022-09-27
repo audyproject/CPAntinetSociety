@@ -6,6 +6,7 @@ import {
     CForm,
     CFormCheck,
     CFormInput,
+    CFormLabel,
     CFormTextarea,
     CInputGroup,
     CInputGroupText,
@@ -222,19 +223,20 @@ export function AddProject({ setMenu, Toast, Toaster, setToast, toaster, setT })
                         /> */}
                         </>
                         :
-                        <CInputGroup>
+                        <>
+                        <CFormLabel>Link</CFormLabel>
+                        <CInputGroup className="mb-3">
                             <CInputGroupText>https://</CInputGroupText>
                             <CFormInput
-                                className="mb-3"
                                 type="text"
                                 id="link"
-                                label="Link"
                                 placeholder="Input here..."
                                 // text="Must be 8-20 characters long."
                                 aria-describedby="exampleFormControlInputHelpInline"
                                 onChange={(e) => setLink(e.target.value)}
                             />
                         </CInputGroup>
+                        </>
                         }
                         {loading ? (
                             <CSpinner color="primary" />
