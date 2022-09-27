@@ -4,7 +4,7 @@ import "/js/jquery.dataTables.min.js";
 import "/js/dataTables.bootstrap4.min.js";
 import { WithContext as ReactTags } from 'react-tag-input';
 
-import { CButton, CForm, CFormCheck, CFormInput, CFormTextarea, CImage, CModal, CModalBody, CModalFooter, CModalHeader, CSpinner } from "@coreui/react";
+import { CButton, CForm, CFormCheck, CFormInput, CFormLabel, CFormTextarea, CImage, CInputGroup, CInputGroupText, CModal, CModalBody, CModalFooter, CModalHeader, CSpinner } from "@coreui/react";
 import { useEffect, useRef, useState } from "react";
 import { requestAPI } from "../../API";
 import { Toast, Toaster } from "../../components";
@@ -125,8 +125,10 @@ export function SetProject() {
             data.append(`hashtag[]`, a)
         }
         data.append('gambar_utama', mainImage)
-        if (isLink == true) {
-            data.append("link", link);
+        if(isLink == 0){
+            data.append("link", "comingsoon");
+        } else if(isLink == 1) {
+            data.append("link", "https://"+link);
         } else {
             data.append('judul_paragraf1', titleParagraf1)
             data.append('judul_paragraf2', titleParagraf2)
@@ -242,16 +244,19 @@ export function SetProject() {
                                                             setParagraf2(data.isi_paragraf2)
                                                             setLink(data.link)
                                                             setModal(true)
-                                                            if (data.link != null) {
-                                                                setIsLink(true)
-                                                                // document.getElementById('radio_link').checked = true
-                                                                // document.getElementById('radio_popup').checked = false
-                                                            }
-                                                            else {
-                                                                setIsLink(false)
-                                                                // document.getElementById('radio_popup').checked = true
-                                                                // document.getElementById('radio_link').checked = false
-                                                            }
+                                                            if(data.link == "comingsoon") setIsLink(0)
+                                                            else if(data.link != null) setIsLink(1)
+                                                            else setIsLink(2)
+                                                            // if (data.link != null) {
+                                                            //     setIsLink(true)
+                                                            //     // document.getElementById('radio_link').checked = true
+                                                            //     // document.getElementById('radio_popup').checked = false
+                                                            // }
+                                                            // else {
+                                                            //     setIsLink(false)
+                                                            //     // document.getElementById('radio_popup').checked = true
+                                                            //     // document.getElementById('radio_link').checked = false
+                                                            // }
                                                         }}>Edit</CButton> &nbsp;
                                                     {
                                                         data.active == 1 ?
@@ -340,31 +345,65 @@ export function SetProject() {
                                     }}
                                 />
                                 {/* <div className="mb-3"></div> */}
-                                {link != null &&
+                                {/* <CFormCheck inline type="radio" name="link" label="Coming Soon" defaultChecked onClick={() => setIsLink(0)}></CFormCheck>
+                                <CFormCheck inline type="radio" name="link" label="Link" onClick={() => setIsLink(1)}/>
+                                <CFormCheck inline type="radio" name="link" label="Popup" onClick={() => setIsLink(2)}/> */}
+                                <br/>
+                                {link == "comingsoon" &&
+                                    <>
+                                        <CFormCheck inline type="radio" name="link" label="Coming Soon" defaultChecked onClick={() => setIsLink(0)}></CFormCheck>
+                                        <CFormCheck inline type="radio" name="link" label="Link" onClick={() => setIsLink(1)}/>
+                                        <CFormCheck inline type="radio" name="link" label="Popup" onClick={() => setIsLink(2)}/>
+                                    </>
+                                }
+                                {link != null && link != "comingsoon" &&
+                                    <>
+                                        <CFormCheck inline type="radio" name="link" label="Coming Soon" onClick={() => setIsLink(0)}></CFormCheck>
+                                        <CFormCheck inline type="radio" name="link" label="Link" defaultChecked onClick={() => setIsLink(1)}/>
+                                        <CFormCheck inline type="radio" name="link" label="Popup" onClick={() => setIsLink(2)}/>
+                                    </>
+                                }
+                                {/* {link = null &&
                                     <>
                                         <CFormCheck type="radio" id="radio_link" name="link" label="Link" onClick={() => setIsLink(true)} defaultChecked />
                                         <CFormCheck type="radio" id="radio_popup" name="link" label="Popup" onClick={() => setIsLink(false)} />
                                     </>
-                                }
+                                } */}
                                 {link == null &&
                                     <>
-                                        <CFormCheck type="radio" id="radio_link" name="link" label="Link" onClick={() => setIsLink(true)} />
-                                        <CFormCheck type="radio" id="radio_popup" name="link" label="Popup" onClick={() => setIsLink(false)} defaultChecked />
+                                        <CFormCheck inline type="radio" name="link" label="Coming Soon" onClick={() => setIsLink(0)}></CFormCheck>
+                                        <CFormCheck inline type="radio" name="link" label="Link" onClick={() => setIsLink(1)}/>
+                                        <CFormCheck inline type="radio" name="link" label="Popup" defaultChecked onClick={() => setIsLink(2)}/>
                                     </>
                                 }
-
-                                {isLink ?
-                                    <CFormInput
-                                        className='mb-3'
-                                        type="text"
-                                        id="link"
-                                        label="Link"
-                                        placeholder="Input here..."
-                                        // text="Must be 8-20 characters long."
-                                        aria-describedby="exampleFormControlInputHelpInline"
-                                        onChange={e => setLink(e.target.value)}
-                                        value={link}
-                                    /> : <>
+                                <br/>
+                                {isLink == 0 ? <></> : isLink == 1 ?
+                                    <>
+                                    <CFormLabel>Link</CFormLabel>
+                                    <CInputGroup className="mb-3">
+                                        <CInputGroupText>https://</CInputGroupText>
+                                        <CFormInput
+                                            type="text"
+                                            id="link"
+                                            placeholder="Input here..."
+                                            // text="Must be 8-20 characters long."
+                                            aria-describedby="exampleFormControlInputHelpInline"
+                                            onChange={(e) => setLink(e.target.value)}
+                                        />
+                                    </CInputGroup>
+                                    </>
+                                    // <CFormInput
+                                    //     className='mb-3'
+                                    //     type="text"
+                                    //     id="link"
+                                    //     label="Link"
+                                    //     placeholder="Input here..."
+                                    //     // text="Must be 8-20 characters long."
+                                    //     aria-describedby="exampleFormControlInputHelpInline"
+                                    //     onChange={e => setLink(e.target.value)}
+                                    //     value={link}
+                                    // /> 
+                                    : <>
                                         <CFormInput
                                             className='mb-3'
                                             type="text"

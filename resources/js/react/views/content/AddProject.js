@@ -28,7 +28,8 @@ export function AddProject({ setMenu, Toast, Toaster, setToast, toaster, setT })
     const [description, setDescription] = useState("");
     const [hashtag, setHashtag] = useState([]);
 
-    const [isLink, setIsLink] = useState(true);
+    const [isLink, setIsLink] = useState(0);
+    const [comeSoon, setComeSoon] = useState(false)
 
     const [link, setLink] = useState();
 
@@ -53,7 +54,9 @@ export function AddProject({ setMenu, Toast, Toaster, setToast, toaster, setT })
             data.append(`hashtag[]`, a);
         }
         data.append("gambar_utama", mainImage);
-        if(isLink == true){
+        if(isLink == 0){
+            data.append("link", "comingsoon");
+        } else if(isLink == 1){
             data.append("link", "https://"+link);
         } else {
             data.append("judul_paragraf1", titleParagraf1);
@@ -151,9 +154,11 @@ export function AddProject({ setMenu, Toast, Toaster, setToast, toaster, setT })
                             inputFieldPosition="top"
                         />
                         {/* <div className="mb-3"></div> */}
-                        <CFormCheck type="radio" name="link" label="Link" defaultChecked onClick={() => setIsLink(true)}/>
-                        <CFormCheck type="radio" name="link" label="Popup" onClick={() => setIsLink(false)}/>
-                        {isLink == false ? <>
+                        <CFormCheck inline type="radio" name="link" label="Coming Soon" defaultChecked onClick={() => setIsLink(0)}></CFormCheck>
+                        <CFormCheck inline type="radio" name="link" label="Link" onClick={() => setIsLink(1)}/>
+                        <CFormCheck inline type="radio" name="link" label="Popup" onClick={() => setIsLink(2)}/>
+                        <br/>
+                        {isLink == 0 ? <></> : isLink == 2 ? <>
                         <CFormInput
                             className="mb-3"
                             type="text"

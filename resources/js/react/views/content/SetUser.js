@@ -7,6 +7,7 @@ import { requestAPI } from "../../API";
 import { useEffect, useRef, useState } from "react";
 import { Toast, Toaster } from "../../components";
 import { CButton, CForm, CFormInput, CFormSelect, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle, CSpinner } from "@coreui/react";
+import { set } from "lodash";
 
 export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
 
@@ -16,6 +17,9 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
     // const [toast, setToast] = useState()
     // const toaster = useRef()
     const [modal, setModal] = useState(false)
+    const [modal2, setModal2] = useState(false)
+    const [active, setActive] = useState(false)
+    const [name, setName] = useState(false)
 
     const [username, setUsername] = useState("")
     const [roles, setRoles] = useState("")
@@ -37,7 +41,14 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
         });
     }
 
-    const active = async (id, active) => {
+    const activing = (id, active, name) => {
+        setId(id)
+        setActive(active)
+        setName(name)
+        setModal2(true)
+    }
+
+    const activate = async (id, active) => {
         setLoading(true)
         let data = {
             'id': id,
@@ -47,6 +58,7 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
         if (response.status == 0) {
             if (active == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
             else setToast(Toaster(toaster, Toast('success', "Deactivate Success")))
+            setModal2(false)
             setReady(false)
             setUserData(false)
         } else {
@@ -121,12 +133,12 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
                                                             setModal(true)
                                                         }}>Edit</button>
                                                     {
-                                                        data.role != sessionData.role && data.active == 1 ?
-                                                        loading ? <CSpinner color="primary"/> : <CButton color="danger" className="text-white" onClick={() => active(data.id, 0)}>Deactivate</CButton> : <></>
+                                                        data.role != sessionData.role && data.active == 1 &&
+                                                        <CButton color="danger" className="text-white" onClick={() => activing(data.id, 0, data.username)}>Deactivate</CButton>
                                                     }
                                                     {
-                                                        data.role != sessionData.role && data.active == 0 ?
-                                                        loading ? <CSpinner color="primary"/> : <CButton color="success" className="text-white" onClick={() => active(data.id, 1)}>Activate</CButton> : <></>
+                                                        data.role != sessionData.role && data.active == 0 &&
+                                                        <CButton color="success" className="text-white" onClick={() => activing(data.id, 1, data.username)}>Activate</CButton>
                                                     }
 
 
@@ -178,6 +190,20 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
                                     Close
                                 </CButton>
                                 {loading ? <CSpinner color="primary" /> : <CButton color="primary" type="submit">Save changes</CButton>}
+                            </CModalFooter>
+                        </CForm>
+                    </CModal>
+                    <CModal size="xl" alignment="center" backdrop={true} visible={modal2} onClose={() => setModal2(false)}>
+                        <CModalHeader></CModalHeader>
+                        <CForm onSubmit={() => activate(id, active)}>
+                            <CModalBody>
+                                <p>Are You Sure Want To {active == 1 ? "Deactivate" : "Activate"} User {name}? </p>
+                            </CModalBody>
+                            <CModalFooter>
+                                <CButton color="secondary" onClick={() => setModal2(false)}>
+                                    No
+                                </CButton>
+                                {loading ? <CSpinner color="primary" /> : <CButton color="primary" type="submit">Yes</CButton>}
                             </CModalFooter>
                         </CForm>
                     </CModal>

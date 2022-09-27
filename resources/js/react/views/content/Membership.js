@@ -41,6 +41,8 @@ export function Membership({Toast, Toaster, toaster, setToast}) {
     // const [toast, setToast] = useState()
     // const toaster = useRef()
     const [modal, setModal] = useState(false)
+    const [active, setActive] = useState(false)
+    const [name, setName] = useState(false)
 
     const [username, setUsername] = useState("")
     const [roles, setRoles] = useState("")
@@ -80,7 +82,14 @@ export function Membership({Toast, Toaster, toaster, setToast}) {
     //     }
     // }
 
-    const active = async (id, active) => {
+    const activing = (id, active, name) => {
+        setId(id)
+        setActive(active)
+        setName(name)
+        setModal(true)
+    }
+
+    const activate = async (id, active) => {
         setLoading(true)
         let data = {
             'id': id,
@@ -91,6 +100,7 @@ export function Membership({Toast, Toaster, toaster, setToast}) {
             // console.log(response.data)
             if (active == 1) setToast(Toaster(toaster, Toast('success', "Activate Success")))
             else setToast(Toaster(toaster, Toast('success', "Deactivate Success")))
+            setModal(false)
             setMemberData(false)
             setReady(false)
             setGraphMembership(false)
@@ -407,9 +417,9 @@ export function Membership({Toast, Toaster, toaster, setToast}) {
                                                 <td>{data.email}</td>
                                                 <td>{data.telpon}</td>
                                                 <td>{data.created_at.replace(/[A-Z]/g, ' ').split(".")[0]}</td>
-                                                <td>{loading ? <CSpinner color="primary"/> : data.isactive ?
-                                                    <CButton color="danger" onClick={() => active(data.id, 0)}>Deactivate</CButton> :
-                                                    <CButton color="success" onClick={() => active(data.id, 1)}>Activate</CButton>}</td>
+                                                <td>{data.isactive ?
+                                                    <CButton color="danger" onClick={() => activing(data.id, 0, data.nama)}>Deactivate</CButton> :
+                                                    <CButton color="success" onClick={() => activing(data.id, 1, data.nama)}>Activate</CButton>}</td>
                                             </tr>)
                                         })}
                                     </tbody>
@@ -417,6 +427,20 @@ export function Membership({Toast, Toaster, toaster, setToast}) {
                             </div>
                         </div>
                     </div>
+                    <CModal size="xl" alignment="center" backdrop={true} visible={modal} onClose={() => setModal(false)}>
+                        <CModalHeader></CModalHeader>
+                        <CForm onSubmit={() => activate(id, active)}>
+                            <CModalBody>
+                                <p>Are You Sure Want To {active} {id} User?</p>
+                            </CModalBody>
+                            <CModalFooter>
+                                <CButton color="secondary" onClick={() => setModal(false)}>
+                                    No
+                                </CButton>
+                                {loading ? <CSpinner color="primary" /> : <CButton color="primary" type="submit">Yes</CButton>}
+                            </CModalFooter>
+                        </CForm>
+                    </CModal>
                     {/* <CModal visible={modal} backdrop={false} onClose={() => setModal(false)}>
                         <CModalHeader>
                             <CModalTitle>Edit User</CModalTitle>
