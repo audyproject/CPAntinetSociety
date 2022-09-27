@@ -176,13 +176,15 @@ export function SetProject() {
         }
         const resp = await requestAPI('post', "api/project/activate", data)
         if (resp.status == 0) {
-            setToast(Toaster(toaster, Toast('success', { active } + " " + { title } + " success")))
+            setToast(Toaster(toaster, Toast('success', active + " " + title + " success")))
+            setActive(false)
+            setTitle(false)
+            setId(false)
+            setModal3(false)
+            setReady(false)
         } else {
-            setToast(Toaster(toaster, Toast('danger', { active } + " " + { title } + " failed")))
+            setToast(Toaster(toaster, Toast('danger', resp.message)))
         }
-        setActive(false)
-        setTitle(false)
-        setId(false)
         setLoading(false)
     }
 
