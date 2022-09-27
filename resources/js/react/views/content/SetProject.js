@@ -398,7 +398,7 @@ export function SetProject() {
                                             // text="Must be 8-20 characters long."
                                             aria-describedby="exampleFormControlInputHelpInline"
                                             onChange={e => setTitleParagraf2(e.target.value)}
-                                            value={titleParagraf1}
+                                            value={titleParagraf2}
                                         />
                                         <CFormTextarea
                                             className='mb-3'
@@ -457,7 +457,7 @@ export function SetProject() {
                             </CModalFooter>
                         </CForm>
                     </CModal>
-                    <CModal size="xl" backdrop={true} visible={modal3} onClose={() => setModal3(false)}>
+                    <CModal size="xl" alignment="center" backdrop={true} visible={modal3} onClose={() => setModal3(false)}>
                         <CModalHeader></CModalHeader>
                         <CForm onSubmit={handleSubmit3}>
                             <CModalBody>
