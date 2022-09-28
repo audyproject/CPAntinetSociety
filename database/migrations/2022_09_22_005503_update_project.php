@@ -32,13 +32,13 @@ class UpdateProject extends Migration
     public function down()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->string('judul_paragraf1')->nullable(false)->change();
-            $table->text('isi_paragraf1')->nullable(false)->change();
-            $table->string('judul_paragraf2')->nullable(false)->change();
-            $table->text('isi_paragraf2')->nullable(false)->change();
-            $table->string('gambar_utama')->nullable(false)->change();
-            $table->string('gambar_kiri')->nullable(false)->change();
-            $table->string('gambar_kanan')->nullable(false)->change();
+            // $table->string('judul_paragraf1')->nullable(false)->change();
+            // $table->text('isi_paragraf1')->nullable(false)->change();
+            // $table->string('judul_paragraf2')->nullable(false)->change();
+            // $table->text('isi_paragraf2')->nullable(false)->change();
+            // $table->string('gambar_utama')->nullable(false)->change();
+            // $table->string('gambar_kiri')->nullable(false)->change();
+            // $table->string('gambar_kanan')->nullable(false)->change(); gabisa
         });
     }
 }
