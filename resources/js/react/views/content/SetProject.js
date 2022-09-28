@@ -496,7 +496,7 @@ export function SetProject() {
                             </CModalFooter>
                         </CForm>
                     </CModal>
-                    <CModal size="xl" alignment="center" backdrop={true} visible={modal3} onClose={() => setModal3(false)}>
+                    <CModal alignment="center" backdrop={true} visible={modal3} onClose={() => setModal3(false)}>
                         <CModalHeader></CModalHeader>
                         <CForm onSubmit={handleSubmit3}>
                             <CModalBody>
