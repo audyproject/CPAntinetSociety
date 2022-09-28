@@ -29,7 +29,7 @@ class UpdateDeactivateProject extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->dropColumn('active');
-            $table->string('description')->change();
+            // $table->string('description')->change(); gabisa diganti
         });
     }
 }

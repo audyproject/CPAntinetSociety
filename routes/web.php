@@ -92,7 +92,7 @@ route::get("api/getallemail",[MailController::class,'getAllEmail']);
 //alex
 route::post('subscription',[APIController::class,'subscription']);
 route::post('membership',[APIController::class,'membership']);
-route::get('ans',[APIController::class,'ans']);
+route::get('ans/{ip}',[APIController::class,'ans']);
 
 
 route::post('api/forgotpassword',[MailController::class,'forgotPassword']);
