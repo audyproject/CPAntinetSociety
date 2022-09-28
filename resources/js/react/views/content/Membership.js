@@ -427,11 +427,11 @@ export function Membership({Toast, Toaster, toaster, setToast}) {
                             </div>
                         </div>
                     </div>
-                    <CModal size="xl" alignment="center" backdrop={true} visible={modal} onClose={() => setModal(false)}>
+                    <CModal alignment="center" backdrop={true} visible={modal} onClose={() => setModal(false)}>
                         <CModalHeader></CModalHeader>
                         <CForm onSubmit={() => activate(id, active)}>
                             <CModalBody>
-                                <p>Are You Sure Want To {active} {id} User?</p>
+                                <p>Are You Sure Want To {active == 0 ? "Deactivate" : "Activate"} Member {name}?</p>
                             </CModalBody>
                             <CModalFooter>
                                 <CButton color="secondary" onClick={() => setModal(false)}>

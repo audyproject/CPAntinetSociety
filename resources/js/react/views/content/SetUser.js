@@ -193,7 +193,7 @@ export function SetUser({ sessionData, Toast, Toaster, toaster, setToast }) {
                             </CModalFooter>
                         </CForm>
                     </CModal>
-                    <CModal size="xl" alignment="center" backdrop={true} visible={modal2} onClose={() => setModal2(false)}>
+                    <CModal alignment="center" backdrop={true} visible={modal2} onClose={() => setModal2(false)}>
                         <CModalHeader></CModalHeader>
                         <CForm onSubmit={() => activate(id, active)}>
                             <CModalBody>
