@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 
@@ -10,6 +10,8 @@ import "/react/scss/style.scss"
 import store from "./store"
 import ForgotPassword from "./views/ForgotPassword";
 
+import { Toast, Toaster } from "./components/"
+
 function Index() {
 
     const logout = async () => {
@@ -20,6 +22,9 @@ function Index() {
             console.log(response.message)
         }
     }
+
+    const [toast, setToast] = useState()
+    const toaster = useRef()
 
     const [login, setLogin] = useState()
     const [sessionData, setSessionData] = useState(false)
@@ -37,11 +42,12 @@ function Index() {
     return (
         <>
             {login === 0 ? <Main setLogin={setLogin} logout={logout} sessionData={sessionData} /> :
-                login === 1 ? <Login setLogin={setLogin} login={login} setSessionData={setSessionData} /> :
-                    login === 2 ? <ForgotPassword setLogin={setLogin} login={login} /> :
+                login === 1 ? <Login setLogin={setLogin} login={login} setSessionData={setSessionData} Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
+                    login === 2 ? <ForgotPassword setLogin={setLogin} login={login} Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
                         login === 9 ? <Login setLogin={setLogin} login={login} setSessionData={setSessionData} sendToast={"logout"} /> :
                             "Loading..."
             }
+            {toast}
         </>
     )
 }
