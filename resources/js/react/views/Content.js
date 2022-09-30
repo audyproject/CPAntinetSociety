@@ -21,18 +21,18 @@ export function Content({ menu, setMenu, sessionData }) {
     return (
         <>
             <CContainer>
-            {
-                menu == "dashboard" ? <Dashboard /> :
-                    menu == "change-password" ? <ChangePassword Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster}/> :
-                        menu == "add-user" ? <AddUser setMenu={setMenu} Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
-                            menu == "set-user" ? <SetUser sessionData={sessionData} Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
-                                menu == "add-project" ? <AddProject setMenu={setMenu} Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
-                                    menu == "set-project" ? <SetProject Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster}/> :
-                                        menu == "subscription" ? <Subscription /> :
-                                            menu == "membership" ? <Membership Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster}/> :
-                                                menu == "email" ? <Email /> :
-                                                    "Error 404"
-            }
+                {
+                    menu == "dashboard" ? <Dashboard /> :
+                        menu == "change-password" ? <ChangePassword Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
+                            menu == "add-user" ? <AddUser setMenu={setMenu} Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
+                                menu == "set-user" ? <SetUser sessionData={sessionData} Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
+                                    menu == "add-project" ? <AddProject setMenu={setMenu} Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
+                                        menu == "set-project" ? <SetProject Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
+                                            menu == "subscription" ? <Subscription /> :
+                                                menu == "membership" ? <Membership Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
+                                                    menu == "email" ? <Email Toast={Toast} setToast={setToast} Toaster={Toaster} toaster={toaster} /> :
+                                                        "Error 404"
+                }
             </CContainer>
             {toast}
         </>
