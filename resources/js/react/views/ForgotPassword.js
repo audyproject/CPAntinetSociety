@@ -19,11 +19,11 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import { requestAPI } from '../API'
 import { Toast, Toaster } from '../components/index'
 
-export const ForgotPassword = ({setLogin, login, sendToast}) => {
+export const ForgotPassword = ({ setLogin, login, sendToast, setMenu, Toast, Toaster, setToast, toaster, toast }) => {
 
   const [loading, setLoading] = useState(false)
-  const [toast, setToast] = useState()
-  const toaster = useRef()
+  // const [toast, setToast] = useState()
+  // const toaster = useRef()
 
   const [email, setEmail] = useState()
 
@@ -31,16 +31,19 @@ export const ForgotPassword = ({setLogin, login, sendToast}) => {
     e.preventDefault();
     setLoading(true)
     let data = {
-        "email": email
+      "email": email
     }
     try {
       const resp = await requestAPI("post", "api/forgotpassword", data)
-      if(resp.status == 0){
-        setToast(Toaster(toaster, Toast('success', "Forgot Password Success!")))
+      if (resp.status == 0) {
+        setToast(
+          Toaster(toaster, Toast('success', "Forgot Password Success!"))
+        )
+        setLogin(1)
       } else {
-        setToast(Toaster(toaster, Toast('danger',resp.message)))
+        setToast(Toaster(toaster, Toast('danger', resp.message)))
       }
-    //   setLogin(1)
+
       console.log(resp.message)
       setLoading(false)
     } catch (error) {
@@ -48,11 +51,11 @@ export const ForgotPassword = ({setLogin, login, sendToast}) => {
     }
   }
 
-//   useEffect(() => {
-//     if(sendToast == "logout"){
-//       setToast(Toaster(toaster, Toast('success', "Logout Success!")))
-//     }
-//   },[])
+  //   useEffect(() => {
+  //     if(sendToast == "logout"){
+  //       setToast(Toaster(toaster, Toast('success', "Logout Success!")))
+  //     }
+  //   },[])
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -85,10 +88,10 @@ export const ForgotPassword = ({setLogin, login, sendToast}) => {
                       </CCol>
                       <CCol xs={4}>
                         {loading ?
-                        <CSpinner color='primary' className='float-end'/> : 
-                        <CButton type='submit' color="primary" className="float-end px-4">
-                          Submit
-                        </CButton>
+                          <CSpinner color='primary' className='float-end' /> :
+                          <CButton type='submit' color="primary" className="float-end px-4">
+                            Submit
+                          </CButton>
                         }
                       </CCol>
                     </CRow>
@@ -115,7 +118,7 @@ export const ForgotPassword = ({setLogin, login, sendToast}) => {
           </CCol>
         </CRow>
       </CContainer>
-      {toast}
+      {/* {toast} */}
       {/* <CToaster ref={toaster} push={toast} placement="top-end" /> */}
     </div>
   )

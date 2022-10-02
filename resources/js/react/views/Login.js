@@ -18,11 +18,11 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import { requestAPI } from '../API'
 import { Toast, Toaster } from '../components/index'
 
-export const Login = ({ setLogin, login, sendToast, setSessionData }) => {
+export const Login = ({ setLogin, login, sendToast, setSessionData, Toast, Toaster, setToast, toaster, toast }) => {
 
   const [loading, setLoading] = useState(false)
-  const [toast, setToast] = useState()
-  const toaster = useRef()
+  // const [toast, setToast] = useState()
+  // const toaster = useRef()
 
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
@@ -116,7 +116,7 @@ export const Login = ({ setLogin, login, sendToast, setSessionData }) => {
           </CCol>
         </CRow>
       </CContainer>
-      {toast}
+      {/* {toast} */}
       {/* <CToaster ref={toaster} push={toast} placement="top-end" /> */}
     </div>
   )

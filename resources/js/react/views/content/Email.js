@@ -9,7 +9,7 @@ import { requestAPI } from "../../API";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from 'draftjs-to-html';
 
-export function Email(){
+export function Email({ Toast, Toaster, toaster, setToast }) {
     // editorState = EditorState.createEmpty()
     const [editorState, setEditorState] = useState(EditorState.createEmpty())
     const [selected, setSelected] = useState([])
@@ -21,7 +21,7 @@ export function Email(){
 
     const requestTargetEmail = async () => {
         const resp = await requestAPI('get', 'api/getallemail')
-        if(resp.status == 0){
+        if (resp.status == 0) {
             const target = []
             resp.data.map((datas, i) => {
                 target.push({
@@ -62,60 +62,60 @@ export function Email(){
     // }
 
     useEffect(() => {
-        if(!targetEmail) requestTargetEmail()
-    },[])
+        if (!targetEmail) requestTargetEmail()
+    }, [])
 
-    return(
+    return (
         <>
-        <CForm onSubmit={handleSubmit}>
-        <CCard>
-            <CCardHeader>
-                Send Email
-            </CCardHeader>
-            <CCardBody>
-                <span className="d-flex">To </span>
-                <MultiSelect
-                    className="mb-3"
-                    options={targetEmail}
-                    value={selected}
-                    onChange={setSelected}
-                    labelledBy="Select"
-                    // shouldToggleOnHover="true"
-                    valueRenderer={(selected, _options) => {
-                        return selected.length
-                        ? selected.map((label) => <><span class="bg-light" style={{margin: "0 5px", padding: "0 5px"}}>{label.label}</span></>)
-                        : "No Email Selected"
-                    }}
-                />
-                <CFormInput
-                    className="mb-2"
-                    onChange={(e) => setSubject(e.target.value)}
-                    label="Subject"
-                />
-                {/* <CFormInput> */}
-                {/* </CFormInput> */}
-            </CCardBody>
-        </CCard>
-        <CCard className="mt-3">
-            <CCardBody>
-            <Editor
-                editorState={editorState}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
-                // wrapperStyle={<wrapperStyleObject>}
-                // editorStyle={<editorStyleObject>}
-                // toolbarStyle={<toolbarStyleObject>}
-                onEditorStateChange={(e) => setEditorState(e)}
-            />
-            
-            </CCardBody>
-            
-        </CCard>
-        <div className="mt-2">
-            {loading ? <CSpinner color="primary"/> : <CButton type="submit" color="primary">Send</CButton>}
-        </div>
-        </CForm>
+            <CForm onSubmit={handleSubmit}>
+                <CCard>
+                    <CCardHeader>
+                        Send Email
+                    </CCardHeader>
+                    <CCardBody>
+                        <span className="d-flex">To </span>
+                        <MultiSelect
+                            className="mb-3"
+                            options={targetEmail}
+                            value={selected}
+                            onChange={setSelected}
+                            labelledBy="Select"
+                            // shouldToggleOnHover="true"
+                            valueRenderer={(selected, _options) => {
+                                return selected.length
+                                    ? selected.map((label) => <><span class="bg-light" style={{ margin: "0 5px", padding: "0 5px" }}>{label.label}</span></>)
+                                    : "No Email Selected"
+                            }}
+                        />
+                        <CFormInput
+                            className="mb-2"
+                            onChange={(e) => setSubject(e.target.value)}
+                            label="Subject"
+                        />
+                        {/* <CFormInput> */}
+                        {/* </CFormInput> */}
+                    </CCardBody>
+                </CCard>
+                <CCard className="mt-3">
+                    <CCardBody>
+                        <Editor
+                            editorState={editorState}
+                            toolbarClassName="toolbarClassName"
+                            wrapperClassName="wrapperClassName"
+                            editorClassName="editorClassName"
+                            // wrapperStyle={<wrapperStyleObject>}
+                            // editorStyle={<editorStyleObject>}
+                            // toolbarStyle={<toolbarStyleObject>}
+                            onEditorStateChange={(e) => setEditorState(e)}
+                        />
+
+                    </CCardBody>
+
+                </CCard>
+                <div className="mt-2">
+                    {loading ? <CSpinner color="primary" /> : <CButton type="submit" color="primary">Send</CButton>}
+                </div>
+            </CForm>
         </>
     )
 }
