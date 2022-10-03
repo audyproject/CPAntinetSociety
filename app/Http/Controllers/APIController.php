@@ -971,16 +971,28 @@ class APIController extends Controller
         return $this->res(0,'Join membership success!');
     }
 
-    public function ans($ip){
-        if (filter_var($ip, FILTER_VALIDATE_IP)) {
-            $ins = new Visitor();
-            $ins->ip = $ip;
-            $ins->save();
-        } 
+    public function ans(){
+        
         $project = Project::where('active',1)->get();
         return response()->json([
             'project'  => $project
         ]);
+    }
+
+    public function visitor(request $r){
+
+        if(!$r->ip){
+            return $this->res(0,'Ok');
+        }
+        else if(filter_var($r->ip, FILTER_VALIDATE_IP)) {
+            $ins = new Visitor();
+            $ins->ip = $r->ip;
+            $ins->save();
+            return $this->res(0,'Ok');
+        } else{
+            return $this->res(0,'Ok');
+        }
+
     }
 
 
