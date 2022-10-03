@@ -93,7 +93,6 @@ route::get("api/getallemail",[MailController::class,'getAllEmail']);
 route::post('subscription',[APIController::class,'subscription']);
 route::post('membership',[APIController::class,'membership']);
 route::get('ans',[APIController::class,'ans']);
-route::post('visitor',[APIController::class,'visitor']);
 
 
 route::post('api/forgotpassword',[MailController::class,'forgotPassword']);
