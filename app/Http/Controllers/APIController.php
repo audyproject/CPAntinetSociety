@@ -972,7 +972,18 @@ class APIController extends Controller
     }
 
     public function ans(){
-        
+        $ip = \Request::ip();
+        if(!$ip){
+            return $this->res(0,'Ok');
+        }
+        else if(filter_var($ip, FILTER_VALIDATE_IP)) {
+            $ins = new Visitor();
+            $ins->ip = $ip;
+            $ins->save();
+            return $this->res(0,'Ok');
+        } else{
+            return $this->res(0,'Ok');
+        }
         $project = Project::where('active',1)->get();
         return response()->json([
             'project'  => $project
@@ -981,17 +992,7 @@ class APIController extends Controller
 
     public function visitor(request $r){
 
-        if(!$r->ip){
-            return $this->res(0,'Ok');
-        }
-        else if(filter_var($r->ip, FILTER_VALIDATE_IP)) {
-            $ins = new Visitor();
-            $ins->ip = $r->ip;
-            $ins->save();
-            return $this->res(0,'Ok');
-        } else{
-            return $this->res(0,'Ok');
-        }
+        
 
     }
 
